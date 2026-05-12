@@ -1,6 +1,6 @@
 // =============================================================================
-// AI Sprint — Accounting Course Curriculum
-// Mastering Accounting with AI Integrations — Basic & Advanced
+// AI Sprint — Vibe Coding Course Curriculum
+// VIBE CODING — BUILD SOFTWARE WITH AI — Basic & Advanced
 // Updated: April 2026
 // =============================================================================
 
@@ -177,50 +177,106 @@ export const weekOverviews = weekOverviewsL1;
 // ─────────────────────────────────────────────
 
 export const curriculumL1: DayLesson[] = [
-
-  // ── WEEK 1 ──────────────────────────────────────────────────────────────────
-  { day:1, week:1, level:1, category:"Foundations", isMiniProject:false,
-    title:"What Accounting Looks Like in the AI Era",
-    summary:"Survey how AI tools are changing the day-to-day of accounting in 2026 — from transaction categorisation to management commentary — and where human judgment still leads.",
-    task:"List the 5 most time-consuming tasks in your accounting week. For each one, write a single sentence on whether AI could assist, automate, or should stay human-only.",
-    tools:["Claude","ChatGPT","Perplexity AI"],
-    whyItMatters:"You cannot use AI strategically until you know where it actually adds value in your specific role. This audit is the foundation for everything that follows." },
-  { day:2, week:1, level:1, category:"Foundations",
-    title:"The Accounting Equation and Double-Entry — Refreshed",
-    summary:"Revisit the accounting equation and double-entry bookkeeping through an AI lens — understanding what AI can reliably do with debits/credits and where errors still appear.",
-    task:"Ask an AI to explain a double-entry journal for a complex transaction in your work. Check it for errors. Write down what it got right and what it missed.",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"Double-entry is the grammar of accounting. Knowing where AI makes mistakes with it makes you a better reviewer — the most valuable skill in AI-assisted accounting." },
-  { day:3, week:1, level:1, category:"Foundations",
-    title:"Reading Financial Statements with AI Assistance",
-    summary:"Learn how to use AI to speed up reading and interpretation of balance sheets, P&Ls, and cash flow statements — and how to verify AI summaries against source documents.",
-    task:"Upload or paste a set of financial statements (or use a public company's) and ask AI to summarise the key findings. Verify 3 specific numbers yourself.",
-    tools:["Claude","ChatGPT","Gemini"],
-    whyItMatters:"Financial statement reading is a core skill that AI can accelerate — but only if you can spot when the AI misreads the numbers or misses a footnote." },
-  { day:4, week:1, level:1, category:"Foundations",
-    title:"The Modern Finance Tech Stack — Mapping Your Tools",
-    summary:"Map the accounting and finance tools in your current stack, identify where AI features already exist, and spot the gaps where AI could make the biggest immediate impact.",
-    task:"Create a one-page tech stack map: tool name, what it does, whether it has AI features, and your current usage level. Mark the top 2 AI upgrade opportunities.",
-    tools:["Claude","Notion","Google Docs"],
-    whyItMatters:"Most accountants are sitting on AI features they have never activated. A stack map turns unknown capability into a prioritised action list." },
-  { day:5, week:1, level:1, category:"Foundations",
-    title:"Your First AI Accounting Prompt — Getting Useful Output",
-    summary:"Learn the three-part prompt structure (instruction, context, format) applied to accounting tasks — and practice getting genuinely useful output from your first accounting-specific prompts.",
-    task:"Write and test 3 accounting prompts: one for explaining a concept, one for drafting a journal entry, one for summarising a transaction list. Rate each output 1–5.",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"The quality of AI output in accounting is almost entirely determined by prompt quality. This session builds the foundation for every AI interaction that follows." },
-  { day:6, week:1, level:1, category:"Foundations",
-    title:"AI Errors in Accounting — What to Watch For",
-    summary:"Study the most common categories of AI errors in accounting contexts: hallucinated figures, misapplied standards, date errors, and currency confusion — and build your personal review checklist.",
-    task:"Ask AI to perform 3 accounting calculations or standard lookups. Deliberately give it one ambiguous input. Document every error or uncertainty you find.",
-    tools:["Claude","ChatGPT","Perplexity AI"],
-    whyItMatters:"Every accountant using AI needs a personal error checklist. Building it now — before you rely on AI for real work — protects your professional output." },
-  { day:7, week:1, level:1, category:"Foundations", isMiniProject:true,
-    title:"Mini-Project: Your AI Review Checklist and Finance Stack Map",
-    summary:"Produce two portfolio-ready documents: your personal AI review checklist (5 rules for evaluating AI accounting output) and your finance tech stack map with AI opportunities marked.",
-    task:"Write your AI review checklist in a shareable format — 5 rules, each with a 1-sentence rationale. Finalise your tech stack map. Both should be professional enough to share with a colleague.",
-    tools:["Claude","Google Docs","Notion"],
-    whyItMatters:"These are your first two portfolio pieces. They demonstrate professional awareness of AI risks and strategic thinking about your tool environment." },
+  // ── WEEK 1: THE VIBE CODING MINDSET (Days 1–7) ─────────────────────────────
+  {
+    day: 1,
+    week: 1,
+    level: 1,
+    title: "What Is Vibe Coding? (AI as Partner, Not Search)",
+    category: "Learn",
+    summary:
+      "Understand the philosophy: using natural language to produce working software. AI writes, you direct, review, and refine.",
+    task:
+      "Write a 2-sentence explanation of vibe coding to a skeptical colleague. No jargon.",
+    whyItMatters:
+      "Most people think coding is for engineers. Vibe coding unlocks software creation for everyone.",
+    tools: ["Claude", "ChatGPT"],
+  },
+  {
+    day: 2,
+    week: 1,
+    level: 1,
+    title: "Your First Working Script — From One Prompt",
+    category: "Apply",
+    summary:
+      "Write a single prompt that generates a working Python script. Run it. See it work.",
+    task:
+      "Prompt: \"Write a Python script that renames all files in a folder to sequential numbers.\" Run on a test folder.",
+    whyItMatters:
+      "Your first working script is a threshold moment. After today, you'll believe it's possible.",
+    tools: ["Claude", "Python", "Replit"],
+  },
+  {
+    day: 3,
+    week: 1,
+    level: 1,
+    title: "Reading AI Code — You Don't Write, You Review",
+    category: "Learn",
+    summary:
+      "Learn to read AI-generated code well enough to spot errors, understand flow, and request changes.",
+    task:
+      "Take the script from Day 2. Read every line. Write a paragraph explaining what it does in plain English.",
+    whyItMatters:
+      "You don't need to write code from scratch. You need to be a good reviewer — that's 80% of the skill.",
+    tools: ["Claude", "Python"],
+  },
+  {
+    day: 4,
+    week: 1,
+    level: 1,
+    title: "The 3-Part Vibe Prompt — Goal, Constraints, Format",
+    category: "Learn",
+    summary:
+      "Master the structure that consistently produces working code: what you want, what limits it, how you want it returned.",
+    task:
+      "Rewrite your Day 2 prompt using the 3-part structure. Compare outputs and note what improved.",
+    whyItMatters:
+      "Vague prompts produce broken code. Structured prompts produce working code. This is the meta-skill.",
+    tools: ["Claude", "ChatGPT"],
+  },
+  {
+    day: 5,
+    week: 1,
+    level: 1,
+    title: "Setting Up Your Sandbox — Replit, VS Code, or Cursor",
+    category: "Apply",
+    summary:
+      "Choose and configure your development environment — the place where you'll run and test AI-generated code.",
+    task:
+      "Set up a free Replit account or install VS Code. Run a \"Hello World\" Python script. Confirm it works.",
+    whyItMatters:
+      "A working sandbox removes friction. Without it, you'll abandon vibe coding. With it, you'll build daily.",
+    tools: ["Replit", "VS Code", "Cursor"],
+  },
+  {
+    day: 6,
+    week: 1,
+    level: 1,
+    title: "Error Handling — The AI Made a Bug, Now What?",
+    category: "Apply",
+    summary:
+      "Learn the debugging loop: paste the error back to AI, ask for a fix, understand what changed, iterate.",
+    task:
+      "Introduce a deliberate bug into your Day 2 script. Paste the error to Claude. Apply the fix. Document what changed.",
+    whyItMatters:
+      "Bugs are not failures — they're feedback. The skill is not avoiding bugs, it's resolving them in seconds.",
+    tools: ["Claude", "Python"],
+  },
+  {
+    day: 7,
+    week: 1,
+    level: 1,
+    title: "Sprint — Build a Working Automation",
+    category: "Sprint",
+    isMiniProject: true,
+    summary:
+      "Apply everything from Week 1 to build a real automation that solves a problem you actually have.",
+    task:
+      "Build one working automation: file organizer, email scraper, CSV cleaner, or text summarizer. Test it. Document the prompt and output.",
+    whyItMatters:
+      "Your first real automation is proof of competence. Keep it. Use it. Show it to colleagues.",
+    tools: ["Claude", "Python", "Replit"],
+  },
 
   // ── WEEK 2 ──────────────────────────────────────────────────────────────────
   { day:8, week:2, level:1, category:"Bookkeeping",
