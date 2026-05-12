@@ -379,13 +379,7 @@ export const curriculumL1: DayLesson[] = [
     tools: ["Claude", "Python", "Streamlit", "Gradio"],
   },
 
-  Nice, you’re moving fast. Let’s do Week 3 in the same pattern.
-
-Week 3 block to paste
-In client/src/data/curriculum.ts, still inside curriculumL1, replace your existing Week 3 entries (days 15–21) with this block, keeping the Week 1 and Week 2 blocks you already added:
-
-ts
-  // ── WEEK 3: MAKING IT YOURS (Days 15–21) ───────────────────────────────────
+ // ── WEEK 3: MAKING IT YOURS (Days 15–21) ───────────────────────────────────
   {
     day: 15,
     week: 3,
