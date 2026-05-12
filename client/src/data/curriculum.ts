@@ -278,137 +278,314 @@ export const curriculumL1: DayLesson[] = [
     tools: ["Claude", "Python", "Replit"],
   },
 
-  // ── WEEK 2 ──────────────────────────────────────────────────────────────────
-  { day:8, week:2, level:1, category:"Bookkeeping",
-    title:"AI-Assisted Transaction Categorisation — Design and Review",
-    summary:"Understand how AI categorisation works in platforms like Xero and QuickBooks, design your own categorisation review process, and build a rule set that reduces manual corrections.",
-    task:"Pull 20 recent transactions from your accounting system (or create a sample set). Run them through an AI categorisation review. Document the error rate and the pattern behind the errors.",
-    tools:["Xero","QuickBooks","Claude","ChatGPT"],
-    whyItMatters:"Transaction categorisation is the highest-volume AI use case in bookkeeping. Designing a good review process saves hours every month." },
-  { day:9, week:2, level:1, category:"Bookkeeping",
-    title:"Invoice Processing with Document AI and OCR",
-    summary:"Learn how OCR and document AI tools extract data from invoices, receipts, and statements — and how to design a capture workflow that minimises manual data entry errors.",
-    task:"Test a document AI tool (Dext, Hubdoc, or Claude's document reading) with 3 invoices. Note what fields were extracted correctly, which were wrong, and what you would need to verify manually.",
-    tools:["Dext","Hubdoc","Claude","ChatGPT"],
-    whyItMatters:"Manual invoice entry is one of the highest-risk, lowest-value tasks in bookkeeping. Document AI eliminates most of it — but only with the right review design." },
-  { day:10, week:2, level:1, category:"Bookkeeping",
-    title:"Bank Reconciliation with AI Assistance",
-    summary:"Design an AI-assisted bank reconciliation workflow — writing matching rules as prompts, handling exceptions, and building a sign-off process that maintains audit integrity.",
-    task:"Write a prompt that instructs an AI to match transactions from a bank statement to a ledger. Test it with a sample dataset. Design the exception-handling step for unmatched items.",
-    tools:["Claude","ChatGPT","Xero"],
-    whyItMatters:"Bank reconciliation is one of the most AI-ready accounting tasks — but most accountants have not yet designed a systematic AI-assisted workflow for it." },
-  { day:11, week:2, level:1, category:"Bookkeeping",
-    title:"Data Cleaning and Formatting with AI",
-    summary:"Use AI to clean messy transaction data: fixing inconsistent descriptions, standardising formats, identifying duplicates, and flagging outliers — without touching complex formulas.",
-    task:"Take a messy transaction export (or create one with intentional errors). Use AI to write cleaning instructions or formulas. How much time did it save vs manual cleaning?",
-    tools:["Claude","ChatGPT","Microsoft Copilot","Google Workspace"],
-    whyItMatters:"Clean data is the prerequisite for every AI accounting use case. Building data cleaning prompts is a compounding investment — every future task benefits." },
-  { day:12, week:2, level:1, category:"Bookkeeping",
-    title:"Accounts Payable — AI Prompts for Common Tasks",
-    summary:"Build a library of AI prompts for the most common AP tasks: payment terms extraction, supplier statement reconciliation, duplicate detection, and payment run summaries.",
-    task:"Write 5 AP prompts for your most common tasks. Test each one. For each prompt that works well, write a one-line usage note so a colleague could use it without your help.",
-    tools:["Claude","ChatGPT","Xero","QuickBooks"],
-    whyItMatters:"AP is prompt-ready — most AP tasks are well-defined enough that a good prompt library can halve the time spent on them." },
-  { day:13, week:2, level:1, category:"Bookkeeping",
-    title:"Spotting Bookkeeping Errors with AI",
-    summary:"Use AI as a bookkeeping error-spotter: identifying common entry errors, unusual account balances, missing transactions, and sign errors before they reach the financial statements.",
-    task:"Design 5 bookkeeping error-spotter prompts. Test each one on real or sample data. Which type of error was hardest for AI to catch — and why?",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"Error spotting is where AI saves accountants from professional embarrassment. A systematic approach catches what manual review misses." },
-  { day:14, week:2, level:1, category:"Bookkeeping", isMiniProject:true,
-    title:"Mini-Project: End-to-End Bookkeeping Mini Dataset",
-    summary:"Work through a complete bookkeeping cycle using AI assistance: categorise transactions, reconcile to the bank statement, spot errors, and summarise the output in plain English.",
-    task:"Using a sample dataset of 15 transactions: categorise all 15, reconcile to a bank statement, identify any errors, and produce a one-paragraph plain-English summary. Document your AI prompts.",
-    tools:["Claude","ChatGPT","Xero","Google Sheets"],
-    whyItMatters:"This mini-project proves you can combine the week's skills into a complete workflow. The documented prompts become portfolio piece #2." },
+  // ── WEEK 2: BUILDING REAL THINGS (Days 8–14) ───────────────────────────────
+  {
+    day: 8,
+    week: 2,
+    level: 1,
+    title: "Data Extraction — PDF/CSV with AI",
+    category: "Build",
+    summary:
+      "Use AI to write a script that extracts tabular data from PDFs and saves it as CSV — no manual copying.",
+    task:
+      "Find a PDF with a table. Prompt AI to extract it to CSV. Run it. Verify the output against the original table.",
+    whyItMatters:
+      "Data extraction is one of the most common unsexy automations. Master this and you’ll save teams hours every week.",
+    tools: ["Claude", "Python", "pdfplumber", "tabula-py"],
+  },
+  {
+    day: 9,
+    week: 2,
+    level: 1,
+    title: "Web Scraping with AI Help",
+    category: "Build",
+    summary:
+      "Build a scraper that pulls data from a website with AI writing the selectors and handling pagination.",
+    task:
+      "Prompt AI to scrape a list of 10 items from any public website. Run it. Then handle one error without asking AI.",
+    whyItMatters:
+      "Web scraping unlocks competitor monitoring, price tracking, and research automation. It’s a core vibe coding superpower.",
+    tools: ["Claude", "Python", "requests", "BeautifulSoup"],
+  },
+  {
+    day: 10,
+    week: 2,
+    level: 1,
+    title: "Building a Simple API Endpoint",
+    category: "Build",
+    summary:
+      "Create a local API that returns data when you visit a URL — the foundation of web applications.",
+    task:
+      "Prompt AI to build a FastAPI endpoint that returns \"Hello World\" at `/hello`. Run it and visit the URL in your browser.",
+    whyItMatters:
+      "APIs are how programs talk to each other. Building one demystifies the entire backend.",
+    tools: ["Claude", "Python", "FastAPI", "uvicorn"],
+  },
+  {
+    day: 11,
+    week: 2,
+    level: 1,
+    title: "Connecting to External APIs (e.g. Weather, News)",
+    category: "Build",
+    summary:
+      "Build a tool that calls an external API like weather or news and formats the response for you.",
+    task:
+      "Build a \"weather anywhere\" script. User inputs a city, script returns current temperature and condition.",
+    whyItMatters:
+      "Most valuable tools are API mashups. Once you can call APIs, you can build almost anything.",
+    tools: ["Claude", "Python", "requests", "OpenWeatherMap API"],
+  },
+  {
+    day: 12,
+    week: 2,
+    level: 1,
+    title: "Scheduling Tasks — Cron Jobs with AI",
+    category: "Build",
+    summary:
+      "Schedule your scripts to run automatically — daily reports, hourly checks, weekly summaries.",
+    task:
+      "Schedule your weather script to run every morning at 8am and save output to a file or log.",
+    whyItMatters:
+      "Automation isn’t automation if you have to run it manually. Scheduling makes it truly hands-off.",
+    tools: ["Claude", "cron", "GitHub Actions", "Replit Cron"],
+  },
+  {
+    day: 13,
+    week: 2,
+    level: 1,
+    title: "Reflecting on Your Vibe Workflow",
+    category: "Reflect",
+    summary:
+      "Audit how you’re using AI to build. What’s working? What’s inefficient? Where do you still get stuck?",
+    task:
+      "Write a 3-paragraph reflection on your vibe coding process so far. Identify one improvement for next week.",
+    whyItMatters:
+      "Reflection turns practice into mastery. The best vibe coders constantly refine their human–AI collaboration.",
+    tools: ["Claude", "Notion"],
+  },
+  {
+    day: 14,
+    week: 2,
+    level: 1,
+    title: "Sprint — Build an Internal Tool for Your Team",
+    category: "Sprint",
+    isMiniProject: true,
+    summary:
+      "Build something useful for colleagues — a report generator, data cleaner, or notification system.",
+    task:
+      "Build one tool that solves a real friction for your team. Document it and share it with one colleague for feedback.",
+    whyItMatters:
+      "Internal tools are high-visibility wins. This sprint builds your reputation as someone who gets things done.",
+    tools: ["Claude", "Python", "Streamlit", "Gradio"],
+  },
 
-  // ── WEEK 3 ──────────────────────────────────────────────────────────────────
-  { day:15, week:3, level:1, category:"Reporting",
-    title:"Accruals and Prepayments — AI as Your Calculation Partner",
-    summary:"Use AI to calculate, explain, and journal accruals and prepayments — and build a review framework that catches timing errors before they distort the financial statements.",
-    task:"Give AI 3 accrual scenarios from your work (or use standard examples). Ask it to calculate the journal entries and explain the reasoning. Check each one against your own calculation.",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"Accruals are where timing errors hide. AI can accelerate the calculation — but only a trained reviewer catches the logic errors AI sometimes makes." },
-  { day:16, week:3, level:1, category:"Bookkeeping",
-    title:"Month-End Close — Building an AI-Assisted Checklist",
-    summary:"Design a month-end close checklist that integrates AI assistance at each step — specifying what AI does, what the human reviews, and what the sign-off criteria are.",
-    task:"Map your current month-end close process (or a standard one). For each step, write: AI action, human review point, and pass/fail criteria. Format as a deployable checklist.",
-    tools:["Claude","Google Docs","Notion"],
-    whyItMatters:"A documented close checklist with AI integration is immediately deployable and demonstrates both process design and AI governance capability." },
-  { day:17, week:3, level:1, category:"Bookkeeping",
-    title:"Accounts Receivable — Chaser Emails and Aging Analysis",
-    summary:"Use AI to draft AR chaser emails at different overdue stages, analyse aging reports for collection risk, and write prompts for the most common AR communication tasks.",
-    task:"Draft 3 AR chaser emails: 7 days overdue (polite), 30 days (firm), 60 days (urgent). Use AI to write the first draft of each. Edit to match your organisation's tone.",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"AR communication is high-volume and tone-sensitive. A template library built with AI saves hours per week and reduces collection risk." },
-  { day:18, week:3, level:1, category:"Controls & Ethics",
-    title:"Internal Controls — Understanding Segregation of Duties",
-    summary:"Learn the key internal control concepts every accountant needs — segregation of duties, authorisation limits, reconciliation controls — and how AI changes the control environment.",
-    task:"Map the segregation of duties in one process you own. Identify any gaps or risks. Ask AI to suggest 3 additional controls. Evaluate whether they are practical in your context.",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"Controls knowledge protects your organisation and your professional reputation. AI introduces new control considerations that every accountant needs to understand." },
-  { day:19, week:3, level:1, category:"Controls & Ethics",
-    title:"Expense Management — AI Policy Compliance Checking",
-    summary:"Use AI to check expense claims against policy, flag potential violations, and draft policy summaries in plain English — designing a compliance workflow that is both efficient and robust.",
-    task:"Take 10 expense line items (real or sample). Write a prompt that instructs AI to check each against a policy. How accurately does it flag violations? What did it miss?",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"Expense compliance checking is one of the clearest AI wins in accounting — high volume, rule-based, and currently taking far too much manual review time." },
-  { day:20, week:3, level:1, category:"Controls & Ethics",
-    title:"AI Ethics in Accounting — Your Personal Usage Policy",
-    summary:"Develop a personal AI ethics and usage policy for your accounting practice — covering data confidentiality, output verification, disclosure, and the limits of AI in professional work.",
-    task:"Write your personal AI accounting usage policy: 5 rules, each with a one-sentence rationale. Cover: what data you will not share with AI, how you verify AI output, and when AI output must be disclosed.",
-    tools:["Claude","Google Docs"],
-    whyItMatters:"A documented personal AI policy is a professional asset. It protects you legally and demonstrates the kind of responsible AI adoption that clients and employers value." },
-  { day:21, week:3, level:1, category:"Controls & Ethics", isMiniProject:true,
-    title:"Mini-Project: Month-End Checklist and Ethics Policy",
-    summary:"Finalise two portfolio pieces: your AI-assisted month-end close checklist and your personal AI ethics and usage policy — both formatted for professional use.",
-    task:"Polish both documents to professional standard. Each should be clear enough for a colleague to use without explanation. The ethics policy should reflect your actual work context.",
-    tools:["Claude","Google Docs","Notion"],
-    whyItMatters:"These two documents signal AI maturity to any employer or client. A close checklist shows process design skill; an ethics policy shows professional responsibility." },
+  Nice, you’re moving fast. Let’s do Week 3 in the same pattern.
 
-  // ── WEEK 4 ──────────────────────────────────────────────────────────────────
-  { day:22, week:4, level:1, category:"Tax & Compliance",
-    title:"AI for Tax Research — Safe and Effective Use",
-    summary:"Learn how to use AI for tax research safely — understanding its limitations, the right prompt structure for regulatory queries, and how to verify AI tax output against primary sources.",
-    task:"Research one tax rule relevant to your work using AI. Then verify the AI's answer against the primary source (tax authority website or official guidance). What did AI get right? What did it miss?",
-    tools:["Claude","Perplexity AI","ChatGPT"],
-    whyItMatters:"Tax is a high-risk area for AI errors. Knowing how to use AI for tax research — and how to verify it — is a skill that protects both you and your clients." },
-  { day:23, week:4, level:1, category:"Reporting",
-    title:"Variance Analysis — Turning Numbers into Narrative",
-    summary:"Use AI to transform a set of financial variances into clear management commentary — learning the prompt structure that produces concise, accurate, and professionally appropriate narrative.",
-    task:"Take 5 budget vs actual variances (real or sample). Write a prompt that produces management commentary for each. Edit the AI output to match your organisation's reporting style.",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"Variance commentary is time-consuming and often poorly done. AI can produce a solid first draft in seconds — saving the time for analysis, not writing." },
-  { day:24, week:4, level:1, category:"Reporting",
-    title:"Client Communication — Finance Narratives in Plain English",
-    summary:"Use AI to draft client-facing finance communications: monthly reports, query responses, and explanation notes — maintaining professional tone while making numbers accessible.",
-    task:"Write 3 client communication prompts: a monthly summary, a response to a query about an unusual expense, and an explanation of a tax liability. Edit each for your actual client context.",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"Translating financial information into plain English is a high-value skill. AI drafts the communication; your judgment makes it accurate and appropriately toned." },
-  { day:25, week:4, level:1, category:"Reporting",
-    title:"KPI Dashboards — AI for Metric Calculation and Commentary",
-    summary:"Use AI to define, calculate, and write commentary for the 5 most important KPIs in your accounting context — building a repeatable dashboard narrative workflow.",
-    task:"Define 5 KPIs for your context. Ask AI to write the calculation logic and a commentary template for each. Test it with sample data. Which KPIs produced the most useful AI output?",
-    tools:["Claude","ChatGPT","Microsoft Copilot"],
-    whyItMatters:"KPI commentary is produced every month. A templated AI workflow eliminates the blank-page problem and ensures consistency across reporting periods." },
-  { day:26, week:4, level:1, category:"Reporting",
-    title:"Building Your Accountant Prompt Library",
-    summary:"Consolidate every useful prompt you have built across 25 days into a structured, categorised prompt library — your most immediately deployable portfolio piece.",
-    task:"Organise your prompts into 6 categories: bookkeeping, reconciliation, reporting, tax, communication, and controls. For each, document: the task, the prompt, and a sample output. Aim for 10+ prompts.",
-    tools:["Claude","Notion","Google Docs"],
-    whyItMatters:"A prompt library is a professional asset that compounds in value. Every task you systematise this week saves time every month from now on." },
-  { day:27, week:4, level:1, category:"Mixed",
-    title:"Pulling It Together — Your AI-Assisted Accounting Workflow",
-    summary:"Design the complete AI-assisted accounting workflow you will actually use — mapping each stage from transaction capture to reporting, with AI tools, human review points, and quality gates.",
-    task:"Map your ideal AI-assisted monthly accounting workflow. For each stage: which AI tool, what it produces, what you review, and the sign-off criterion. One page, deployable from Monday.",
-    tools:["Claude","Notion","Google Docs"],
-    whyItMatters:"This workflow is your capstone foundation. It represents the practical synthesis of 27 days of learning — and it is immediately usable in your real work." },
-  { day:28, week:4, level:1, category:"Mixed", isMiniProject:true,
-    title:"Capstone — AI-Assisted Monthly Accounting Workflow",
-    summary:"Complete and submit your 28-day capstone: a professional one-page AI-Assisted Monthly Accounting Workflow covering every stage from transaction capture to reporting.",
-    task:"Finalise your workflow document to professional standard. It should include: transaction capture, bookkeeping, reconciliation, month-end close, variance analysis, and reporting — with AI actions, human review points, and your personal usage policy integrated throughout.",
-    tools:["Claude","Google Docs","Notion"],
-    whyItMatters:"This capstone is a genuine professional document — deployable in your actual work and strong enough to share with clients or include in a professional portfolio." },
+Week 3 block to paste
+In client/src/data/curriculum.ts, still inside curriculumL1, replace your existing Week 3 entries (days 15–21) with this block, keeping the Week 1 and Week 2 blocks you already added:
+
+ts
+  // ── WEEK 3: MAKING IT YOURS (Days 15–21) ───────────────────────────────────
+  {
+    day: 15,
+    week: 3,
+    level: 1,
+    title: "Adding a User Interface — Streamlit/Gradio",
+    category: "Build",
+    summary:
+      "Turn your script into an app with buttons, inputs, and outputs — no frontend experience required.",
+    task:
+      "Take any previous script. Wrap it in a Streamlit or Gradio UI with at least one input and one output element.",
+    whyItMatters:
+      "A script is useful. An app is shareable. UIs turn your automations into tools others can use.",
+    tools: ["Claude", "Streamlit", "Gradio", "Python"],
+  },
+  {
+    day: 16,
+    week: 3,
+    level: 1,
+    title: "Local Databases — SQLite with AI-Generated Queries",
+    category: "Build",
+    summary:
+      "Store and query data persistently using SQLite, with AI writing your SQL so you don’t have to learn it from scratch.",
+    task:
+      "Build a script that stores user inputs in a SQLite database and retrieves them on command.",
+    whyItMatters:
+      "Data persistence turns one-off tools into long-term assets. Databases are where serious tools live.",
+    tools: ["Claude", "Python", "SQLite", "sqlite3"],
+  },
+  {
+    day: 17,
+    week: 3,
+    level: 1,
+    title: "Iterative Improvement — Make It Better Prompts",
+    category: "Apply",
+    summary:
+      "Learn to ask AI for specific improvements: add error handling, make it faster, add logging — building on existing code.",
+    task:
+      "Take your Day 15 UI app. Ask AI to add 3 improvements (e.g., error handling, better messages, small performance tweak). Apply them one by one.",
+    whyItMatters:
+      "First drafts are never final. The ability to iterate with AI is the difference between prototype and production.",
+    tools: ["Claude", "ChatGPT"],
+  },
+  {
+    day: 18,
+    week: 3,
+    level: 1,
+    title: "Reading Documentation with AI Help",
+    category: "Learn",
+    summary:
+      "When AI uses a library you don’t know, ask it to explain the relevant parts of the documentation.",
+    task:
+      "Take a script with an unfamiliar library. Ask AI: \"Explain what line X does and show me the relevant docs.\" Paste the key doc snippet into your notes.",
+    whyItMatters:
+      "You don’t need to read all docs. You need AI to extract the 5% that matters for your code.",
+    tools: ["Claude", "Perplexity AI"],
+  },
+  {
+    day: 19,
+    week: 3,
+    level: 1,
+    title: "Environment Variables — No Hardcoded Keys!",
+    category: "Secure",
+    summary:
+      "Learn to store API keys and secrets outside your code — the minimum viable security practice.",
+    task:
+      "Take any script with an API key. Move it to a `.env` file. Update the script to read from environment variables.",
+    whyItMatters:
+      "Hardcoded secrets in code are how breaches happen. This habit alone makes you more professional than most beginners.",
+    tools: ["Claude", "python-dotenv", ".env"],
+  },
+  {
+    day: 20,
+    week: 3,
+    level: 1,
+    title: "Refactoring with AI — Cleaning Up Messy Code",
+    category: "Optimize",
+    summary:
+      "Ask AI to reorganize, rename, and simplify its own code, making it readable and maintainable.",
+    task:
+      "Take your messiest generated script. Ask AI: \"Refactor this to be more readable with clear function names.\" Compare before and after.",
+    whyItMatters:
+      "Generated code works, but messy code is hard to debug. Refactoring is the polish layer.",
+    tools: ["Claude", "ChatGPT"],
+  },
+  {
+    day: 21,
+    week: 3,
+    level: 1,
+    title: "Sprint — Personal Automation Dashboard",
+    category: "Sprint",
+    isMiniProject: true,
+    summary:
+      "Build a personal dashboard that shows data from at least two sources (files, APIs, or databases).",
+    task:
+      "Build a Streamlit dashboard displaying a chart from a CSV, a weather forecast, and a to-do list — all AI-generated.",
+    whyItMatters:
+      "A dashboard is a portfolio piece. It demonstrates data handling, UI, and integration — all vibe-coded.",
+    tools: ["Claude", "Streamlit", "pandas", "requests"],
+  },
+
+  // ── WEEK 4: LOCAL FIRST (Days 22–28) ───────────────────────────────────────
+  {
+    day: 22,
+    week: 4,
+    level: 1,
+    title: "File I/O — Reading and Writing Files Like a Pro",
+    category: "Learn",
+    summary:
+      "Master the patterns for reading CSVs, JSON, and text files — then writing processed results back.",
+    task:
+      "Build a script that reads a CSV, filters rows based on a condition, and writes a new CSV with results.",
+    whyItMatters:
+      "File processing is the backbone of data automation. Most business data lives in files.",
+    tools: ["Claude", "Python", "csv", "pandas"],
+  },
+  {
+    day: 23,
+    week: 4,
+    level: 1,
+    title: "Command-Line Arguments — Make Your Scripts Reusable",
+    category: "Build",
+    summary:
+      "Add command-line arguments so your script accepts inputs without editing the code.",
+    task:
+      "Modify your CSV filter script to accept input and output filenames as command-line arguments.",
+    whyItMatters:
+      "Hardcoded scripts are for you. Scripts with arguments are for everyone. This is professionalization.",
+    tools: ["Claude", "Python", "argparse", "sys"],
+  },
+  {
+    day: 24,
+    week: 4,
+    level: 1,
+    title: "Organizing Your Vibe-Coded Projects",
+    category: "Reflect",
+    summary:
+      "Create a folder structure and naming convention so you can find and reuse your projects later.",
+    task:
+      "Organize all your scripts from the past 3 weeks into a logical folder structure. Document what each does.",
+    whyItMatters:
+      "Disorganized scripts are lost scripts. Organization compounds value — each new build adds to an asset library.",
+    tools: ["VS Code", "Finder/Explorer", "Terminal"],
+  },
+  {
+    day: 25,
+    week: 4,
+    level: 1,
+    title: "Sharing Scripts with Non-Technical Colleagues",
+    category: "Apply",
+    summary:
+      "Package your script so a non-technical colleague can run it — instructions, dependencies, and error handling.",
+    task:
+      "Take one script. Write a one-page run guide for a colleague. Test it with someone who doesn’t code.",
+    whyItMatters:
+      "The best tool is useless if no one else can run it. Packaging is the final mile of value delivery.",
+    tools: ["Claude", "README.md", "requirements.txt"],
+  },
+  {
+    day: 26,
+    week: 4,
+    level: 1,
+    title: "Your Vibe Coding Reference Guide — Build It Now",
+    category: "Reflect",
+    summary:
+      "Create your personal reference: prompt patterns, debugging steps, and code snippets you reuse often.",
+    task:
+      "Build a Notion page or markdown file with your top 10 prompts and 5 debugging patterns.",
+    whyItMatters:
+      "A reference guide speeds up your next build by 3×. Build it once, use it forever.",
+    tools: ["Claude", "Notion", "Markdown"],
+  },
+  {
+    day: 27,
+    week: 4,
+    level: 1,
+    title: "Peer Review — Stress-Test a Colleague’s Script",
+    category: "Review",
+    summary:
+      "Trade scripts with a peer. Run theirs. Break it. Help them fix it. Learn from each other’s styles.",
+    task:
+      "Find a peer in the program. Exchange one script. Run theirs, document issues, and suggest improvements.",
+    whyItMatters:
+      "Reading other people’s code — even AI-generated — teaches you patterns you’d never discover alone.",
+    tools: ["Claude", "Python"],
+  },
+  {
+    day: 28,
+    week: 4,
+    level: 1,
+    title: "Sprint — Level 1 Graduation: Your Local Automation Suite",
+    category: "Sprint",
+    isMiniProject: true,
+    summary:
+      "Assemble your best 3 scripts into a cohesive automation suite with shared utilities and documentation.",
+    task:
+      "Create a folder with 3 working scripts, a `requirements.txt`, a README, and a 2-minute demo recording.",
+    whyItMatters:
+      "This suite is your Level 1 portfolio — proof you can build real things with AI, no engineering degree required.",
+    tools: ["Claude", "Python", "Git", "Loom"],
+  },
 ];
 
 // ─────────────────────────────────────────────
