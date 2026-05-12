@@ -1,9 +1,3 @@
-/* ==========================================================================
-   Landing Page — Part 1
-   Project: AI Sprint · Vibe Coding
-   Notes: Imports, level theme config, and AuthModal component
-   ========================================================================== */
-
 import { useState, useEffect, useRef } from "react";
 import logoImg from "@/ai-sprint-logo.png";
 import { useAuth } from "@/components/auth-provider";
@@ -23,31 +17,31 @@ const LEVEL_THEMES = {
     color: THEME_COLOR,
     name: "Basic",
     label: "Basic · Foundation",
-    annotation: "AI-VIBE-BASIC",
+    annotation: "AI-ACCT-BASIC",
     days: "28 DAYS",
-    tagline: "Learn the core vibe coding workflow for building real tools with AI.",
-    heroHeadline: "In 28 days, go from AI-curious to shipping your own vibe-coded tools.",
-    heroSub: "Built for beginners and builders who want to ship real projects with AI — without needing a computer science degree.",
-    urgency: "423 builders joined the Basic vibe coding track this month",
+    tagline: "Master the accounting AI foundations every finance professional needs.",
+    heroHeadline: "In 28 days, become the accountant who confidently works with AI.",
+    heroSub: "Built for accountants, bookkeepers, and finance professionals who want to work smarter with AI — without losing the professional judgement that matters.",
+    urgency: "423 accountants enrolled in the Basic track this month",
     cta: "Start the Basic Track →",
-    dividerMarks: ["↔ 28 DAYS", "🎯 BASIC TRACK", "15 MIN/DAY"],
-    sectionLabel: "AI SPRINT · VIBE CODING · BASIC TRACK",
-    sectionH2: "The practical way to start building software with AI in 2026",
+    dividerMarks: ["↔ 28 DAYS", "📊 BASIC TRACK", "15 MIN/DAY"],
+    sectionLabel: "ACCOUNTING + AI · BASIC TRACK",
+    sectionH2: "The practical way to master accounting with AI in 2026",
   },
   "2": {
     color: L2_COLOR,
     name: "Advanced",
-    label: "Advanced · Builder",
-    annotation: "AI-VIBE-ADVANCED",
+    label: "Advanced · Advisory",
+    annotation: "AI-ACCT-ADVANCED",
     days: "28 DAYS",
-    tagline: "Level up from quick scripts to production-grade AI-powered apps.",
-    heroHeadline: "In 28 days, start shipping vibe-coded apps people can actually use.",
-    heroSub: "Level 2 is for builders ready to move beyond demos — deployments, databases, and real users on real projects.",
-    urgency: "187 builders joined the Advanced vibe coding track this month",
+    tagline: "Build advisory-level AI skills that transform how you serve clients.",
+    heroHeadline: "In 28 days, become the accountant who uses AI to deliver advisory-level insight.",
+    heroSub: "Level 2 is for finance professionals ready to move beyond basics — AI audits, operating models, and client-ready advisory deliverables.",
+    urgency: "187 finance professionals enrolled in the Advanced track this month",
     cta: "Start the Advanced Track →",
-    dividerMarks: ["↔ 28 DAYS", "🚀 ADVANCED TRACK", "30 MIN/DAY"],
-    sectionLabel: "AI SPRINT · VIBE CODING · ADVANCED TRACK",
-    sectionH2: "Build AI-powered apps that feel like real products, not experiments",
+    dividerMarks: ["↔ 28 DAYS", "📈 ADVANCED TRACK", "15 MIN/DAY"],
+    sectionLabel: "ACCOUNTING + AI · ADVANCED TRACK",
+    sectionH2: "Build advisory AI skills that clients will pay a premium for",
   },
 };
 
@@ -117,44 +111,261 @@ function AuthModal({ onClose, defaultMode = "register" }: { onClose: () => void;
         >
           <img src={logoImg} alt="AI Sprint" className="auth-logo-img" />
           <div className="auth-tagline" style={{ color: "#ddd" }}>
-            Build real software. Vibe code with AI. Ship faster.
+            Master Accounting. Leverage AI. Stay Ahead.
           </div>
         </div>
 
-        <h1
-          className="auth-heading"
-          style={{
-            color: "white",
-            fontSize: "1.75rem",
-            fontWeight: 800,
-            marginBottom: "0.5rem",
-            textAlign: "center",
-          }}
-        >
-          {mode === "login"
-            ? "Welcome back to AI Sprint · Vibe Coding"
-            : t("auth.createAccount")}
+        {/* 
+          All text inside the modal now has explicit inline styles 
+          – no CSS classes can override these.
+        */}
+        <h1 className="auth-heading" style={{ color: "white", fontSize: "1.75rem", fontWeight: 800, marginBottom: "0.5rem", textAlign: "center" }}>
+          {mode === "login" ? "Welcome Back to Accounting in the AI Era" : t("auth.createAccount")}
         </h1>
 
-        <p
-          className="auth-subtext"
-          style={{
-            color: "#ccc",
-            marginBottom: "1.5rem",
-            fontSize: "0.95rem",
-            textAlign: "center",
-          }}
-        >
+        <p className="auth-subtext" style={{ color: "#ccc", marginBottom: "1.5rem", fontSize: "0.95rem", textAlign: "center" }}>
           {mode === "login" ? t("auth.loginSubtext") : t("auth.signupSubtext")}
         </p>
 
-        {/* ...rest of your AuthModal JSX unchanged... */}
+        {error && (
+          <div className="auth-error" style={{ color: "#ef4444", display: "flex", alignItems: "center", gap: "8px", marginBottom: "1rem" }}>
+            <AlertCircle size={14} /> {error}
+          </div>
+        )}
+        {purchaseUrl && (
+          <div className="auth-error" style={{ color: "#ef4444", display: "flex", alignItems: "center", gap: "8px", marginBottom: "1rem" }}>
+            <AlertCircle size={14} />
+            <span>You may need a valid license. <a href={purchaseUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", fontWeight: 600, color: "#fca5a5" }}>View Pricing →</a></span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="auth-form" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          {mode === "register" && (
+            <div className="auth-field">
+              <label htmlFor="modal-name" style={{ color: "white", display: "flex", alignItems: "center", gap: "6px", fontSize: "0.85rem", fontWeight: 600, marginBottom: "6px" }}>
+                <UserCircle size={14} /> {t("auth.nameLabel")}
+              </label>
+              <input
+                id="modal-name"
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder={t("auth.namePlaceholder")}
+                required
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  borderRadius: "8px",
+                  background: "rgba(0,0,0,0.3)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  color: "white",
+                  outline: "none",
+                }}
+              />
+            </div>
+          )}
+
+          <div className="auth-field">
+            <label htmlFor="modal-email" style={{ color: "white", display: "flex", alignItems: "center", gap: "6px", fontSize: "0.85rem", fontWeight: 600, marginBottom: "6px" }}>
+              <Mail size={14} /> {t("auth.emailLabel")}
+            </label>
+            <input
+              id="modal-email"
+              type="email"
+              inputMode="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={t("auth.emailPlaceholder")}
+              required
+              style={{
+                width: "100%",
+                padding: "12px",
+                borderRadius: "8px",
+                background: "rgba(0,0,0,0.3)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                color: "white",
+                outline: "none",
+              }}
+            />
+          </div>
+
+          <div className="auth-field">
+            <label htmlFor="modal-password" style={{ color: "white", display: "flex", alignItems: "center", gap: "6px", fontSize: "0.85rem", fontWeight: 600, marginBottom: "6px" }}>
+              <Lock size={14} /> {t("auth.passwordLabel")}
+            </label>
+            <div className="auth-pw-wrap" style={{ position: "relative" }}>
+              <input
+                id="modal-password"
+                type={showPw ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={
+                  mode === "register"
+                    ? t("auth.passwordPlaceholder")
+                    : t("auth.loginPasswordPlaceholder")
+                }
+                required
+                minLength={mode === "register" ? 6 : 1}
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  borderRadius: "8px",
+                  background: "rgba(0,0,0,0.3)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  color: "white",
+                  outline: "none",
+                }}
+              />
+              <button
+                type="button"
+                className="pw-toggle"
+                onClick={() => setShowPw((s) => !s)}
+                aria-label="Toggle password visibility"
+                style={{
+                  position: "absolute",
+                  right: "12px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  background: "none",
+                  border: "none",
+                  color: "#aaa",
+                  cursor: "pointer",
+                }}
+              >
+                {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="auth-submit"
+            disabled={loading}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+              padding: "12px",
+              background: "#3ab8c8",
+              color: "#000",
+              fontWeight: 800,
+              textTransform: "uppercase",
+              letterSpacing: "0.5px",
+              border: "none",
+              borderRadius: "8px",
+              cursor: loading ? "not-allowed" : "pointer",
+              marginTop: "10px",
+              boxShadow: "0 4px 14px rgba(58, 184, 200, 0.4)",
+            }}
+          >
+            {loading
+              ? t("auth.pleaseWait")
+              : mode === "login"
+              ? t("auth.login")
+              : t("auth.createAccountBtn")}
+            {!loading && <ArrowRight size={16} />}
+          </button>
+
+          <div style={{ marginTop: "20px", textAlign: "center" }}>
+            <div style={{ position: "relative", margin: "20px 0" }}>
+              <hr style={{ border: "none", borderTop: "1px solid #444" }} />
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-10px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  background: "rgba(22, 23, 30, 0.8)",
+                  backdropFilter: "blur(10px)",
+                  padding: "0 10px",
+                  fontSize: "0.75rem",
+                  color: "#ccc",
+                  fontWeight: 600,
+                }}
+              >
+                OR
+              </span>
+            </div>
+
+            <a
+              href="/api/auth/google"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "12px",
+                width: "100%",
+                padding: "12px",
+                borderRadius: "8px",
+                background: "#f0f0f0",
+                color: "#000",
+                fontWeight: "bold",
+                textDecoration: "none",
+              }}
+            >
+              <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                width="20"
+                alt="Google"
+              />
+              {mode === "login" ? "Sign in with Google" : "Sign up with Google"}
+            </a>
+          </div>
+        </form>
+
+        <div className="auth-switch" style={{ marginTop: "1.5rem", textAlign: "center", fontSize: "0.85rem", color: "#ccc" }}>
+          {mode === "login" ? (
+            <>
+              <p>
+                {t("auth.noAccount")}{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMode("register");
+                    setError(null);
+                    setPurchaseUrl(null);
+                  }}
+                  style={{ background: "none", border: "none", color: "#3ab8c8", fontWeight: 700, cursor: "pointer", textDecoration: "underline", padding: 0 }}
+                >
+                  {t("auth.signup")}
+                </button>
+              </p>
+
+              <p style={{ marginTop: "0.75rem", fontSize: "0.85rem", color: "#aaa" }}>
+                Having trouble logging in?{" "}
+                <a
+                  href="mailto:support@aisprint.app"
+                  style={{ textDecoration: "underline", textUnderlineOffset: "2px", color: "#ccc" }}
+                >
+                  Contact Support
+                </a>
+              </p>
+            </>
+          ) : (
+            <p>
+              {t("auth.hasAccount")}{" "}
+              <button
+                type="button"
+                onClick={() => {
+                  setMode("login");
+                  setError(null);
+                  setPurchaseUrl(null);
+                }}
+                style={{ background: "none", border: "none", color: "#3ab8c8", fontWeight: 700, cursor: "pointer", textDecoration: "underline", padding: 0 }}
+              >
+                {t("auth.login")}
+              </button>
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
 }
 
-// ── Contact Support Section — AI Sprint · Vibe Coding ──
+// ── Contact Support Section (unchanged, but labels made lighter) ──
 function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -225,10 +436,10 @@ function ContactSection() {
               lineHeight: 1.2,
             }}
           >
-            Need help with AI Sprint?
+            Need help? We're here.
           </h2>
           <p style={{ color: "#888", fontSize: "1rem", margin: 0 }}>
-            Send us a message and we’ll get back to you at{" "}
+            Send us a message and we'll get back to you at{" "}
             <a
               href="mailto:support@aisprint.app"
               style={{ color: "#0d7c8a", textDecoration: "underline", textUnderlineOffset: 3 }}
@@ -253,7 +464,7 @@ function ContactSection() {
               Message sent!
             </h3>
             <p style={{ color: "#888", margin: 0 }}>
-              We’ll get back to you within 24 hours.
+              We'll get back to you within 24 hours.
             </p>
             <button
               onClick={() => setSubmitted(false)}
@@ -274,7 +485,6 @@ function ContactSection() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="lp-contact-form"
             style={{
               background: "rgba(255,255,255,0.03)",
               border: "1px solid rgba(255,255,255,0.08)",
@@ -287,8 +497,8 @@ function ContactSection() {
           >
             <input type="hidden" name="access_key" value="9354c53d-f37d-4c31-845b-88286c03d1d4" />
             <input type="hidden" name="to" value="support@aisprint.app" />
-            <input type="hidden" name="subject" value="AI Sprint Vibe Coding Support Request" />
-            <input type="hidden" name="from_name" value="AI Sprint Vibe Coding Landing Page" />
+            <input type="hidden" name="subject" value="Accounting Sprint Support Request" />
+            <input type="hidden" name="from_name" value="AI Sprint Accounting Landing Page" />
 
             {error && (
               <div
@@ -375,7 +585,7 @@ function ContactSection() {
               <textarea
                 id="contact-message"
                 name="message"
-                placeholder="Tell us what you need help with…"
+                placeholder="Describe your issue or question…"
                 required
                 rows={5}
                 style={{
@@ -449,23 +659,343 @@ export default function LandingPage() {
   // ── Ticker ────────────────────────────────────────────────────
   const TICKS: Record<"1"|"2", string[]> = {
     "1": [
-      "⚡ Sarah shipped her first working tool with AI · Day 16",
-      "🏆 Daniel unlocked Builder mode · Level 1",
-      "✅ Priya finished her prompt library and shipped a working mini app · Day 26",
-      "🛠️ Marcus built an internal workflow tool in Week 2",
-      "✨ 423 builders joined the Level 1 track this month",
-      "🔥 Yuki is on a 10-day build streak · Level 1",
+      "📊 Sarah completed her month-end close checklist · Day 16",
+      "🏆 Daniel unlocked Workflow Architect rank · Basic",
+      "✅ Priya just finished her AI prompt library · Day 26",
+      "📋 Marcus built a bank reconciliation workflow · Week 2",
+      "✨ 423 accountants enrolled in the Basic track this month",
+      "🔥 Yuki is on a 10-day streak · Basic track",
     ],
     "2": [
-      "🚀 Sarah deployed her first live AI-powered app",
-      "🏆 Daniel unlocked Engineer mode · Level 2",
-      "✅ Priya shipped her first production-ready workflow · Week 4",
-      "🧩 Marcus connected his app to a real database and API",
-      "✨ 187 builders joined the Level 2 track this month",
-      "🔥 Yuki is on a 14-day shipping streak · Level 2",
+      "📈 Sarah delivered her first AI audit report to a client",
+      "🏆 Daniel unlocked Advisory Pro rank · Advanced",
+      "✅ Priya built her AI-ready operating model · Week 4",
+      "📋 Marcus landed a new advisory client using the framework",
+      "✨ 187 professionals enrolled in the Advanced track this month",
+      "🔥 Yuki is on a 14-day streak · Advanced track",
     ],
   };
-            {/* Hero */}
+  const [tickerIdx, setTickerIdx] = useState(0);
+  const [tickerVisible, setTickerVisible] = useState(true);
+
+  // ── Scroll reveal ─────────────────────────────────────────────
+  const [revealCards, setRevealCards] = useState(false);
+  const cardsRef = useRef<HTMLDivElement>(null);
+  const [revealTestimonials, setRevealTestimonials] = useState(false);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll refs
+  const deliverablesScrollRef = useRef<HTMLDivElement>(null);
+  const sevenDayScrollRef = useRef<HTMLDivElement>(null);
+  const testiScrollRef = useRef<HTMLDivElement>(null);
+
+  function openAuth(mode: "login" | "register" = "register") {
+    setAuthMode(mode);
+    setShowAuth(true);
+  }
+
+  // Cursor glow
+  useEffect(() => {
+    const el = cursorRef.current;
+    if (!el) return;
+    const move = (e: MouseEvent) => {
+      el.style.setProperty("--cx", `${e.clientX}px`);
+      el.style.setProperty("--cy", `${e.clientY}px`);
+    };
+    window.addEventListener("mousemove", move);
+    return () => window.removeEventListener("mousemove", move);
+  }, []);
+
+  // H1 scramble — re-fires on tab change
+  useEffect(() => {
+    const target = LEVEL_THEMES[activeTab].heroHeadline;
+    let frame = 0;
+    const total = 30;
+    const iv = setInterval(() => {
+      setScrambledH1(target.split("").map((char, i) => {
+        if (char === " ") return " ";
+        if (frame / total > i / target.length + 0.1) return char;
+        return CHARS[Math.floor(Math.random() * CHARS.length)];
+      }).join(""));
+      frame++;
+      if (frame > total) { setScrambledH1(target); clearInterval(iv); }
+    }, 45);
+    return () => clearInterval(iv);
+  }, [activeTab]);
+
+  // Stat counters
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting || statsFired.current) return;
+      statsFired.current = true;
+      const run = (setter: (v: number) => void, target: number, dur: number) => {
+        const start = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min((now - start) / dur, 1);
+          setter(Math.round((1 - Math.pow(1 - p, 3)) * target));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      run(setS28, 28, 1000);
+      run(setS15, 15, 800);
+      run(setSEnrolled, 423, 1200);
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  // Ticker — resets on tab change
+  useEffect(() => {
+    setTickerIdx(0);
+    const iv = setInterval(() => {
+      setTickerVisible(false);
+      setTimeout(() => { setTickerIdx(i => (i + 1) % TICKS[activeTab].length); setTickerVisible(true); }, 350);
+    }, 4000);
+    return () => clearInterval(iv);
+  }, [activeTab]);
+
+  // Scroll reveal — fires once, stays visible across tab changes
+  useEffect(() => {
+    const el = cardsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) setRevealCards(true);
+    }, { threshold: 0.15 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [activeTab]);
+
+  // Testimonials reveal
+  useEffect(() => {
+    const el = testimonialsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) setRevealTestimonials(true);
+    }, { threshold: 0.1 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  // ── AUTO-SCROLL: one card at a time, smooth, works on mobile ──
+  useEffect(() => {
+    function makeCardScroller(getEl: () => HTMLDivElement | null, intervalMs: number) {
+      let timer: ReturnType<typeof setInterval> | null = null;
+      let paused = false;
+      function advance() {
+        const el = getEl();
+        if (!el || paused) return;
+        const step = el.clientWidth;
+        const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+        if (atEnd) {
+          el.style.scrollBehavior = "auto";
+          el.scrollLeft = 0;
+          requestAnimationFrame(() => { el.style.scrollBehavior = "smooth"; });
+        } else {
+          el.style.scrollBehavior = "smooth";
+          el.scrollLeft += step;
+        }
+      }
+      function start() { if (timer) return; timer = setInterval(advance, intervalMs); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      const el = getEl();
+      if (el) {
+        el.style.scrollBehavior = "smooth";
+        el.addEventListener("mouseenter", () => { paused = true; });
+        el.addEventListener("mouseleave", () => { paused = false; });
+        el.addEventListener("touchstart", () => { paused = true; }, { passive: true });
+        el.addEventListener("touchend", () => { setTimeout(() => { paused = false; }, 1500); }, { passive: true });
+      }
+      start();
+      return stop;
+    }
+    const cleanups = [
+      makeCardScroller(() => deliverablesScrollRef.current, 2800),
+      makeCardScroller(() => sevenDayScrollRef.current,     2600),
+      makeCardScroller(() => testiScrollRef.current,        3200),
+    ];
+    return () => cleanups.forEach(c => c?.());
+  }, []);
+
+  return (
+    <div className={`lp-root${isDark ? "" : " lp-light"}`} style={{
+      background: isDark ? "#0d0d14" : "#f4f6fb",
+      color: isDark ? "#e8e6f4" : "#1a1a2e",
+      minHeight: "100vh",
+    } as any}>
+
+      {/* Cursor glow — teal */}
+      <div ref={cursorRef} style={{
+        position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
+        background: "radial-gradient(600px at var(--cx,50%) var(--cy,50%), rgba(13,124,138,.07), transparent 70%)",
+      }} />
+
+      {/* Ledger grid background — teal lines like accounting paper */}
+      <div style={{
+        position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
+        backgroundImage: `linear-gradient(rgba(13,124,138,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(13,124,138,.03) 1px,transparent 1px)`,
+        backgroundSize: "100% 28px, 80px 28px",
+        maskImage: "linear-gradient(to bottom,rgba(0,0,0,.55) 0%,transparent 55%)",
+        WebkitMaskImage: "linear-gradient(to bottom,rgba(0,0,0,.55) 0%,transparent 55%)",
+      }} />
+
+      {/* Live ticker pill */}
+      <div className="lp-ticker" style={{
+        position:"fixed", bottom:16, left:"50%", transform:"translateX(-50%)",
+        zIndex:50, maxWidth:360, width:"calc(100% - 40px)",
+        background:"rgba(13,15,26,.92)", border:"1px solid rgba(255,255,255,.1)",
+        borderRadius:100, padding:"7px 16px",
+        display:"flex", alignItems:"center", gap:10,
+        backdropFilter:"blur(12px)", WebkitBackdropFilter:"blur(12px)" as any,
+        boxShadow:"0 4px 24px rgba(0,0,0,.4)",
+        opacity: tickerVisible ? 1 : 0, transition:"opacity 0.35s ease" }}>
+        <span style={{ width:6, height:6, borderRadius:"50%", background:THEME, boxShadow:`0 0 8px ${THEME}`, flexShrink:0, animation:"lpPulse 2s infinite" }}/>
+        <span className="lp-ticker-text" style={{ fontSize:".75rem", color:"#aaa", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", flex:1 }}>{TICKS[activeTab][tickerIdx]}</span>
+        <span style={{ fontSize:"8px", fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", color:`${THEME_COLOR}99`, flexShrink:0, fontFamily:"monospace" }}>LIVE</span>
+      </div>
+
+      <style>{`
+        @keyframes lpPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+        .lp-reveal { opacity:0; transform:translateY(24px); transition:opacity .65s ease, transform .65s ease; }
+        .lp-reveal.visible { opacity:1; transform:translateY(0); }
+        [data-autoscroll]::-webkit-scrollbar { display: none; }
+
+        /* ── DARK MODE ── */
+        .lp-root { --lp-body: #c8c6e0; --lp-muted: #9896b0; --lp-card-bg: rgba(255,255,255,.04); --lp-card-border: rgba(255,255,255,.09); }
+        .lp-root p, .lp-root li { color: var(--lp-body); }
+
+        /* ── LIGHT MODE ── */
+        .lp-light { --lp-body: #374151; --lp-muted: #6b7280; --lp-card-bg: #ffffff; --lp-card-border: rgba(0,0,0,.08); }
+        .lp-light section { background: #f4f6fb !important; }
+        .lp-light .lp-dark-section { background: #ffffff !important; }
+        .lp-light .lp-section { background: #f4f6fb !important; }
+        .lp-light .lp-cta-section { background: ${THEME_COLOR} !important; }
+        .lp-light h1, .lp-light h2, .lp-light h3 { color: #111827 !important; }
+        .lp-light p { color: #374151 !important; }
+        .lp-light .lp-hero-sub { color: #4b5563 !important; }
+        .lp-light .lp-hero-tagline { color: ${THEME_COLOR} !important; }
+        .lp-light .lp-nav { background: rgba(255,255,255,.95) !important; border-bottom: 1px solid rgba(0,0,0,.07); }
+        .lp-light .lp-btn-ghost { color: #374151 !important; border-color: rgba(0,0,0,.15) !important; }
+        .lp-light .lp-hero-module-card { background: #ffffff !important; border-color: rgba(0,0,0,.09) !important; color: #374151 !important; }
+        .lp-light .lp-hero-h1 { color: #111827 !important; }
+        .lp-light .lp-hero-outline { color: #374151 !important; border-color: rgba(0,0,0,.2) !important; }
+        .lp-light .lp-why-card { background: #ffffff !important; border-color: rgba(13,124,138,.15) !important; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+        .lp-light .lp-card-title { color: #111827 !important; }
+        .lp-light .lp-card-body { color: #4b5563 !important; }
+        .lp-light .lp-two-col { background: #f4f6fb !important; }
+        .lp-light .lp-col-block { background: #ffffff !important; border-color: rgba(0,0,0,.08) !important; box-shadow: 0 2px 12px rgba(0,0,0,.05); }
+        .lp-light .lp-col-heading { color: #111827 !important; }
+        .lp-light .lp-col-body { color: #4b5563 !important; }
+        .lp-light .lp-check-item { color: #374151 !important; }
+        .lp-light .lp-check-icon { color: ${THEME_COLOR} !important; }
+        .lp-light .lp-seven-day-section { background: #f4f6fb !important; }
+        .lp-light .lp-seven-day-section h2 { color: #111827 !important; }
+        .lp-light .lp-seven-day-section p { color: #6b7280 !important; }
+        .lp-light .lp-day-card { background: #ffffff !important; border-color: rgba(0,0,0,.09) !important; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+        .lp-light .lp-day-title { color: #111827 !important; }
+        .lp-light .lp-day-hint { color: #9ca3af !important; }
+        .lp-light .lp-testi-section { background: #f4f6fb !important; }
+        .lp-light .lp-testi-section h2 { color: #111827 !important; }
+        .lp-light .lp-testi-section p { color: #6b7280 !important; }
+        .lp-light .lp-testi-card { background: #ffffff !important; border-color: rgba(0,0,0,.08) !important; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+        .lp-light .lp-testi-text { color: #374151 !important; }
+        .lp-light .lp-testi-name { color: #111827 !important; }
+        .lp-light .lp-testi-role { color: #9ca3af !important; }
+        .lp-light .lp-join-banner { color: #111827 !important; }
+        .lp-light .lp-join-banner span { color: #374151 !important; }
+        .lp-light .lp-contact-section { background: #f4f6fb !important; }
+        .lp-light .lp-contact-section h2 { color: #111827 !important; }
+        .lp-light .lp-contact-section p { color: #4b5563 !important; }
+        .lp-light .lp-contact-form { background: #ffffff !important; border-color: rgba(0,0,0,.08) !important; }
+        .lp-light .lp-form-label { color: #374151 !important; }
+        .lp-light input, .lp-light textarea { background: #f9fafb !important; color: #111827 !important; border-color: rgba(0,0,0,.12) !important; }
+        .lp-light .lp-ticker { background: rgba(255,255,255,.95) !important; border-color: rgba(0,0,0,.1) !important; }
+        .lp-light .lp-ticker-text { color: #374151 !important; }
+        .lp-light .lp-human-section { background: #ffffff !important; }
+        .lp-light .lp-human-section h2 { color: #111827 !important; }
+        .lp-light .lp-human-section p { color: #4b5563 !important; }
+        .lp-light .lp-human-bullet { color: #374151 !important; }
+        .lp-root:not(.lp-light) .lp-swipe-hint { color: #9896b0 !important; }
+        .lp-light .lp-swipe-hint { color: #374151 !important; }
+
+        /* deliverable cards */
+        .lp-root:not(.lp-light) .lp-deliverable-card { background: #0d0f1a !important; box-shadow: none !important; }
+        .lp-root:not(.lp-light) .lp-deliverable-card.c1 { border-color: rgba(13,124,138,0.20) !important; }
+        .lp-root:not(.lp-light) .lp-deliverable-card.c2 { border-color: rgba(13,124,138,0.22) !important; }
+        .lp-root:not(.lp-light) .lp-deliverable-card.c3 { border-color: rgba(232,130,12,0.18) !important; }
+        .lp-root:not(.lp-light) .lp-hero-card-title { color: #e8e6f4 !important; }
+        .lp-root:not(.lp-light) .lp-hero-card-sub { color: #9896b0 !important; }
+        .lp-root:not(.lp-light) .svg-bg { fill: #050810 !important; }
+        .lp-root:not(.lp-light) .svg-inner-bg { fill: #070d18 !important; }
+        .lp-root:not(.lp-light) .svg-text { fill: #c8c6d8 !important; }
+        .lp-light .lp-deliverable-card { background: #ffffff !important; box-shadow: 0 4px 12px rgba(0,0,0,.05) !important; }
+        .lp-light .lp-deliverable-card.c1 { border-color: rgba(13,124,138,0.20) !important; }
+        .lp-light .lp-deliverable-card.c2 { border-color: rgba(13,124,138,0.22) !important; }
+        .lp-light .lp-deliverable-card.c3 { border-color: rgba(232,130,12,0.18) !important; }
+        .lp-light .lp-hero-card-title { color: #111827 !important; }
+        .lp-light .lp-hero-card-sub { color: #6b7280 !important; }
+        .lp-light .svg-bg { fill: #f4f6fb !important; }
+        .lp-light .svg-inner-bg { fill: #ffffff !important; }
+        .lp-light .svg-text { fill: #374151 !important; }
+
+        /* ── HERO STATS ── */
+        .lp-light .lp-stats { background: rgba(0,0,0,.04) !important; border: 1px solid rgba(0,0,0,.08) !important; backdrop-filter: none !important; }
+        .lp-light .lp-stats .lp-stat-num { color: #111827 !important; text-shadow: none !important; }
+        .lp-light .lp-stats .lp-stat-label { color: #6b7280 !important; }
+        .lp-light .lp-stats .lp-stat-divider { background: rgba(0,0,0,.15) !important; }
+        .lp-light .lp-stats .lp-stat { color: #111827 !important; }
+
+        /* ── THEME TOGGLE BUTTON ── */
+        .lp-theme-toggle {
+          width: 42px; height: 22px; border-radius: 100px;
+          border: 1px solid rgba(13,124,138,.4);
+          background: rgba(13,124,138,.12);
+          cursor: pointer; position: relative;
+          display: flex; align-items: center; padding: 0 2px;
+          transition: background .3s, border-color .3s;
+          flex-shrink: 0;
+        }
+        .lp-theme-toggle:hover { border-color: ${THEME_COLOR}; }
+        .lp-theme-toggle-thumb {
+          width: 16px; height: 16px; border-radius: 50%;
+          background: linear-gradient(135deg, #00857a, #00c9b1);
+          transition: transform .3s cubic-bezier(.22,1,.36,1);
+          box-shadow: 0 2px 5px rgba(0,0,0,.25);
+        }
+        .lp-theme-toggle.light .lp-theme-toggle-thumb {
+          transform: translateX(20px);
+          background: linear-gradient(135deg, #f97316, #fdba74);
+        }
+      `}</style>
+
+      {showAuth && <AuthModal onClose={() => setShowAuth(false)} defaultMode={authMode} />}
+
+      {/* Nav */}
+      <nav className="lp-nav" style={{ position:"relative", zIndex:10 }}>
+        <div className="lp-nav-logo">
+          <a href="https://aisprint.app" style={{ display:"flex", alignItems:"center", textDecoration:"none" }}>
+            <img src={logoImg} alt="AI Sprint" className="lp-nav-logo-img"/>
+          </a>
+        </div>
+        <div className="lp-nav-actions">
+          <button
+            className={`lp-theme-toggle${isDark ? "" : " light"}`}
+            onClick={() => setIsDark(d => !d)}
+            aria-label="Toggle dark/light mode"
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            <div className="lp-theme-toggle-thumb" />
+          </button>
+          <button className="lp-btn-ghost" onClick={() => openAuth("login")}>Log In</button>
+          <button className="lp-btn-primary" style={{ background: THEME_COLOR }} onClick={() => openAuth("register")}>
+            Start Your Journey →
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero */}
       <section className="lp-hero" style={{ position: "relative", zIndex: 1, paddingBottom: "2rem" }}>
 
         {/* Badge video */}
@@ -480,7 +1010,7 @@ export default function LandingPage() {
         </div>
 
         <div className="lp-hero-badge" style={{ color: THEME_COLOR, background: "rgba(13,124,138,.1)", borderColor: "rgba(13,124,138,.2)" }}>
-          ⚡ Vibe Coding · AI · 28 Days
+          ⚡ Accounting · AI · 28 Days
         </div>
 
         {/* Identity block */}
@@ -497,7 +1027,7 @@ export default function LandingPage() {
           </div>
           <div style={{ marginTop: 10 }}>
             <div style={{ fontSize: "clamp(1.3rem,4vw,1.9rem)", fontWeight: 900, color: "white", letterSpacing: ".04em", textTransform: "uppercase", lineHeight: 1.2, marginBottom: ".5rem" }}>
-              Mastering Vibe Coding with AI
+              Mastering Accounting with AI
             </div>
             <div style={{ fontSize: ".8rem", color: "#555", letterSpacing: ".06em", marginBottom: ".75rem", fontFamily: "monospace" }}>
               28-DAY CHALLENGE · 15 MIN/DAY · 2 LEVELS
@@ -508,13 +1038,13 @@ export default function LandingPage() {
                 background: activeTab === "1" ? `${THEME_COLOR}25` : `${THEME_COLOR}12`,
                 border: `1px solid ${activeTab === "1" ? THEME_COLOR : `${THEME_COLOR}25`}`,
                 borderRadius: 100, padding: "3px 12px", cursor: "pointer", transition: "all 0.2s",
-              }}>Builder · Days 1–28</button>
+              }}>Basic · Days 1–28</button>
               <button onClick={() => setActiveTab("2")} style={{
                 fontSize: ".82rem", fontWeight: 700, color: L2_COLOR,
                 background: activeTab === "2" ? `${L2_COLOR}25` : `${L2_COLOR}12`,
                 border: `1px solid ${activeTab === "2" ? L2_COLOR : `${L2_COLOR}25`}`,
                 borderRadius: 100, padding: "3px 12px", cursor: "pointer", transition: "all 0.2s",
-              }}>Engineer · Days 1–28</button>
+              }}>Advanced · Days 1–28</button>
             </div>
           </div>
         </div>
@@ -524,7 +1054,7 @@ export default function LandingPage() {
         <p className="lp-hero-tagline" style={{ color: THEME }}>{themeData.tagline}</p>
         <p className="lp-hero-sub">{themeData.heroSub}</p>
 
-        {/* Level tab buttons */}
+        {/* Level tab buttons — same as Architecture */}
         <div style={{ display: "flex", gap: "12px", justifyContent: "center", margin: "1.5rem 0 1rem", flexWrap: "wrap" }}>
           {(["1", "2"] as const).map((lvl) => {
             const color = LEVEL_THEMES[lvl].color;
@@ -551,7 +1081,7 @@ export default function LandingPage() {
           </button>
           {activeTab === "2" && (
             <button className="lp-hero-outline" onClick={() => setActiveTab("1")}>
-              Start with Builder first
+              Start with Basic first
             </button>
           )}
         </div>
@@ -582,7 +1112,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Technical divider 1 */}
+      {/* Finance ledger divider 1 */}
       <div style={{ display:"flex", alignItems:"center", padding:"0 24px 40px", zIndex:1, position:"relative" }}>
         <div style={{ flex:1, height:1, background:`${THEME}25` }} />
         <div style={{ display:"flex", gap:10, padding:"0 18px", flexWrap:"wrap", justifyContent:"center" }}>
@@ -593,7 +1123,7 @@ export default function LandingPage() {
         <div style={{ flex:1, height:1, background:`${THEME}25` }} />
       </div>
 
-      {/* Hero visual cards — builder deliverables */}
+      {/* Hero visual cards — accounting/finance aesthetic */}
       <section style={{ padding:"0 1.5rem 3.5rem", background:"transparent", position:"relative", zIndex:1 }}>
         <div style={{ maxWidth:900, margin:"0 auto", display:"flex", flexDirection:"column", alignItems:"center" }}>
           <div style={{ maxWidth:400, width:"100%" }}>
@@ -601,17 +1131,17 @@ export default function LandingPage() {
 
             {/* Card 1 — Prompt Library */}
             <div className="lp-deliverable-card c1" style={{ borderRadius:14, overflow:"hidden", borderStyle:"solid", borderWidth:"1px", display:"flex", flexDirection:"column", flex:"0 0 100%", minWidth:0 }}>
-              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="AI builder prompt library deliverable">
+              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="Accountant prompt library deliverable">
                 <rect className="svg-bg" width="220" height="168"/>
-                <text x="12" y="18" fill="#0d7c8a" fontSize="7" fontFamily="monospace" opacity=".8" letterSpacing="1">BUILDER PROMPT LIBRARY · v1.0</text>
+                <text x="12" y="18" fill="#0d7c8a" fontSize="7" fontFamily="monospace" opacity=".8" letterSpacing="1">ACCOUNTANT PROMPT LIBRARY · v1.0</text>
                 <line x1="12" y1="22" x2="208" y2="22" stroke="#0a2030" strokeWidth=".5"/>
                 {[
-                  { y:36, label:"01 · Landing page generator", cat:"MARKETING" },
-                  { y:54, label:"02 · Lead capture workflow", cat:"AUTOMATION" },
-                  { y:72, label:"03 · Admin dashboard prompt", cat:"DASHBOARD" },
-                  { y:90, label:"04 · Client portal scaffolding", cat:"PORTAL" },
-                  { y:108, label:"05 · Bug fixing assistant", cat:"DEBUG" },
-                  { y:126, label:"06 · App polish checklist", cat:"SHIP" },
+                  { y:36, label:"01 · Transaction categorisation", cat:"BOOKKEEP" },
+                  { y:54, label:"02 · Bank reconciliation review", cat:"RECONCILE" },
+                  { y:72, label:"03 · Month-end close checklist", cat:"CLOSE" },
+                  { y:90, label:"04 · Variance commentary draft", cat:"REPORT" },
+                  { y:108, label:"05 · Client communication email", cat:"COMMS" },
+                  { y:126, label:"06 · Expense policy checker", cat:"CONTROLS" },
                 ].map((r,i) => (
                   <g key={i}>
                     <rect x="12" y={r.y-11} width="196" height="14" rx="2" fill={i%2===0 ? "rgba(13,124,138,.06)" : "transparent"}/>
@@ -626,63 +1156,64 @@ export default function LandingPage() {
                 </circle>
               </svg>
               <div style={{ padding: "12px 14px 14px" }}>
-                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(13,124,138,.15)", color:"#0d7c8a" }}>Builder · Week 4</div>
-                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>AI builder prompt library</div>
-                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 26 · Your reusable build system</div>
+                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(13,124,138,.15)", color:"#0d7c8a" }}>Basic · Week 4</div>
+                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>Accountant prompt library</div>
+                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 26 · Your reusable system</div>
               </div>
             </div>
 
-            {/* Card 2 — Workflow Tool */}
+            {/* Card 2 — Bank Reconciliation */}
             <div className="lp-deliverable-card c2" style={{ borderRadius:14, overflow:"hidden", borderStyle:"solid", borderWidth:"1px", display:"flex", flexDirection:"column", flex:"0 0 100%", minWidth:0 }}>
-              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="AI workflow builder deliverable">
+              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="Bank reconciliation workflow">
                 <rect className="svg-bg" width="220" height="168"/>
-                <text x="110" y="16" textAnchor="middle" fill="#0d7c8a" fontSize="7" fontFamily="monospace" opacity=".7" letterSpacing="1">WORKFLOW BUILDER · LIVE TOOL</text>
+                <text x="110" y="16" textAnchor="middle" fill="#0d7c8a" fontSize="7" fontFamily="monospace" opacity=".7" letterSpacing="1">BANK RECONCILIATION · WORKFLOW</text>
                 <line x1="12" y1="20" x2="208" y2="20" stroke="#0a2030" strokeWidth=".5"/>
+                {/* Ledger rows */}
                 <rect x="12" y="26" width="196" height="12" rx="2" fill="rgba(13,124,138,.12)"/>
-                <text x="18" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">STEP</text>
-                <text x="65" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">ACTION</text>
-                <text x="162" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">STATE</text>
+                <text x="18" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">DATE</text>
+                <text x="65" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">DESCRIPTION</text>
+                <text x="162" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">AMOUNT</text>
                 <text x="196" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">✓</text>
                 {[
-                  { date:"01", desc:"Collect form input", amt:"READY", match:true },
-                  { date:"02", desc:"Generate AI response", amt:"READY", match:true },
-                  { date:"03", desc:"Validate output", amt:"CHECK", match:false },
-                  { date:"04", desc:"Save to database", amt:"READY", match:true },
-                  { date:"05", desc:"Send result email", amt:"READY", match:true },
+                  { date:"01 May", desc:"Client payment", amt:"$4,200", match:true },
+                  { date:"03 May", desc:"Office supplies", amt:"-$148", match:true },
+                  { date:"05 May", desc:"Unknown debit", amt:"-$320", match:false },
+                  { date:"08 May", desc:"Software sub.", amt:"-$89", match:true },
+                  { date:"12 May", desc:"Invoice #1042", amt:"$2,800", match:true },
                 ].map((r,i) => (
                   <g key={i}>
                     <rect x="12" y={42+i*16} width="196" height="14" rx="1" fill={!r.match ? "rgba(239,68,68,.08)" : "transparent"}/>
                     <text x="18" y={52+i*16} fill={r.match ? "#c8c6d8" : "#f87171"} fontSize="6.5" fontFamily="monospace">{r.date}</text>
                     <text x="65" y={52+i*16} fill={r.match ? "#c8c6d8" : "#f87171"} fontSize="6.5" fontFamily="monospace">{r.desc}</text>
                     <text x="162" y={52+i*16} fill={r.match ? "#c8c6d8" : "#f87171"} fontSize="6.5" fontFamily="monospace">{r.amt}</text>
-                    <text x="196" y={52+i*16} fill={r.match ? "#10b981" : "#ef4444"} fontSize="9" fontFamily="monospace">{r.match ? "✓" : "!"}</text>
+                    <text x="196" y={52+i*16} fill={r.match ? "#10b981" : "#ef4444"} fontSize="9" fontFamily="monospace">{r.match ? "✓" : "?"}</text>
                   </g>
                 ))}
                 <line x1="12" y1="124" x2="208" y2="124" stroke="#0a2030" strokeWidth=".5"/>
                 <rect x="12" y="128" width="196" height="16" rx="3" fill="rgba(13,124,138,.06)" stroke="rgba(13,124,138,.2)" strokeWidth=".4"/>
-                <text x="18" y="139" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace">1 output needs review · validation layer recommended</text>
+                <text x="18" y="139" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace">AI flagged 1 anomaly · $320 unmatched · review required</text>
                 <text x="12" y="160" fill="#0d7c8a" fontSize="6" fontFamily="monospace" opacity=".5">AI SPRINT · DAY 10</text>
               </svg>
               <div style={{ padding: "12px 14px 14px" }}>
-                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(13,124,138,.15)", color:"#0d7c8a" }}>Builder · Week 2</div>
-                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>Workflow automation tool</div>
-                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 10 · AI logic and validation</div>
+                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(13,124,138,.15)", color:"#0d7c8a" }}>Basic · Week 2</div>
+                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>Bank reconciliation</div>
+                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 10 · AI anomaly detection</div>
               </div>
             </div>
 
-            {/* Card 3 — Shipping Checklist */}
+            {/* Card 3 — Month-End Close Checklist */}
             <div className="lp-deliverable-card c3" style={{ borderRadius:14, overflow:"hidden", borderStyle:"solid", borderWidth:"1px", display:"flex", flexDirection:"column", flex:"0 0 100%", minWidth:0 }}>
-              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="App shipping checklist">
+              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="Month-end close checklist">
                 <rect className="svg-bg" width="220" height="168"/>
-                <text x="12" y="18" fill="#e8820c" fontSize="7" fontFamily="monospace" opacity=".8" letterSpacing="1">APP SHIPPING CHECKLIST · v2.0</text>
+                <text x="12" y="18" fill="#e8820c" fontSize="7" fontFamily="monospace" opacity=".8" letterSpacing="1">MONTH-END CLOSE · MAY 2026</text>
                 <line x1="12" y1="22" x2="208" y2="22" stroke="#2a1200" strokeWidth=".5"/>
                 {[
-                  { item:"Core UI completed", done:true },
-                  { item:"Prompt flow tested", done:true },
-                  { item:"Database connected", done:true },
-                  { item:"Error states handled", done:true },
-                  { item:"Polish and QA pass", done:false },
-                  { item:"Deploy to production", done:false },
+                  { item:"Review all transactions", done:true },
+                  { item:"Bank reconciliation", done:true },
+                  { item:"Accruals & prepayments", done:true },
+                  { item:"Variance analysis", done:true },
+                  { item:"Management commentary", done:false },
+                  { item:"CFO sign-off", done:false },
                 ].map((r,i) => (
                   <g key={i}>
                     <rect x="12" y={30+i*18} width="196" height="16" rx="3" fill={r.done ? "rgba(16,185,129,.06)" : "rgba(255,255,255,.02)"} stroke={r.done ? "rgba(16,185,129,.15)" : "rgba(255,255,255,.04)"} strokeWidth=".4"/>
@@ -693,13 +1224,13 @@ export default function LandingPage() {
                   </g>
                 ))}
                 <rect x="12" y="142" width="196" height="14" rx="3" fill="rgba(232,130,12,.08)" stroke="rgba(232,130,12,.2)" strokeWidth=".5"/>
-                <text x="18" y="152" fill="#e8820c" fontSize="6.5" fontFamily="monospace">4/6 complete · Est. ship time: 3 hours</text>
+                <text x="18" y="152" fill="#e8820c" fontSize="6.5" fontFamily="monospace">4/6 complete · Est. close: 3hrs remaining</text>
                 <text x="12" y="162" fill="#e8820c" fontSize="6" fontFamily="monospace" opacity=".5">AI SPRINT · DAY 16</text>
               </svg>
               <div style={{ padding: "12px 14px 14px" }}>
-                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(232,130,12,.15)", color:"#e8820c" }}>Engineer · Week 1</div>
-                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>App shipping checklist</div>
-                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 16 · From working to launch-ready</div>
+                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(232,130,12,.15)", color:"#e8820c" }}>Advanced · Week 1</div>
+                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>Month-end close checklist</div>
+                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 16 · AI-assisted close</div>
               </div>
             </div>
 
@@ -707,7 +1238,7 @@ export default function LandingPage() {
           </div>{/* end maxWidth 400 */}
         </div>{/* end maxWidth 900 */}
         <p className="lp-swipe-hint" style={{ textAlign:"center", fontSize:".65rem", color:"#555", letterSpacing:"1.5px", textTransform:"uppercase", marginTop:".8rem" }}>
-          Sample deliverables — built by AI-powered builders in 15 minutes/day
+          Sample deliverables — built by accountants in 15 minutes/day
         </p>
       </section>
 
@@ -718,18 +1249,18 @@ export default function LandingPage() {
           <h2 className="lp-section-h2">{themeData.sectionH2}</h2>
           <p className="lp-section-sub">
             {activeTab === "1"
-              ? "A structured, practical path to building useful tools with AI — without the overwhelm."
-              : "Level 2 builds on your foundation so you can architect, refine, and ship AI-powered apps with more confidence."}
+              ? "A structured, practical path to using AI in your daily accounting work — without the overwhelm."
+              : "Level 2 builds on your foundation to deliver advisory AI skills — audits, operating models, and client deliverables that command premium rates."}
           </p>
           <div className="lp-why-grid" ref={cardsRef}>
             {(activeTab === "1" ? [
-              { icon: "⏱", color: THEME_COLOR, bg: "rgba(13,124,138,.1)", title: "15 minutes a day", body: "Each lesson is designed to be short, practical, and immediately usable in real build sessions.", delay: "0s" },
-              { icon: "🛠", color: "#2f6fa8", bg: "rgba(47,111,168,.1)", title: "Real build workflows", body: "Learn how to use AI for landing pages, tools, dashboards, automations, and polished product flows.", delay: ".12s" },
-              { icon: "🚀", color: L2_COLOR, bg: "rgba(232,130,12,.1)", title: "Ship real projects", body: "Leave with reusable prompts, working build systems, and projects you can actually keep improving.", delay: ".24s" },
+              { icon: "⏱", color: THEME_COLOR, bg: "rgba(13,124,138,.1)", title: "15 minutes a day", body: "Each lesson is structured: concept, walkthrough, and one practical accounting task.", delay: "0s" },
+              { icon: "🧾", color: "#2f6fa8", bg: "rgba(47,111,168,.1)", title: "Real accounting workflows", body: "Learn how AI fits into bookkeeping, reconciliation, month-end close, and reporting.", delay: ".12s" },
+              { icon: "🏆", color: L2_COLOR, bg: "rgba(232,130,12,.1)", title: "Build your prompt library", body: "Leave with 10+ reusable accounting prompts and a personal AI workflow — not just theory.", delay: ".24s" },
             ] : [
-              { icon: "🧠", color: L2_COLOR, bg: "rgba(232,130,12,.1)", title: "Production thinking", body: "Learn how to move beyond demos and make better decisions around structure, QA, and app reliability.", delay: "0s" },
-              { icon: "🏗️", color: "#7c3aed", bg: "rgba(124,58,237,.1)", title: "System design for builders", body: "Understand how AI apps fit together — UI, logic, databases, prompts, validations, and deployment.", delay: ".12s" },
-              { icon: "💼", color: "#2f6fa8", bg: "rgba(47,111,168,.1)", title: "Client and product-ready output", body: "Build projects that feel usable, credible, and polished enough for clients, teams, or your own startup ideas.", delay: ".24s" },
+              { icon: "📊", color: L2_COLOR, bg: "rgba(232,130,12,.1)", title: "Strategic AI audits", body: "Use AI to identify automation opportunities and deliver structured recommendations to clients.", delay: "0s" },
+              { icon: "🏛️", color: "#7c3aed", bg: "rgba(124,58,237,.1)", title: "AI-ready operating model", body: "Build a 90-day roadmap that transforms how your practice or client's finance function uses AI.", delay: ".12s" },
+              { icon: "💼", color: "#2f6fa8", bg: "rgba(47,111,168,.1)", title: "Advisory-level deliverables", body: "Create client-ready reports, capability assessments, and AI governance frameworks.", delay: ".24s" },
             ]).map((c, i) => (
               <div key={i} className="lp-why-card lp-reveal visible"
                 style={{ transition: `opacity .65s ease ${c.delay}, transform .65s ease ${c.delay}` }}>
@@ -742,7 +1273,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Technical divider 2 */}
+      {/* Ledger divider 2 */}
       <div style={{ display:"flex", alignItems:"center", padding:"0 24px 0", zIndex:1, position:"relative" }}>
         <div style={{ flex:1, height:1, background:"rgba(13,124,138,.15)" }} />
         <div style={{ display:"flex", gap:10, padding:"0 18px" }}>
@@ -761,8 +1292,8 @@ export default function LandingPage() {
               <h3 className="lp-col-heading">What you'll learn</h3>
               <ul className="lp-check-list">
                 {(activeTab === "1"
-                  ? ["Prompting for real build tasks","Using AI to create pages, tools, and workflows","Debugging and improving AI-generated output","Project structure for faster shipping","Build a personal prompt library for repeatable results"]
-                  : ["Production-minded AI app workflows","App architecture and system thinking","Better validation, QA, and iteration loops","Deployment-ready build habits","How to turn working prototypes into usable products"]
+                  ? ["AI prompting for accounting tasks","Bookkeeping and reconciliation with AI","Month-end close and variance commentary","Internal controls and AI ethics in finance","Build a personal accountant prompt library"]
+                  : ["Strategic AI audit methodology","AI-ready operating model design","Advisory deliverable frameworks","Client-facing AI governance policy","90-day transformation roadmap"]
                 ).map((item,i) => (
                   <li key={i} className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> {item}</li>
                 ))}
@@ -772,8 +1303,8 @@ export default function LandingPage() {
               <h3 className="lp-col-heading">Who it's for</h3>
               <ul className="lp-check-list">
                 {(activeTab === "1"
-                  ? ["No computer science background required","Perfect for beginners, creators, freelancers, and founders","Ideal starting point before the Engineer track"]
-                  : ["Builder track graduates","People ready to ship more polished and reliable apps","Freelancers, indie builders, and product-minded creators"]
+                  ? ["No prior AI experience needed","Relevant for all accounting software users","Ideal foundation before the Advanced track"]
+                  : ["Basic track graduates","Senior accountants & finance managers","Advisory-focused practitioners & firm owners"]
                 ).map((item,i) => (
                   <li key={i} className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> {item}</li>
                 ))}
@@ -788,28 +1319,28 @@ export default function LandingPage() {
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 32 }}>
             <div style={{ display:"inline-flex", alignItems:"center", gap:6, fontSize:".72rem", fontWeight:700, letterSpacing:".1em", textTransform:"uppercase", color:THEME_COLOR, background:`rgba(13,124,138,.1)`, border:`1px solid rgba(13,124,138,.2)`, borderRadius:20, padding:"5px 14px", marginBottom:14 }}>
-              What You’ll Learn
+              What You'll Learn
             </div>
             <h2 style={{ fontSize:"clamp(1.5rem,3.5vw,2rem)", fontWeight:800, color:"white", margin:"0 0 10px" }}>Your first 7 days, previewed</h2>
-            <p style={{ color:"#888", fontSize:".92rem" }}>Every lesson is 15 minutes. Every day gets you closer to building real software with AI.</p>
+            <p style={{ color:"#888", fontSize:".92rem" }}>Every lesson is 15 minutes. Every day builds your accounting AI toolkit.</p>
           </div>
           <div ref={sevenDayScrollRef} style={{ display:"flex", flexDirection:"row", overflow:"hidden", scrollbarWidth:"none" as any }}>
             {(activeTab === "1" ? [
-              { day:1, title:"What Vibe Coding Really Is", cat:"Foundations", color:THEME_COLOR },
-              { day:2, title:"How to Talk to AI Like a Builder", cat:"Foundations", color:THEME_COLOR },
-              { day:3, title:"From Idea to First Working Screen", cat:"Foundations", color:THEME_COLOR },
-              { day:4, title:"The Modern AI Build Stack", cat:"Foundations", color:"#2f6fa8" },
-              { day:5, title:"Your First Real Build Prompt", cat:"Apply", color:"#2f6fa8" },
-              { day:6, title:"Common AI Output Mistakes — and What to Fix", cat:"QA", color:"#2f8c5c" },
-              { day:7, title:"Mini-Project: Ship a Simple Working Tool", cat:"Sprint 🏆", color:L2_COLOR },
+              { day:1, title:"What Accounting Looks Like in the AI Era", cat:"Foundations", color:THEME_COLOR },
+              { day:2, title:"The Accounting Equation & Double-Entry — Refreshed", cat:"Foundations", color:THEME_COLOR },
+              { day:3, title:"Reading Financial Statements with AI Assistance", cat:"Foundations", color:THEME_COLOR },
+              { day:4, title:"The Modern Finance Tech Stack", cat:"Foundations", color:"#2f6fa8" },
+              { day:5, title:"Your First AI Accounting Prompt", cat:"Apply", color:"#2f6fa8" },
+              { day:6, title:"AI Errors in Accounting — What to Watch For", cat:"Controls", color:"#2f8c5c" },
+              { day:7, title:"Mini-Project: AI Review Checklist & Finance Stack Map", cat:"Sprint 🏆", color:L2_COLOR },
             ] : [
-              { day:1, title:"Advanced Prompting for Better App Output", cat:"Advanced", color:L2_COLOR },
-              { day:2, title:"Structuring AI Apps Beyond the Demo", cat:"Architecture", color:L2_COLOR },
-              { day:3, title:"Validation, Guardrails, and Better UX", cat:"Quality", color:"#7c3aed" },
-              { day:4, title:"Connecting UI, Logic, and Data", cat:"Systems", color:"#2f6fa8" },
-              { day:5, title:"From Prototype to Production Flow", cat:"Shipping", color:"#2f6fa8" },
-              { day:6, title:"Deployment and Iteration Loops", cat:"Ops", color:"#2f8c5c" },
-              { day:7, title:"Mini-Project: Launch an AI-Powered App", cat:"Sprint 🏆", color:L2_COLOR },
+              { day:1, title:"Advanced Prompting for Finance — Chains & Templates", cat:"Advanced", color:L2_COLOR },
+              { day:2, title:"AI Audit Framework — The 5-Pillar Assessment", cat:"Advisory", color:L2_COLOR },
+              { day:3, title:"Capability Scoring — Mapping Client AI Maturity", cat:"Advisory", color:"#7c3aed" },
+              { day:4, title:"Automation Opportunity Identification", cat:"Strategy", color:"#2f6fa8" },
+              { day:5, title:"Building the 90-Day Roadmap", cat:"Strategy", color:"#2f6fa8" },
+              { day:6, title:"AI Governance & Controls for Advisory Firms", cat:"Controls", color:"#2f8c5c" },
+              { day:7, title:"Mini-Project: AI Audit Report for a Real Client", cat:"Sprint 🏆", color:L2_COLOR },
             ]).map((d) => (
               <div key={d.day} className="lp-day-card" style={{
                 display:"flex", alignItems:"center", gap:"1rem",
@@ -839,15 +1370,15 @@ export default function LandingPage() {
             <div style={{ display:"inline-flex", alignItems:"center", gap:6, fontSize:".72rem", fontWeight:700, letterSpacing:".1em", textTransform:"uppercase", color:THEME_COLOR, background:`rgba(13,124,138,.1)`, border:`1px solid rgba(13,124,138,.2)`, borderRadius:20, padding:"5px 14px", marginBottom:14 }}>
               Student Stories
             </div>
-            <h2 style={{ fontSize:"clamp(1.5rem,3.5vw,2rem)", fontWeight:800, color:"inherit", margin:"0 0 10px" }}>Real results from builders</h2>
-            <p style={{ color:"#888", fontSize:".95rem" }}>People who went from AI-curious to shipping with confidence.</p>
+            <h2 style={{ fontSize:"clamp(1.5rem,3.5vw,2rem)", fontWeight:800, color:"inherit", margin:"0 0 10px" }}>Real results from finance professionals</h2>
+            <p style={{ color:"#888", fontSize:".95rem" }}>Accountants who went from AI-curious to AI-confident.</p>
           </div>
           <div style={{ display:"flex", flexDirection:"row", overflow:"hidden", scrollbarWidth:"none" as any }}
             ref={(el) => { (testimonialsRef as any).current = el; (testiScrollRef as any).current = el; }}>
             {[
-              { text:"I used to get stuck at the blank-page stage every time I had a product idea. After the sprint, I built and shipped a working internal tool in a weekend. That had never happened before.", name:"Daniel M.", role:"Operations Lead, Sydney", initials:"DM", color:THEME_COLOR, photo:"/assets/testimonials/face-e.png" },
-              { text:"I came in with zero technical confidence. By the second week I had a landing page, a lead form, and a simple workflow running. It finally felt like I could build instead of just watch tutorials.", name:"Sarah K.", role:"Freelancer, London", initials:"SK", color:"#2f6fa8", photo: null },
-              { text:"The biggest shift was learning how to turn messy AI output into something usable. That one skill alone changed how I work with AI every day.", name:"Yuki S.", role:"Indie Builder, Tokyo", initials:"YS", color:L2_COLOR, photo:"/assets/testimonials/face-f.png" },
+              { text:"Month-end close used to take 3 days. I'd been doing it the same way for 8 years. After the AI accounting sprint I'm done in under 6 hours. My CFO thinks I hired someone. I didn't.", name:"Daniel M.", role:"Senior Accountant, Sydney", initials:"DM", color:THEME_COLOR, photo:"/assets/testimonials/face-e.png" },
+              { text:"I came in skeptical — I've been an accountant for 12 years and I've seen every productivity trend come and go. By Day 14 I had prompts that saved me 2 hours a week on reconciliations alone.", name:"Sarah K.", role:"Practice Owner, London", initials:"SK", color:"#2f6fa8", photo: null },
+              { text:"The internal controls module alone was worth the entire course. My team now has a documented AI usage policy for client work. That's table stakes in 2026.", name:"Yuki S.", role:"Audit Manager, Tokyo", initials:"YS", color:L2_COLOR, photo:"/assets/testimonials/face-f.png" },
             ].map((t, i) => (
               <div key={i} className={`lp-testi-card lp-reveal ${revealTestimonials ? "visible" : ""}`} style={{
                 background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)",
@@ -856,7 +1387,7 @@ export default function LandingPage() {
                 transition:`opacity .65s ease ${i*.15}s, transform .65s ease ${i*.15}s`,
                 flex: "0 0 100%", minWidth: 0,
               }}>
-                <div style={{ fontSize:".78rem", fontWeight:700, letterSpacing:1, textTransform:"uppercase", color:t.color, background:`${t.color}18`, border:`1px solid ${t.color}33`, borderRadius:100, padding:"3px 10px", width:"fit-content" }}>Vibe Coding · {activeTab === "1" ? "Builder" : "Engineer"}</div>
+                <div style={{ fontSize:".78rem", fontWeight:700, letterSpacing:1, textTransform:"uppercase", color:t.color, background:`${t.color}18`, border:`1px solid ${t.color}33`, borderRadius:100, padding:"3px 10px", width:"fit-content" }}>Accounting · {activeTab === "1" ? "Basic" : "Advanced"}</div>
                 <div className="lp-testi-text" style={{ color:"#ddd", fontSize:".88rem", lineHeight:1.7, fontStyle:"italic" }}>"{t.text}"</div>
                 <div style={{ display:"flex", alignItems:"center", gap:".7rem", marginTop:"auto" }}>
                   {t.photo
@@ -881,7 +1412,7 @@ export default function LandingPage() {
       <section className="lp-human-section" style={{ padding:"60px 20px", background:"#0d0d14", position:"relative", zIndex:1 }}>
         <div style={{ maxWidth:"820px", margin:"0 auto", display:"flex", flexDirection:"row", alignItems:"center", gap:"3rem", flexWrap:"wrap" }}>
           <div style={{ flex:"0 0 260px", maxWidth:"100%" }}>
-            <img src="/assets/testimonials/face-e.png" alt="Builder using AI to create software"
+            <img src="/assets/testimonials/face-e.png" alt="Accountant using AI at work"
               style={{ width:"100%", borderRadius:20, objectFit:"cover", objectPosition:"center top",
                 boxShadow:"0 20px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(13,124,138,.15)",
                 border:"1px solid rgba(13,124,138,.2)" }} />
@@ -889,16 +1420,16 @@ export default function LandingPage() {
           <div style={{ flex:1, minWidth:240 }}>
             <div style={{ fontSize:".7rem", fontWeight:700, letterSpacing:"2.5px", textTransform:"uppercase", color:THEME_COLOR, marginBottom:"1rem" }}>✦ Who this is for</div>
             <h2 style={{ fontSize:"clamp(1.4rem,3vw,1.9rem)", fontWeight:800, color:"inherit", lineHeight:1.25, marginBottom:"1rem" }}>
-              You don’t need to be a traditional developer.<br/>You need to become a confident builder.
+              You don't need to be a tech person.<br/>You need to be a better accountant.
             </h2>
             <p style={{ color:"var(--lp-body,#9896b0)", lineHeight:1.75, fontSize:".95rem", marginBottom:"1.25rem" }}>
-              AI Sprint Vibe Coding is built for people who want to turn ideas into working software faster — with AI as a creative and technical partner, not a magic shortcut.
+              AI Sprint Accounting is built for finance professionals who want AI to make their actual work faster and sharper — not replace their judgement.
             </p>
             <div style={{ display:"flex", flexDirection:"column", gap:".6rem", marginBottom:"1.5rem" }}>
               {[
-                "Perfect for creators, freelancers, founders, and curious beginners",
-                "Built around real outputs — landing pages, tools, workflows, and MVPs",
-                "15 minutes a day — enough to build steady momentum without burnout",
+                "Perfect if you work in accounting, bookkeeping, or finance",
+                "Built around real workflows — reconciliation, close, reporting",
+                "15 minutes a day — less than your morning commute",
               ].map((item, i) => (
                 <div key={i} style={{ display:"flex", gap:".65rem", alignItems:"flex-start" }}>
                   <span style={{ color:THEME_COLOR, fontWeight:800, flexShrink:0, marginTop:2 }}>✓</span>
@@ -920,7 +1451,7 @@ export default function LandingPage() {
       <div className="lp-join-banner" style={{ display:"flex", alignItems:"center", padding:"40px 24px 0", zIndex:1, position:"relative" }}>
         <div style={{ flex:1, height:1, background:`rgba(13,124,138,.35)` }}/>
         <div style={{ display:"flex", gap:10, padding:"0 18px" }}>
-          {["START TODAY", activeTab === "1" ? "START BUILDER TRACK" : "START ENGINEER TRACK"].map((m,i) => (
+          {["START TODAY", activeTab === "1" ? "START BASIC TRACK" : "START ADVANCED TRACK"].map((m,i) => (
             <span key={i} style={{ fontFamily:"monospace", fontSize:"12px", letterSpacing:"2px", color:THEME_COLOR, opacity:.7 }}>[ {m} ]</span>
           ))}
         </div>
@@ -931,15 +1462,20 @@ export default function LandingPage() {
       <section id="lp-cta" className="lp-cta-section" style={{ background: THEME, paddingBottom: "60px" }}>
         <div className="lp-section-inner" style={{ textAlign: "center" }}>
           <h2 className="lp-cta-h2">
-            {activeTab === "1" ? "Ready to become an AI-powered builder?" : "Ready to ship more polished AI apps?"}
+            {activeTab === "1" ? "Ready to become an AI-ready accountant?" : "Ready to deliver advisory-level AI work?"}
           </h2>
           <p className="lp-cta-sub" style={{ color:"rgba(255,255,255,.9)", fontWeight:600, fontSize:"1.05rem" }}>
             {activeTab === "1"
-              ? "Join 423 builders learning how to create useful software with AI — 15 minutes a day, 28 days, no fluff."
-              : "Join 187 builders learning how to turn prototypes into more polished, reliable, launch-ready apps."}
+              ? "Join 423 accounting professionals building smarter workflows with AI — 15 minutes a day, 28 days, no fluff."
+              : "Join 187 finance professionals building advisory AI skills that clients pay a premium for."}
           </p>
           <button className="lp-cta-btn" style={{ background:"#ffffff", color:THEME, fontWeight:"bold" }} onClick={() => openAuth("register")}>
             {themeData.cta}
           </button>
         </div>
       </section>
+
+    </div>
+  );
+}
+
