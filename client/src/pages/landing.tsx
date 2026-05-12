@@ -1,3 +1,7 @@
+// ── AI Sprint · Vibe Coding ────────────────────────────────────────────────
+// File: landing.tsx  |  Repo: ai-vibe-coding
+// Last updated: May 2026
+
 import { useState, useEffect, useRef } from "react";
 import logoImg from "@/ai-sprint-logo.png";
 import { useAuth } from "@/components/auth-provider";
@@ -15,33 +19,33 @@ const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$
 const LEVEL_THEMES = {
   "1": {
     color: THEME_COLOR,
-    name: "Basic",
-    label: "Basic · Foundation",
-    annotation: "AI-ACCT-BASIC",
+    name: "Builder",
+    label: "Level 1 · Builder",
+    annotation: "AI-VIBE-BUILDER",
     days: "28 DAYS",
-    tagline: "Master the accounting AI foundations every finance professional needs.",
-    heroHeadline: "In 28 days, become the accountant who confidently works with AI.",
-    heroSub: "Built for accountants, bookkeepers, and finance professionals who want to work smarter with AI — without losing the professional judgement that matters.",
-    urgency: "423 accountants enrolled in the Basic track this month",
-    cta: "Start the Basic Track →",
-    dividerMarks: ["↔ 28 DAYS", "📊 BASIC TRACK", "15 MIN/DAY"],
-    sectionLabel: "ACCOUNTING + AI · BASIC TRACK",
-    sectionH2: "The practical way to master accounting with AI in 2026",
+    tagline: "Learn to build real software with AI — even if you do not come from a coding background.",
+    heroHeadline: "In 28 days, become the person who can build working tools with AI.",
+    heroSub: "Built for operators, freelancers, founders, and curious professionals who want to turn ideas into automations, scripts, and internal tools with AI.",
+    urgency: "423 builders enrolled in Level 1 this month",
+    cta: "Start Level 1 →",
+    dividerMarks: ["↔ 28 DAYS", "⚡ LEVEL 1 · BUILDER", "15 MIN/DAY"],
+    sectionLabel: "VIBE CODING · LEVEL 1",
+    sectionH2: "The practical way to build software with AI in 2026",
   },
   "2": {
     color: L2_COLOR,
-    name: "Advanced",
-    label: "Advanced · Advisory",
-    annotation: "AI-ACCT-ADVANCED",
+    name: "Engineer",
+    label: "Level 2 · Engineer",
+    annotation: "AI-VIBE-ENGINEER",
     days: "28 DAYS",
-    tagline: "Build advisory-level AI skills that transform how you serve clients.",
-    heroHeadline: "In 28 days, become the accountant who uses AI to deliver advisory-level insight.",
-    heroSub: "Level 2 is for finance professionals ready to move beyond basics — AI audits, operating models, and client-ready advisory deliverables.",
-    urgency: "187 finance professionals enrolled in the Advanced track this month",
-    cta: "Start the Advanced Track →",
-    dividerMarks: ["↔ 28 DAYS", "📈 ADVANCED TRACK", "15 MIN/DAY"],
-    sectionLabel: "ACCOUNTING + AI · ADVANCED TRACK",
-    sectionH2: "Build advisory AI skills that clients will pay a premium for",
+    tagline: "Go from working local tools to deployed, tested, production-ready software with AI.",
+    heroHeadline: "In 28 days, become the person who ships production-ready AI-built tools.",
+    heroSub: "Level 2 is for builders ready to move beyond local scripts — deployment, databases, APIs, testing, monitoring, and agent-ready systems.",
+    urgency: "187 engineers enrolled in Level 2 this month",
+    cta: "Start Level 2 →",
+    dividerMarks: ["↔ 28 DAYS", "🚀 LEVEL 2 · ENGINEER", "15 MIN/DAY"],
+    sectionLabel: "VIBE CODING · LEVEL 2",
+    sectionH2: "Build and ship software with AI like a modern product engineer",
   },
 };
 
@@ -111,16 +115,12 @@ function AuthModal({ onClose, defaultMode = "register" }: { onClose: () => void;
         >
           <img src={logoImg} alt="AI Sprint" className="auth-logo-img" />
           <div className="auth-tagline" style={{ color: "#ddd" }}>
-            Master Accounting. Leverage AI. Stay Ahead.
+            Build Software. Use AI. Ship Faster.
           </div>
         </div>
 
-        {/* 
-          All text inside the modal now has explicit inline styles 
-          – no CSS classes can override these.
-        */}
         <h1 className="auth-heading" style={{ color: "white", fontSize: "1.75rem", fontWeight: 800, marginBottom: "0.5rem", textAlign: "center" }}>
-          {mode === "login" ? "Welcome Back to Accounting in the AI Era" : t("auth.createAccount")}
+          {mode === "login" ? "Welcome Back to Vibe Coding" : t("auth.createAccount")}
         </h1>
 
         <p className="auth-subtext" style={{ color: "#ccc", marginBottom: "1.5rem", fontSize: "0.95rem", textAlign: "center" }}>
@@ -444,7 +444,7 @@ function ContactSection() {
               href="mailto:support@aisprint.app"
               style={{ color: "#0d7c8a", textDecoration: "underline", textUnderlineOffset: 3 }}
             >
-              support@aisprint.app
+              [support@aisprint.app](mailto:support@aisprint.app)
             </a>
           </p>
         </div>
@@ -497,8 +497,8 @@ function ContactSection() {
           >
             <input type="hidden" name="access_key" value="9354c53d-f37d-4c31-845b-88286c03d1d4" />
             <input type="hidden" name="to" value="support@aisprint.app" />
-            <input type="hidden" name="subject" value="Accounting Sprint Support Request" />
-            <input type="hidden" name="from_name" value="AI Sprint Accounting Landing Page" />
+            <input type="hidden" name="subject" value="Vibe Coding Sprint Support Request" />
+            <input type="hidden" name="from_name" value="AI Sprint Vibe Coding Landing Page" />
 
             {error && (
               <div
@@ -634,7 +634,6 @@ function ContactSection() {
     </section>
   );
 }
-
 export default function LandingPage() {
   const [showAuth, setShowAuth] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "register">("register");
@@ -659,20 +658,20 @@ export default function LandingPage() {
   // ── Ticker ────────────────────────────────────────────────────
   const TICKS: Record<"1"|"2", string[]> = {
     "1": [
-      "📊 Sarah completed her month-end close checklist · Day 16",
-      "🏆 Daniel unlocked Workflow Architect rank · Basic",
-      "✅ Priya just finished her AI prompt library · Day 26",
-      "📋 Marcus built a bank reconciliation workflow · Week 2",
-      "✨ 423 accountants enrolled in the Basic track this month",
-      "🔥 Yuki is on a 10-day streak · Basic track",
+      "⚡ Sarah shipped her first working automation · Day 16",
+      "🏆 Daniel unlocked Builder rank · Level 1",
+      "✅ Priya finished her prompt library · Day 26",
+      "🛠️ Marcus built an internal tool for his team · Week 2",
+      "✨ 423 builders enrolled in Level 1 this month",
+      "🔥 Yuki is on a 10-day streak · Level 1",
     ],
     "2": [
-      "📈 Sarah delivered her first AI audit report to a client",
-      "🏆 Daniel unlocked Advisory Pro rank · Advanced",
-      "✅ Priya built her AI-ready operating model · Week 4",
-      "📋 Marcus landed a new advisory client using the framework",
-      "✨ 187 professionals enrolled in the Advanced track this month",
-      "🔥 Yuki is on a 14-day streak · Advanced track",
+      "🚀 Sarah deployed her first live app to the internet",
+      "🏆 Daniel unlocked Engineer rank · Level 2",
+      "✅ Priya built her first full-stack tool · Week 6",
+      "🧪 Marcus added tests and monitoring to production",
+      "✨ 187 builders enrolled in Level 2 this month",
+      "🔥 Yuki is on a 14-day streak · Level 2",
     ],
   };
   const [tickerIdx, setTickerIdx] = useState(0);
@@ -832,7 +831,7 @@ export default function LandingPage() {
         background: "radial-gradient(600px at var(--cx,50%) var(--cy,50%), rgba(13,124,138,.07), transparent 70%)",
       }} />
 
-      {/* Ledger grid background — teal lines like accounting paper */}
+      {/* Builder grid background */}
       <div style={{
         position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
         backgroundImage: `linear-gradient(rgba(13,124,138,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(13,124,138,.03) 1px,transparent 1px)`,
@@ -971,7 +970,6 @@ export default function LandingPage() {
       `}</style>
 
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} defaultMode={authMode} />}
-
       {/* Nav */}
       <nav className="lp-nav" style={{ position:"relative", zIndex:10 }}>
         <div className="lp-nav-logo">
@@ -990,7 +988,7 @@ export default function LandingPage() {
           </button>
           <button className="lp-btn-ghost" onClick={() => openAuth("login")}>Log In</button>
           <button className="lp-btn-primary" style={{ background: THEME_COLOR }} onClick={() => openAuth("register")}>
-            Start Your Journey →
+            Start Building →
           </button>
         </div>
       </nav>
@@ -1010,7 +1008,7 @@ export default function LandingPage() {
         </div>
 
         <div className="lp-hero-badge" style={{ color: THEME_COLOR, background: "rgba(13,124,138,.1)", borderColor: "rgba(13,124,138,.2)" }}>
-          ⚡ Accounting · AI · 28 Days
+          ⚡ Vibe Coding · AI · 28 Days
         </div>
 
         {/* Identity block */}
@@ -1027,7 +1025,7 @@ export default function LandingPage() {
           </div>
           <div style={{ marginTop: 10 }}>
             <div style={{ fontSize: "clamp(1.3rem,4vw,1.9rem)", fontWeight: 900, color: "white", letterSpacing: ".04em", textTransform: "uppercase", lineHeight: 1.2, marginBottom: ".5rem" }}>
-              Mastering Accounting with AI
+              Build Software with AI
             </div>
             <div style={{ fontSize: ".8rem", color: "#555", letterSpacing: ".06em", marginBottom: ".75rem", fontFamily: "monospace" }}>
               28-DAY CHALLENGE · 15 MIN/DAY · 2 LEVELS
@@ -1038,13 +1036,13 @@ export default function LandingPage() {
                 background: activeTab === "1" ? `${THEME_COLOR}25` : `${THEME_COLOR}12`,
                 border: `1px solid ${activeTab === "1" ? THEME_COLOR : `${THEME_COLOR}25`}`,
                 borderRadius: 100, padding: "3px 12px", cursor: "pointer", transition: "all 0.2s",
-              }}>Basic · Days 1–28</button>
+              }}>Builder · Days 1–28</button>
               <button onClick={() => setActiveTab("2")} style={{
                 fontSize: ".82rem", fontWeight: 700, color: L2_COLOR,
                 background: activeTab === "2" ? `${L2_COLOR}25` : `${L2_COLOR}12`,
                 border: `1px solid ${activeTab === "2" ? L2_COLOR : `${L2_COLOR}25`}`,
                 borderRadius: 100, padding: "3px 12px", cursor: "pointer", transition: "all 0.2s",
-              }}>Advanced · Days 1–28</button>
+              }}>Engineer · Days 1–28</button>
             </div>
           </div>
         </div>
@@ -1081,7 +1079,7 @@ export default function LandingPage() {
           </button>
           {activeTab === "2" && (
             <button className="lp-hero-outline" onClick={() => setActiveTab("1")}>
-              Start with Basic first
+              Start with Level 1 first
             </button>
           )}
         </div>
@@ -1112,7 +1110,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Finance ledger divider 1 */}
+      {/* Vibe coding divider 1 */}
       <div style={{ display:"flex", alignItems:"center", padding:"0 24px 40px", zIndex:1, position:"relative" }}>
         <div style={{ flex:1, height:1, background:`${THEME}25` }} />
         <div style={{ display:"flex", gap:10, padding:"0 18px", flexWrap:"wrap", justifyContent:"center" }}>
@@ -1123,7 +1121,7 @@ export default function LandingPage() {
         <div style={{ flex:1, height:1, background:`${THEME}25` }} />
       </div>
 
-      {/* Hero visual cards — accounting/finance aesthetic */}
+      {/* Hero visual cards — vibe coding aesthetic */}
       <section style={{ padding:"0 1.5rem 3.5rem", background:"transparent", position:"relative", zIndex:1 }}>
         <div style={{ maxWidth:900, margin:"0 auto", display:"flex", flexDirection:"column", alignItems:"center" }}>
           <div style={{ maxWidth:400, width:"100%" }}>
@@ -1131,17 +1129,17 @@ export default function LandingPage() {
 
             {/* Card 1 — Prompt Library */}
             <div className="lp-deliverable-card c1" style={{ borderRadius:14, overflow:"hidden", borderStyle:"solid", borderWidth:"1px", display:"flex", flexDirection:"column", flex:"0 0 100%", minWidth:0 }}>
-              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="Accountant prompt library deliverable">
+              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="Vibe coding prompt library deliverable">
                 <rect className="svg-bg" width="220" height="168"/>
-                <text x="12" y="18" fill="#0d7c8a" fontSize="7" fontFamily="monospace" opacity=".8" letterSpacing="1">ACCOUNTANT PROMPT LIBRARY · v1.0</text>
+                <text x="12" y="18" fill="#0d7c8a" fontSize="7" fontFamily="monospace" opacity=".8" letterSpacing="1">VIBE PROMPT LIBRARY · v1.0</text>
                 <line x1="12" y1="22" x2="208" y2="22" stroke="#0a2030" strokeWidth=".5"/>
                 {[
-                  { y:36, label:"01 · Transaction categorisation", cat:"BOOKKEEP" },
-                  { y:54, label:"02 · Bank reconciliation review", cat:"RECONCILE" },
-                  { y:72, label:"03 · Month-end close checklist", cat:"CLOSE" },
-                  { y:90, label:"04 · Variance commentary draft", cat:"REPORT" },
-                  { y:108, label:"05 · Client communication email", cat:"COMMS" },
-                  { y:126, label:"06 · Expense policy checker", cat:"CONTROLS" },
+                  { y:36, label:"01 · File renamer automation", cat:"SCRIPT" },
+                  { y:54, label:"02 · CSV cleaner workflow", cat:"DATA" },
+                  { y:72, label:"03 · FastAPI hello endpoint", cat:"API" },
+                  { y:90, label:"04 · Weather anywhere tool", cat:"API" },
+                  { y:108, label:"05 · Streamlit UI starter", cat:"APP" },
+                  { y:126, label:"06 · Refactor prompt pattern", cat:"CLEANUP" },
                 ].map((r,i) => (
                   <g key={i}>
                     <rect x="12" y={r.y-11} width="196" height="14" rx="2" fill={i%2===0 ? "rgba(13,124,138,.06)" : "transparent"}/>
@@ -1156,30 +1154,29 @@ export default function LandingPage() {
                 </circle>
               </svg>
               <div style={{ padding: "12px 14px 14px" }}>
-                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(13,124,138,.15)", color:"#0d7c8a" }}>Basic · Week 4</div>
-                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>Accountant prompt library</div>
-                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 26 · Your reusable system</div>
+                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(13,124,138,.15)", color:"#0d7c8a" }}>Level 1 · Week 4</div>
+                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>Vibe coding prompt library</div>
+                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 26 · Your reusable build system</div>
               </div>
             </div>
 
-            {/* Card 2 — Bank Reconciliation */}
+            {/* Card 2 — Internal Tool */}
             <div className="lp-deliverable-card c2" style={{ borderRadius:14, overflow:"hidden", borderStyle:"solid", borderWidth:"1px", display:"flex", flexDirection:"column", flex:"0 0 100%", minWidth:0 }}>
-              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="Bank reconciliation workflow">
+              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="Internal tool workflow">
                 <rect className="svg-bg" width="220" height="168"/>
-                <text x="110" y="16" textAnchor="middle" fill="#0d7c8a" fontSize="7" fontFamily="monospace" opacity=".7" letterSpacing="1">BANK RECONCILIATION · WORKFLOW</text>
+                <text x="110" y="16" textAnchor="middle" fill="#0d7c8a" fontSize="7" fontFamily="monospace" opacity=".7" letterSpacing="1">INTERNAL TOOL · WORKFLOW</text>
                 <line x1="12" y1="20" x2="208" y2="20" stroke="#0a2030" strokeWidth=".5"/>
-                {/* Ledger rows */}
                 <rect x="12" y="26" width="196" height="12" rx="2" fill="rgba(13,124,138,.12)"/>
-                <text x="18" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">DATE</text>
-                <text x="65" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">DESCRIPTION</text>
-                <text x="162" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">AMOUNT</text>
+                <text x="18" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">STEP</text>
+                <text x="65" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">ACTION</text>
+                <text x="162" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">STATUS</text>
                 <text x="196" y="35" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace" opacity=".8">✓</text>
                 {[
-                  { date:"01 May", desc:"Client payment", amt:"$4,200", match:true },
-                  { date:"03 May", desc:"Office supplies", amt:"-$148", match:true },
-                  { date:"05 May", desc:"Unknown debit", amt:"-$320", match:false },
-                  { date:"08 May", desc:"Software sub.", amt:"-$89", match:true },
-                  { date:"12 May", desc:"Invoice #1042", amt:"$2,800", match:true },
+                  { date:"01", desc:"Upload CSV", amt:"Done", match:true },
+                  { date:"02", desc:"Clean rows", amt:"Done", match:true },
+                  { date:"03", desc:"Run summary", amt:"Flagged", match:false },
+                  { date:"04", desc:"Export output", amt:"Done", match:true },
+                  { date:"05", desc:"Share result", amt:"Done", match:true },
                 ].map((r,i) => (
                   <g key={i}>
                     <rect x="12" y={42+i*16} width="196" height="14" rx="1" fill={!r.match ? "rgba(239,68,68,.08)" : "transparent"}/>
@@ -1191,29 +1188,29 @@ export default function LandingPage() {
                 ))}
                 <line x1="12" y1="124" x2="208" y2="124" stroke="#0a2030" strokeWidth=".5"/>
                 <rect x="12" y="128" width="196" height="16" rx="3" fill="rgba(13,124,138,.06)" stroke="rgba(13,124,138,.2)" strokeWidth=".4"/>
-                <text x="18" y="139" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace">AI flagged 1 anomaly · $320 unmatched · review required</text>
-                <text x="12" y="160" fill="#0d7c8a" fontSize="6" fontFamily="monospace" opacity=".5">AI SPRINT · DAY 10</text>
+                <text x="18" y="139" fill="#0d7c8a" fontSize="6.5" fontFamily="monospace">AI flagged 1 issue · review output before shipping</text>
+                <text x="12" y="160" fill="#0d7c8a" fontSize="6" fontFamily="monospace" opacity=".5">AI SPRINT · DAY 14</text>
               </svg>
               <div style={{ padding: "12px 14px 14px" }}>
-                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(13,124,138,.15)", color:"#0d7c8a" }}>Basic · Week 2</div>
-                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>Bank reconciliation</div>
-                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 10 · AI anomaly detection</div>
+                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(13,124,138,.15)", color:"#0d7c8a" }}>Level 1 · Week 2</div>
+                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>Internal team tool</div>
+                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 14 · Build something useful</div>
               </div>
             </div>
 
-            {/* Card 3 — Month-End Close Checklist */}
+            {/* Card 3 — Production Tool */}
             <div className="lp-deliverable-card c3" style={{ borderRadius:14, overflow:"hidden", borderStyle:"solid", borderWidth:"1px", display:"flex", flexDirection:"column", flex:"0 0 100%", minWidth:0 }}>
-              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="Month-end close checklist">
+              <svg width="100%" height="168" viewBox="0 0 220 168" aria-label="Production tool checklist">
                 <rect className="svg-bg" width="220" height="168"/>
-                <text x="12" y="18" fill="#e8820c" fontSize="7" fontFamily="monospace" opacity=".8" letterSpacing="1">MONTH-END CLOSE · MAY 2026</text>
+                <text x="12" y="18" fill="#e8820c" fontSize="7" fontFamily="monospace" opacity=".8" letterSpacing="1">PRODUCTION TOOL · RELEASE CHECKLIST</text>
                 <line x1="12" y1="22" x2="208" y2="22" stroke="#2a1200" strokeWidth=".5"/>
                 {[
-                  { item:"Review all transactions", done:true },
-                  { item:"Bank reconciliation", done:true },
-                  { item:"Accruals & prepayments", done:true },
-                  { item:"Variance analysis", done:true },
-                  { item:"Management commentary", done:false },
-                  { item:"CFO sign-off", done:false },
+                  { item:"Deploy app to Railway", done:true },
+                  { item:"Add authentication", done:true },
+                  { item:"Connect database", done:true },
+                  { item:"Write tests", done:true },
+                  { item:"Add monitoring", done:false },
+                  { item:"Agent-ready docs", done:false },
                 ].map((r,i) => (
                   <g key={i}>
                     <rect x="12" y={30+i*18} width="196" height="16" rx="3" fill={r.done ? "rgba(16,185,129,.06)" : "rgba(255,255,255,.02)"} stroke={r.done ? "rgba(16,185,129,.15)" : "rgba(255,255,255,.04)"} strokeWidth=".4"/>
@@ -1224,13 +1221,13 @@ export default function LandingPage() {
                   </g>
                 ))}
                 <rect x="12" y="142" width="196" height="14" rx="3" fill="rgba(232,130,12,.08)" stroke="rgba(232,130,12,.2)" strokeWidth=".5"/>
-                <text x="18" y="152" fill="#e8820c" fontSize="6.5" fontFamily="monospace">4/6 complete · Est. close: 3hrs remaining</text>
-                <text x="12" y="162" fill="#e8820c" fontSize="6" fontFamily="monospace" opacity=".5">AI SPRINT · DAY 16</text>
+                <text x="18" y="152" fill="#e8820c" fontSize="6.5" fontFamily="monospace">4/6 complete · ready for final polish</text>
+                <text x="12" y="162" fill="#e8820c" fontSize="6" fontFamily="monospace" opacity=".5">AI SPRINT · LEVEL 2</text>
               </svg>
               <div style={{ padding: "12px 14px 14px" }}>
-                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(232,130,12,.15)", color:"#e8820c" }}>Advanced · Week 1</div>
-                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>Month-end close checklist</div>
-                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Day 16 · AI-assisted close</div>
+                <div style={{ display:"inline-block", fontSize:10, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", padding:"2px 8px", borderRadius:99, marginBottom:8, background:"rgba(232,130,12,.15)", color:"#e8820c" }}>Level 2 · Production</div>
+                <div className="lp-hero-card-title" style={{ fontSize:".82rem", fontWeight:700, color:"white", marginBottom:".2rem" }}>Production-ready tool</div>
+                <div className="lp-hero-card-sub" style={{ fontSize:".7rem", color:"#5a587a", letterSpacing:".4px" }}>Deploy, test, monitor</div>
               </div>
             </div>
 
@@ -1238,7 +1235,7 @@ export default function LandingPage() {
           </div>{/* end maxWidth 400 */}
         </div>{/* end maxWidth 900 */}
         <p className="lp-swipe-hint" style={{ textAlign:"center", fontSize:".65rem", color:"#555", letterSpacing:"1.5px", textTransform:"uppercase", marginTop:".8rem" }}>
-          Sample deliverables — built by accountants in 15 minutes/day
+          Sample deliverables — built in 15 minutes/day
         </p>
       </section>
 
@@ -1249,18 +1246,18 @@ export default function LandingPage() {
           <h2 className="lp-section-h2">{themeData.sectionH2}</h2>
           <p className="lp-section-sub">
             {activeTab === "1"
-              ? "A structured, practical path to using AI in your daily accounting work — without the overwhelm."
-              : "Level 2 builds on your foundation to deliver advisory AI skills — audits, operating models, and client deliverables that command premium rates."}
+              ? "A structured, practical path to building real tools with AI — without needing a traditional coding background."
+              : "Level 2 builds on your foundation to help you ship deployed, tested, and production-ready software with AI."}
           </p>
           <div className="lp-why-grid" ref={cardsRef}>
             {(activeTab === "1" ? [
-              { icon: "⏱", color: THEME_COLOR, bg: "rgba(13,124,138,.1)", title: "15 minutes a day", body: "Each lesson is structured: concept, walkthrough, and one practical accounting task.", delay: "0s" },
-              { icon: "🧾", color: "#2f6fa8", bg: "rgba(47,111,168,.1)", title: "Real accounting workflows", body: "Learn how AI fits into bookkeeping, reconciliation, month-end close, and reporting.", delay: ".12s" },
-              { icon: "🏆", color: L2_COLOR, bg: "rgba(232,130,12,.1)", title: "Build your prompt library", body: "Leave with 10+ reusable accounting prompts and a personal AI workflow — not just theory.", delay: ".24s" },
+              { icon: "⏱", color: THEME_COLOR, bg: "rgba(13,124,138,.1)", title: "15 minutes a day", body: "Each lesson is focused: concept, walkthrough, and one practical build task.", delay: "0s" },
+              { icon: "🛠️", color: "#2f6fa8", bg: "rgba(47,111,168,.1)", title: "Real tools, not theory", body: "Build scripts, automations, APIs, and internal tools you can actually use.", delay: ".12s" },
+              { icon: "🏆", color: L2_COLOR, bg: "rgba(232,130,12,.1)", title: "Build your prompt system", body: "Leave with reusable prompts, workflows, and a personal AI building process.", delay: ".24s" },
             ] : [
-              { icon: "📊", color: L2_COLOR, bg: "rgba(232,130,12,.1)", title: "Strategic AI audits", body: "Use AI to identify automation opportunities and deliver structured recommendations to clients.", delay: "0s" },
-              { icon: "🏛️", color: "#7c3aed", bg: "rgba(124,58,237,.1)", title: "AI-ready operating model", body: "Build a 90-day roadmap that transforms how your practice or client's finance function uses AI.", delay: ".12s" },
-              { icon: "💼", color: "#2f6fa8", bg: "rgba(47,111,168,.1)", title: "Advisory-level deliverables", body: "Create client-ready reports, capability assessments, and AI governance frameworks.", delay: ".24s" },
+              { icon: "🚀", color: L2_COLOR, bg: "rgba(232,130,12,.1)", title: "Production mindset", body: "Deploy your apps, manage secrets, and make your tools usable beyond your own machine.", delay: "0s" },
+              { icon: "🗄️", color: "#7c3aed", bg: "rgba(124,58,237,.1)", title: "Full-stack systems", body: "Work with databases, APIs, frontends, and integrations using AI as your coding partner.", delay: ".12s" },
+              { icon: "🧪", color: "#2f6fa8", bg: "rgba(47,111,168,.1)", title: "Reliable shipping", body: "Add testing, monitoring, and agent-ready structure to the tools you build.", delay: ".24s" },
             ]).map((c, i) => (
               <div key={i} className="lp-why-card lp-reveal visible"
                 style={{ transition: `opacity .65s ease ${c.delay}, transform .65s ease ${c.delay}` }}>
@@ -1273,11 +1270,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Ledger divider 2 */}
+      {/* Divider 2 */}
       <div style={{ display:"flex", alignItems:"center", padding:"0 24px 0", zIndex:1, position:"relative" }}>
         <div style={{ flex:1, height:1, background:"rgba(13,124,138,.15)" }} />
         <div style={{ display:"flex", gap:10, padding:"0 18px" }}>
-          {["REF: COURSE OUTCOMES", "SECTION B"].map((m,i) => (
+          {["REF: BUILD OUTCOMES", "SECTION B"].map((m,i) => (
             <span key={i} style={{ fontFamily:"monospace", fontSize:"12px", letterSpacing:"2px", color:"rgba(13,124,138,.55)" }}>[ {m} ]</span>
           ))}
         </div>
@@ -1292,8 +1289,8 @@ export default function LandingPage() {
               <h3 className="lp-col-heading">What you'll learn</h3>
               <ul className="lp-check-list">
                 {(activeTab === "1"
-                  ? ["AI prompting for accounting tasks","Bookkeeping and reconciliation with AI","Month-end close and variance commentary","Internal controls and AI ethics in finance","Build a personal accountant prompt library"]
-                  : ["Strategic AI audit methodology","AI-ready operating model design","Advisory deliverable frameworks","Client-facing AI governance policy","90-day transformation roadmap"]
+                  ? ["Prompt AI to generate working scripts","Build automations, APIs, and internal tools","Turn scripts into simple apps with UI","Debug and refactor AI-generated code","Create your own reusable prompt library"]
+                  : ["Deploy apps to the cloud","Work with databases and APIs","Build full-stack tools with AI","Add tests, CI, and monitoring","Make tools agent-ready and production-ready"]
                 ).map((item,i) => (
                   <li key={i} className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> {item}</li>
                 ))}
@@ -1303,8 +1300,8 @@ export default function LandingPage() {
               <h3 className="lp-col-heading">Who it's for</h3>
               <ul className="lp-check-list">
                 {(activeTab === "1"
-                  ? ["No prior AI experience needed","Relevant for all accounting software users","Ideal foundation before the Advanced track"]
-                  : ["Basic track graduates","Senior accountants & finance managers","Advisory-focused practitioners & firm owners"]
+                  ? ["No traditional coding background required","Perfect for operators, freelancers, and curious builders","Ideal starting point before Level 2"]
+                  : ["Level 1 builders ready to go further","Founders, makers, and technical operators","Anyone who wants to ship production-ready tools with AI"]
                 ).map((item,i) => (
                   <li key={i} className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> {item}</li>
                 ))}
@@ -1322,25 +1319,25 @@ export default function LandingPage() {
               What You'll Learn
             </div>
             <h2 style={{ fontSize:"clamp(1.5rem,3.5vw,2rem)", fontWeight:800, color:"white", margin:"0 0 10px" }}>Your first 7 days, previewed</h2>
-            <p style={{ color:"#888", fontSize:".92rem" }}>Every lesson is 15 minutes. Every day builds your accounting AI toolkit.</p>
+            <p style={{ color:"#888", fontSize:".92rem" }}>Every lesson is 15 minutes. Every day builds your vibe coding toolkit.</p>
           </div>
           <div ref={sevenDayScrollRef} style={{ display:"flex", flexDirection:"row", overflow:"hidden", scrollbarWidth:"none" as any }}>
             {(activeTab === "1" ? [
-              { day:1, title:"What Accounting Looks Like in the AI Era", cat:"Foundations", color:THEME_COLOR },
-              { day:2, title:"The Accounting Equation & Double-Entry — Refreshed", cat:"Foundations", color:THEME_COLOR },
-              { day:3, title:"Reading Financial Statements with AI Assistance", cat:"Foundations", color:THEME_COLOR },
-              { day:4, title:"The Modern Finance Tech Stack", cat:"Foundations", color:"#2f6fa8" },
-              { day:5, title:"Your First AI Accounting Prompt", cat:"Apply", color:"#2f6fa8" },
-              { day:6, title:"AI Errors in Accounting — What to Watch For", cat:"Controls", color:"#2f8c5c" },
-              { day:7, title:"Mini-Project: AI Review Checklist & Finance Stack Map", cat:"Sprint 🏆", color:L2_COLOR },
+              { day:1, title:"What Is Vibe Coding? AI as Partner, Not Search", cat:"Learn", color:THEME_COLOR },
+              { day:2, title:"Your First Working Script From One Prompt", cat:"Apply", color:THEME_COLOR },
+              { day:3, title:"Reading AI Code You Didn't Write", cat:"Learn", color:THEME_COLOR },
+              { day:4, title:"The 3-Part Vibe Prompt", cat:"Learn", color:"#2f6fa8" },
+              { day:5, title:"Set Up Your Sandbox: Replit, VS Code, or Cursor", cat:"Apply", color:"#2f6fa8" },
+              { day:6, title:"The AI Made a Bug — Now What?", cat:"Apply", color:"#2f8c5c" },
+              { day:7, title:"Sprint: Build a Working Automation", cat:"Sprint 🏆", color:L2_COLOR },
             ] : [
-              { day:1, title:"Advanced Prompting for Finance — Chains & Templates", cat:"Advanced", color:L2_COLOR },
-              { day:2, title:"AI Audit Framework — The 5-Pillar Assessment", cat:"Advisory", color:L2_COLOR },
-              { day:3, title:"Capability Scoring — Mapping Client AI Maturity", cat:"Advisory", color:"#7c3aed" },
-              { day:4, title:"Automation Opportunity Identification", cat:"Strategy", color:"#2f6fa8" },
-              { day:5, title:"Building the 90-Day Roadmap", cat:"Strategy", color:"#2f6fa8" },
-              { day:6, title:"AI Governance & Controls for Advisory Firms", cat:"Controls", color:"#2f8c5c" },
-              { day:7, title:"Mini-Project: AI Audit Report for a Real Client", cat:"Sprint 🏆", color:L2_COLOR },
+              { day:1, title:"From Local to Cloud: Why Deploy?", cat:"Learn", color:L2_COLOR },
+              { day:2, title:"Your First Deployment: Railway or Render", cat:"Deploy", color:L2_COLOR },
+              { day:3, title:"Secrets Management in Production", cat:"Secure", color:"#7c3aed" },
+              { day:4, title:"Version Control with AI Assistance", cat:"Learn", color:"#2f6fa8" },
+              { day:5, title:"GitHub as Portfolio", cat:"Deploy", color:"#2f6fa8" },
+              { day:6, title:"Adding Authentication to Your Apps", cat:"Secure", color:"#2f8c5c" },
+              { day:7, title:"Sprint: Deploy a Live, Shareable Tool", cat:"Sprint 🏆", color:L2_COLOR },
             ]).map((d) => (
               <div key={d.day} className="lp-day-card" style={{
                 display:"flex", alignItems:"center", gap:"1rem",
@@ -1370,15 +1367,15 @@ export default function LandingPage() {
             <div style={{ display:"inline-flex", alignItems:"center", gap:6, fontSize:".72rem", fontWeight:700, letterSpacing:".1em", textTransform:"uppercase", color:THEME_COLOR, background:`rgba(13,124,138,.1)`, border:`1px solid rgba(13,124,138,.2)`, borderRadius:20, padding:"5px 14px", marginBottom:14 }}>
               Student Stories
             </div>
-            <h2 style={{ fontSize:"clamp(1.5rem,3.5vw,2rem)", fontWeight:800, color:"inherit", margin:"0 0 10px" }}>Real results from finance professionals</h2>
-            <p style={{ color:"#888", fontSize:".95rem" }}>Accountants who went from AI-curious to AI-confident.</p>
+            <h2 style={{ fontSize:"clamp(1.5rem,3.5vw,2rem)", fontWeight:800, color:"inherit", margin:"0 0 10px" }}>Real results from builders using AI</h2>
+            <p style={{ color:"#888", fontSize:".95rem" }}>People who went from AI-curious to shipping real tools.</p>
           </div>
           <div style={{ display:"flex", flexDirection:"row", overflow:"hidden", scrollbarWidth:"none" as any }}
             ref={(el) => { (testimonialsRef as any).current = el; (testiScrollRef as any).current = el; }}>
             {[
-              { text:"Month-end close used to take 3 days. I'd been doing it the same way for 8 years. After the AI accounting sprint I'm done in under 6 hours. My CFO thinks I hired someone. I didn't.", name:"Daniel M.", role:"Senior Accountant, Sydney", initials:"DM", color:THEME_COLOR, photo:"/assets/testimonials/face-e.png" },
-              { text:"I came in skeptical — I've been an accountant for 12 years and I've seen every productivity trend come and go. By Day 14 I had prompts that saved me 2 hours a week on reconciliations alone.", name:"Sarah K.", role:"Practice Owner, London", initials:"SK", color:"#2f6fa8", photo: null },
-              { text:"The internal controls module alone was worth the entire course. My team now has a documented AI usage policy for client work. That's table stakes in 2026.", name:"Yuki S.", role:"Audit Manager, Tokyo", initials:"YS", color:L2_COLOR, photo:"/assets/testimonials/face-f.png" },
+              { text:"I had never really built software before. By the end of the sprint, I had a working internal tool my team actually uses every week. That changed how I see myself.", name:"Daniel M.", role:"Operations Lead, Sydney", initials:"DM", color:THEME_COLOR, photo:"/assets/testimonials/face-e.png" },
+              { text:"I came in skeptical. I thought AI coding was hype. By Day 14 I had built two working automations and finally understood how to direct AI instead of just asking random questions.", name:"Sarah K.", role:"Freelancer, London", initials:"SK", color:"#2f6fa8", photo: null },
+              { text:"Level 2 was the shift for me. Deployment, testing, and monitoring made me stop thinking in scripts and start thinking in products.", name:"Yuki S.", role:"Startup Operator, Tokyo", initials:"YS", color:L2_COLOR, photo:"/assets/testimonials/face-f.png" },
             ].map((t, i) => (
               <div key={i} className={`lp-testi-card lp-reveal ${revealTestimonials ? "visible" : ""}`} style={{
                 background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)",
@@ -1387,7 +1384,7 @@ export default function LandingPage() {
                 transition:`opacity .65s ease ${i*.15}s, transform .65s ease ${i*.15}s`,
                 flex: "0 0 100%", minWidth: 0,
               }}>
-                <div style={{ fontSize:".78rem", fontWeight:700, letterSpacing:1, textTransform:"uppercase", color:t.color, background:`${t.color}18`, border:`1px solid ${t.color}33`, borderRadius:100, padding:"3px 10px", width:"fit-content" }}>Accounting · {activeTab === "1" ? "Basic" : "Advanced"}</div>
+                <div style={{ fontSize:".78rem", fontWeight:700, letterSpacing:1, textTransform:"uppercase", color:t.color, background:`${t.color}18`, border:`1px solid ${t.color}33`, borderRadius:100, padding:"3px 10px", width:"fit-content" }}>Vibe Coding · {activeTab === "1" ? "Level 1" : "Level 2"}</div>
                 <div className="lp-testi-text" style={{ color:"#ddd", fontSize:".88rem", lineHeight:1.7, fontStyle:"italic" }}>"{t.text}"</div>
                 <div style={{ display:"flex", alignItems:"center", gap:".7rem", marginTop:"auto" }}>
                   {t.photo
@@ -1412,7 +1409,7 @@ export default function LandingPage() {
       <section className="lp-human-section" style={{ padding:"60px 20px", background:"#0d0d14", position:"relative", zIndex:1 }}>
         <div style={{ maxWidth:"820px", margin:"0 auto", display:"flex", flexDirection:"row", alignItems:"center", gap:"3rem", flexWrap:"wrap" }}>
           <div style={{ flex:"0 0 260px", maxWidth:"100%" }}>
-            <img src="/assets/testimonials/face-e.png" alt="Accountant using AI at work"
+            <img src="/assets/testimonials/face-e.png" alt="Builder using AI to create software"
               style={{ width:"100%", borderRadius:20, objectFit:"cover", objectPosition:"center top",
                 boxShadow:"0 20px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(13,124,138,.15)",
                 border:"1px solid rgba(13,124,138,.2)" }} />
@@ -1420,16 +1417,16 @@ export default function LandingPage() {
           <div style={{ flex:1, minWidth:240 }}>
             <div style={{ fontSize:".7rem", fontWeight:700, letterSpacing:"2.5px", textTransform:"uppercase", color:THEME_COLOR, marginBottom:"1rem" }}>✦ Who this is for</div>
             <h2 style={{ fontSize:"clamp(1.4rem,3vw,1.9rem)", fontWeight:800, color:"inherit", lineHeight:1.25, marginBottom:"1rem" }}>
-              You don't need to be a tech person.<br/>You need to be a better accountant.
+              You do not need to be an engineer.<br/>You need to learn how to build with AI.
             </h2>
             <p style={{ color:"var(--lp-body,#9896b0)", lineHeight:1.75, fontSize:".95rem", marginBottom:"1.25rem" }}>
-              AI Sprint Accounting is built for finance professionals who want AI to make their actual work faster and sharper — not replace their judgement.
+              AI Sprint Vibe Coding is built for people who want to turn ideas into working tools, automations, and apps with AI — fast.
             </p>
             <div style={{ display:"flex", flexDirection:"column", gap:".6rem", marginBottom:"1.5rem" }}>
               {[
-                "Perfect if you work in accounting, bookkeeping, or finance",
-                "Built around real workflows — reconciliation, close, reporting",
-                "15 minutes a day — less than your morning commute",
+                "Perfect for operators, freelancers, founders, and curious builders",
+                "Built around real outputs — scripts, apps, APIs, and internal tools",
+                "15 minutes a day — enough to build momentum fast",
               ].map((item, i) => (
                 <div key={i} style={{ display:"flex", gap:".65rem", alignItems:"flex-start" }}>
                   <span style={{ color:THEME_COLOR, fontWeight:800, flexShrink:0, marginTop:2 }}>✓</span>
@@ -1451,7 +1448,7 @@ export default function LandingPage() {
       <div className="lp-join-banner" style={{ display:"flex", alignItems:"center", padding:"40px 24px 0", zIndex:1, position:"relative" }}>
         <div style={{ flex:1, height:1, background:`rgba(13,124,138,.35)` }}/>
         <div style={{ display:"flex", gap:10, padding:"0 18px" }}>
-          {["START TODAY", activeTab === "1" ? "START BASIC TRACK" : "START ADVANCED TRACK"].map((m,i) => (
+          {["START TODAY", activeTab === "1" ? "START LEVEL 1" : "START LEVEL 2"].map((m,i) => (
             <span key={i} style={{ fontFamily:"monospace", fontSize:"12px", letterSpacing:"2px", color:THEME_COLOR, opacity:.7 }}>[ {m} ]</span>
           ))}
         </div>
@@ -1462,12 +1459,12 @@ export default function LandingPage() {
       <section id="lp-cta" className="lp-cta-section" style={{ background: THEME, paddingBottom: "60px" }}>
         <div className="lp-section-inner" style={{ textAlign: "center" }}>
           <h2 className="lp-cta-h2">
-            {activeTab === "1" ? "Ready to become an AI-ready accountant?" : "Ready to deliver advisory-level AI work?"}
+            {activeTab === "1" ? "Ready to build your first real tools with AI?" : "Ready to ship production-ready software with AI?"}
           </h2>
           <p className="lp-cta-sub" style={{ color:"rgba(255,255,255,.9)", fontWeight:600, fontSize:"1.05rem" }}>
             {activeTab === "1"
-              ? "Join 423 accounting professionals building smarter workflows with AI — 15 minutes a day, 28 days, no fluff."
-              : "Join 187 finance professionals building advisory AI skills that clients pay a premium for."}
+              ? "Join 423 builders learning to create automations, scripts, and apps with AI — 15 minutes a day, 28 days, no fluff."
+              : "Join 187 builders learning to deploy, test, and ship production-ready tools with AI."}
           </p>
           <button className="lp-cta-btn" style={{ background:"#ffffff", color:THEME, fontWeight:"bold" }} onClick={() => openAuth("register")}>
             {themeData.cta}
@@ -1478,4 +1475,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
