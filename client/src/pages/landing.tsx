@@ -613,6 +613,10 @@ export default function LandingPage() {
         .lp-light .lp-stats .lp-stat-divider { background:rgba(0,0,0,.15) !important; }
         .lp-root:not(.lp-light) .lp-swipe-hint { color:#9896b0 !important; }
         .lp-light .lp-swipe-hint { color:#374151 !important; }
+        .lp-root:not(.lp-light) .lp-day-title { color:#ffffff; }
+        .lp-light .lp-day-title { color:#111827 !important; }
+        .lp-light .lp-seven-day-section { background:#f4f6fb !important; }
+        .lp-light .lp-seven-day-section .lp-day-card { background:rgba(0,0,0,.03) !important; border-color:rgba(0,0,0,.08) !important; }
 
         /* ── THEME TOGGLE ── */
         .lp-theme-toggle { width:42px; height:22px; border-radius:100px; border:1px solid rgba(13,124,138,.4); background:rgba(13,124,138,.12); cursor:pointer; position:relative; display:flex; align-items:center; padding:0 2px; transition:background .3s,border-color .3s; flex-shrink:0; }
@@ -894,11 +898,11 @@ export default function LandingPage() {
           </div>
           <div ref={sevenDayScrollRef} data-autoscroll="1" style={{ display:"flex", flexDirection:"row", overflow:"hidden", scrollbarWidth:"none" as any }}>
             {SEVEN_DAYS[activeTab].map((d) => (
-              <div key={d.day} style={{ display:"flex", alignItems:"center", gap:"1rem",
+              <div key={d.day} className="lp-day-card" style={{ display:"flex", alignItems:"center", gap:"1rem",
                 background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.07)",
                 borderRadius:12, padding:".85rem 1.2rem", flex:"0 0 100%", minWidth:0 }}>
                 <div style={{ width:34, height:34, borderRadius:"50%", border:`2px solid ${d.color}`, color:d.color, display:"flex", alignItems:"center", justifyContent:"center", fontWeight:800, fontSize:".72rem", flexShrink:0, fontFamily:"monospace" }}>{d.day}</div>
-                <div className="lp-day-title" style={{ flex:1, fontWeight:600, color:"white", fontSize:".88rem" }}>{d.title}</div>
+                <div className="lp-day-title" style={{ flex:1, fontWeight:600, fontSize:".88rem" }}>{d.title}</div>
                 <div style={{ fontSize:".65rem", fontWeight:700, letterSpacing:1.5, textTransform:"uppercase", color:d.color, background:`${d.color}18`, borderRadius:100, padding:"3px 10px", whiteSpace:"nowrap" }}>{d.cat}</div>
               </div>
             ))}
