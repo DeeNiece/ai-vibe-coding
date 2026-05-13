@@ -1,26 +1,31 @@
+// ── AI Sprint · Vibe Coding ────────────────────────────────────────────────────
+// File: curriculum.ts | Repo: ai-vibe-coding
+// Last updated: May 2026
 // =============================================================================
 // AI Sprint — Vibe Coding Course Curriculum
 // VIBE CODING — BUILD SOFTWARE WITH AI — Basic & Advanced
-// Updated: April 2026
 // =============================================================================
 
-// ── Level 1 categories
+// ── Level 1 categories (Basic)
 export type CategoryL1 =
-  | "Foundations"
-  | "Bookkeeping"
-  | "Reporting"
-  | "Tax & Compliance"
-  | "Controls & Ethics"
-  | "Mixed";
+  | "Learn"
+  | "Build"
+  | "Apply"
+  | "Sprint"
+  | "Reflect"
+  | "Secure"
+  | "Optimize"
+  | "Review";
 
-// ── Level 2 categories
+// ── Level 2 categories (Advanced)
 export type CategoryL2 =
+  | "Architecture"
+  | "Automation"
+  | "AI Integration"
+  | "Deploy"
+  | "Product"
   | "Strategy"
-  | "Workflows"
-  | "Reporting"
-  | "Controls & Governance"
-  | "Advisory"
-  | "Mixed";
+  | "Review";
 
 export type Category = CategoryL1 | CategoryL2;
 
@@ -60,116 +65,116 @@ export interface PortfolioTarget {
 }
 
 // ─────────────────────────────────────────────
-// WEEK OVERVIEWS — LEVEL 1
+// WEEK OVERVIEWS — LEVEL 1 (Basic)
 // ─────────────────────────────────────────────
 
 export const weekOverviewsL1: WeekOverview[] = [
   {
     week: 1, level: 1,
-    title: "Accounting Meets AI — Foundations",
+    title: "The Vibe Coding Mindset",
     color: "#0d7c8a",
     outcomes: [
-      "Understand how AI is changing accounting in 2026",
-      "Master the accounting equation and double-entry basics",
-      "Read and explain the three main financial statements",
-      "Map the modern finance tech stack",
-      "Build your first AI review checklist",
+      "Understand the vibe coding philosophy: natural language → working software",
+      "Write your first working script from a single prompt",
+      "Read and review AI-generated code with confidence",
+      "Master the 3-part prompt structure: Goal, Constraints, Format",
+      "Set up your sandbox (Cursor, VS Code, or Replit) and survive your first bug",
     ],
   },
   {
     week: 2, level: 1,
-    title: "Bookkeeping Workflows with AI",
+    title: "Building Real Things",
     color: "#2f6fa8",
     outcomes: [
-      "Design AI-assisted transaction categorisation reviews",
-      "Use OCR and document AI for invoice capture",
-      "Write reconciliation rules as AI prompts",
-      "Clean messy finance data with AI and Excel",
-      "Complete an end-to-end bookkeeping mini-project",
+      "Extract data from PDFs and CSVs with AI-written scripts",
+      "Build a web scraper that handles pagination and errors",
+      "Create a local API endpoint with FastAPI",
+      "Connect to external APIs and mash up two data sources",
+      "Schedule automations to run hands-free",
     ],
   },
   {
     week: 3, level: 1,
-    title: "Month-End, Controls, and Ethics",
+    title: "Making It Yours",
     color: "#7a5fc0",
     outcomes: [
-      "Handle accruals, prepayments, and adjusting entries with AI",
-      "Map AP and AR workflows with human approval gates",
-      "Build a month-end close checklist and variance prompt",
-      "Understand internal controls and segregation of duties",
-      "Write your personal AI ethics and usage policy",
+      "Wrap any script in a shareable UI with Streamlit or Gradio",
+      "Store and query data persistently with SQLite",
+      "Iterate and improve AI code with targeted follow-up prompts",
+      "Secure your scripts — no hardcoded API keys ever",
+      "Refactor messy generated code into clean, reusable modules",
     ],
   },
   {
     week: 4, level: 1,
-    title: "Reporting, Communication, and Capstone",
+    title: "Ship It — Portfolio and Graduation",
     color: "#2f8c5c",
     outcomes: [
-      "Use AI safely for tax research and compliance support",
-      "Turn numbers into management commentary with AI",
-      "Draft client communications and finance narratives",
-      "Build a personal accountant prompt library",
-      "Complete your AI-Assisted Monthly Accounting Workflow capstone",
+      "Handle files like a pro: CSVs, JSON, and text pipelines",
+      "Make scripts reusable with command-line arguments",
+      "Organize and document your project library",
+      "Package a tool so non-technical colleagues can run it",
+      "Graduate with a 3-script automation suite and a demo recording",
     ],
   },
 ];
 
 // ─────────────────────────────────────────────
-// WEEK OVERVIEWS — LEVEL 2
+// WEEK OVERVIEWS — LEVEL 2 (Advanced)
 // ─────────────────────────────────────────────
 
 export const weekOverviewsL2: WeekOverview[] = [
   {
     week: 1, level: 2,
-    title: "AI Close Design & Advanced Workflows",
+    title: "Full-Stack AI App Architecture",
     color: "#e8820c",
     outcomes: [
-      "Assess your finance function's AI readiness and priority use cases",
-      "Design an AI-assisted month-end close process",
-      "Build advanced accounting prompts with full structure",
-      "Create reusable workflows combining AI, spreadsheets, and rules",
-      "Design a human-in-the-loop finance process as a portfolio piece",
+      "Design multi-agent and RAG architectures for real products",
+      "Build a full-stack app skeleton with AI front-to-back",
+      "Integrate Claude or GPT-4o via API with streaming responses",
+      "Design system prompts and context management strategies",
+      "Ship a working AI-powered MVP by Day 7",
     ],
   },
   {
     week: 2, level: 2,
-    title: "Anomaly Detection, Reporting & Forecasting",
+    title: "Agents, Automation, and MCP",
     color: "#c4620a",
     outcomes: [
-      "Design exception-based reconciliation workflows at scale",
-      "Build an anomaly detection and fraud screening rule library",
-      "Produce AI-assisted variance analysis and management reports",
-      "Build scenario-based cash flow forecasts with AI",
-      "Complete a full AI-assisted month-end review workflow",
+      "Build autonomous agents that use tools, browse the web, and take actions",
+      "Connect MCP servers to Claude for persistent memory and external tools",
+      "Design multi-step pipelines that run end-to-end without human input",
+      "Handle errors, retries, and edge cases in production AI systems",
+      "Complete a working agent that solves a real business problem",
     ],
   },
   {
     week: 3, level: 2,
-    title: "Audit Readiness, Governance & Policy",
+    title: "Ship to Production",
     color: "#a0510a",
     outcomes: [
-      "Build an AI audit readiness checklist and evidence pack template",
-      "Translate accounting policies into AI-executable decision rules",
-      "Design scalable AP/AR operating models with AI",
-      "Build a rigorous vendor evaluation scorecard",
-      "Complete a full AI governance model for your finance function",
+      "Deploy a full-stack AI app to Vercel, Railway, or Fly.io",
+      "Add authentication, rate limiting, and usage tracking",
+      "Implement evals — testing that your AI outputs meet a quality bar",
+      "Monitor, log, and debug live AI systems",
+      "Build a CI/CD pipeline so your app ships when you push",
     ],
   },
   {
     week: 4, level: 2,
-    title: "Advisory, Transformation & Capstone",
+    title: "Product Thinking and Capstone",
     color: "#7a3e08",
     outcomes: [
-      "Design real-time finance monitoring dashboards with AI insights",
-      "Build profitability analysis and decision-support frameworks",
-      "Produce board-level CFO commentary and executive communication",
-      "Build a 90-day AI transformation roadmap for an accounting team",
-      "Complete your AI-Ready Accounting Operating Model capstone",
+      "Design the prompt architecture for a production AI product",
+      "Build and ship a real tool that solves a problem for real users",
+      "Write a technical spec and product brief for any AI build",
+      "Prepare your Level 2 portfolio: 3 shipped projects with demos",
+      "Graduate with a deployable SaaS-ready AI product",
     ],
   },
 ];
 
-// Backwards-compat default exports
+// Backwards-compat default export
 export const weekOverviews = weekOverviewsL1;
 
 // ─────────────────────────────────────────────
@@ -177,6 +182,7 @@ export const weekOverviews = weekOverviewsL1;
 // ─────────────────────────────────────────────
 
 export const curriculumL1: DayLesson[] = [
+
   // ── WEEK 1: THE VIBE CODING MINDSET (Days 1–7) ─────────────────────────────
   {
     day: 1,
@@ -185,11 +191,11 @@ export const curriculumL1: DayLesson[] = [
     title: "What Is Vibe Coding? (AI as Partner, Not Search)",
     category: "Learn",
     summary:
-      "Understand the philosophy: using natural language to produce working software. AI writes, you direct, review, and refine.",
+      "Understand the philosophy: using natural language to produce working software. AI writes, you direct, review, and refine. In 2026, this is a professional superpower — not a shortcut.",
     task:
-      "Write a 2-sentence explanation of vibe coding to a skeptical colleague. No jargon.",
+      "Write a 2-sentence explanation of vibe coding to a skeptical colleague. No jargon. Then write a 3-sentence version of what you want to build by the end of this course.",
     whyItMatters:
-      "Most people think coding is for engineers. Vibe coding unlocks software creation for everyone.",
+      "Most people still think coding is for engineers. Vibe coding changes that permanently — your ideas, your rules, AI as your engine.",
     tools: ["Claude", "ChatGPT"],
   },
   {
@@ -199,12 +205,12 @@ export const curriculumL1: DayLesson[] = [
     title: "Your First Working Script — From One Prompt",
     category: "Apply",
     summary:
-      "Write a single prompt that generates a working Python script. Run it. See it work.",
+      "Write a single structured prompt that generates a working Python script. Run it. See it work. The moment it works, something shifts in you.",
     task:
-      "Prompt: \"Write a Python script that renames all files in a folder to sequential numbers.\" Run on a test folder.",
+      "Prompt: \"Write a Python script that renames all files in a folder to sequential numbers. Include error handling if the folder is empty.\" Run on a test folder. Confirm it works.",
     whyItMatters:
-      "Your first working script is a threshold moment. After today, you'll believe it's possible.",
-    tools: ["Claude", "Python", "Replit"],
+      "Your first working script is a threshold moment. After today, you'll never not believe it's possible.",
+    tools: ["Claude", "Python", "Cursor"],
   },
   {
     day: 3,
@@ -213,11 +219,11 @@ export const curriculumL1: DayLesson[] = [
     title: "Reading AI Code — You Don't Write, You Review",
     category: "Learn",
     summary:
-      "Learn to read AI-generated code well enough to spot errors, understand flow, and request changes.",
+      "Learn to read AI-generated code well enough to spot errors, understand flow, and request precise changes. This is 80% of the skill.",
     task:
-      "Take the script from Day 2. Read every line. Write a paragraph explaining what it does in plain English.",
+      "Take the script from Day 2. Read every line. Write a paragraph explaining what it does in plain English. Then ask Claude: \"What would break this script?\" Apply one of the answers as a test.",
     whyItMatters:
-      "You don't need to write code from scratch. You need to be a good reviewer — that's 80% of the skill.",
+      "You don't need to write code from scratch. You need to be a good reviewer — that's the real craft of vibe coding in 2026.",
     tools: ["Claude", "Python"],
   },
   {
@@ -227,26 +233,26 @@ export const curriculumL1: DayLesson[] = [
     title: "The 3-Part Vibe Prompt — Goal, Constraints, Format",
     category: "Learn",
     summary:
-      "Master the structure that consistently produces working code: what you want, what limits it, how you want it returned.",
+      "Master the prompt structure that consistently produces working code: what you want, what limits it, and how you want it returned. This structure works for every model, every task.",
     task:
-      "Rewrite your Day 2 prompt using the 3-part structure. Compare outputs and note what improved.",
+      "Rewrite your Day 2 prompt using the 3-part structure. Compare outputs side-by-side and document exactly what improved and why.",
     whyItMatters:
-      "Vague prompts produce broken code. Structured prompts produce working code. This is the meta-skill.",
+      "Vague prompts produce broken code. Structured prompts produce working code. This single pattern is worth the entire course.",
     tools: ["Claude", "ChatGPT"],
   },
   {
     day: 5,
     week: 1,
     level: 1,
-    title: "Setting Up Your Sandbox — Replit, VS Code, or Cursor",
+    title: "Setting Up Your Sandbox — Cursor, VS Code, or Replit",
     category: "Apply",
     summary:
-      "Choose and configure your development environment — the place where you'll run and test AI-generated code.",
+      "Choose and configure your development environment. In 2026, Cursor is the leading AI-native IDE. VS Code + Claude Code is the power-user setup. Replit is the fastest no-install start.",
     task:
-      "Set up a free Replit account or install VS Code. Run a \"Hello World\" Python script. Confirm it works.",
+      "Install Cursor (recommended) or set up VS Code with the Claude Code extension. Run a \"Hello World\" Python script. Confirm it works. Explore one AI feature in your editor.",
     whyItMatters:
-      "A working sandbox removes friction. Without it, you'll abandon vibe coding. With it, you'll build daily.",
-    tools: ["Replit", "VS Code", "Cursor"],
+      "A working sandbox removes friction. Your IDE is where you spend 90% of your time — it should feel like a collaboration, not a tool.",
+    tools: ["Cursor", "VS Code", "Claude Code", "Replit"],
   },
   {
     day: 6,
@@ -255,12 +261,12 @@ export const curriculumL1: DayLesson[] = [
     title: "Error Handling — The AI Made a Bug, Now What?",
     category: "Apply",
     summary:
-      "Learn the debugging loop: paste the error back to AI, ask for a fix, understand what changed, iterate.",
+      "Learn the debugging loop: paste the full error back to AI, ask for a fix with explanation, understand what changed, iterate. Speed here is everything.",
     task:
-      "Introduce a deliberate bug into your Day 2 script. Paste the error to Claude. Apply the fix. Document what changed.",
+      "Introduce a deliberate bug into your Day 2 script. Paste the full error message to Claude. Apply the fix. Document in 3 bullet points what changed and why.",
     whyItMatters:
-      "Bugs are not failures — they're feedback. The skill is not avoiding bugs, it's resolving them in seconds.",
-    tools: ["Claude", "Python"],
+      "Bugs are not failures — they're feedback. The skill is not avoiding bugs, it's resolving them in 60 seconds.",
+    tools: ["Claude", "Python", "Cursor"],
   },
   {
     day: 7,
@@ -270,12 +276,12 @@ export const curriculumL1: DayLesson[] = [
     category: "Sprint",
     isMiniProject: true,
     summary:
-      "Apply everything from Week 1 to build a real automation that solves a problem you actually have.",
+      "Apply everything from Week 1 to build a real automation that solves a problem you actually have. Ship it. Test it. Keep it.",
     task:
-      "Build one working automation: file organizer, email scraper, CSV cleaner, or text summarizer. Test it. Document the prompt and output.",
+      "Build one working automation: file organizer, email scraper, CSV cleaner, text summarizer, or an idea of your own. Test it on real data. Document the prompt chain and save your script.",
     whyItMatters:
-      "Your first real automation is proof of competence. Keep it. Use it. Show it to colleagues.",
-    tools: ["Claude", "Python", "Replit"],
+      "Your first real automation is proof of competence — to yourself and to anyone you show it to. This is your Week 1 portfolio piece.",
+    tools: ["Claude", "Python", "Cursor"],
   },
 
   // ── WEEK 2: BUILDING REAL THINGS (Days 8–14) ───────────────────────────────
@@ -286,12 +292,12 @@ export const curriculumL1: DayLesson[] = [
     title: "Data Extraction — PDF/CSV with AI",
     category: "Build",
     summary:
-      "Use AI to write a script that extracts tabular data from PDFs and saves it as CSV — no manual copying.",
+      "Use AI to write a script that extracts tabular data from PDFs and saves it as CSV — no manual copying, no copy-paste pain.",
     task:
-      "Find a PDF with a table. Prompt AI to extract it to CSV. Run it. Verify the output against the original table.",
+      "Find a PDF with a table. Prompt AI to extract it to CSV using pdfplumber. Run it. Verify every row against the original.",
     whyItMatters:
-      "Data extraction is one of the most common unsexy automations. Master this and you’ll save teams hours every week.",
-    tools: ["Claude", "Python", "pdfplumber", "tabula-py"],
+      "Data extraction is the most common unsexy automation. Master this and you save teams hours every single week.",
+    tools: ["Claude", "Python", "pdfplumber", "pandas"],
   },
   {
     day: 9,
@@ -300,11 +306,11 @@ export const curriculumL1: DayLesson[] = [
     title: "Web Scraping with AI Help",
     category: "Build",
     summary:
-      "Build a scraper that pulls data from a website with AI writing the selectors and handling pagination.",
+      "Build a scraper that pulls structured data from a public website, with AI writing the selectors and handling pagination for you.",
     task:
-      "Prompt AI to scrape a list of 10 items from any public website. Run it. Then handle one error without asking AI.",
+      "Prompt AI to scrape a list of 10 items from any public website. Run it. Then handle one error yourself — no AI. Document what you figured out.",
     whyItMatters:
-      "Web scraping unlocks competitor monitoring, price tracking, and research automation. It’s a core vibe coding superpower.",
+      "Web scraping unlocks competitor monitoring, price tracking, and research automation at zero cost. It's a core vibe coding superpower.",
     tools: ["Claude", "Python", "requests", "BeautifulSoup"],
   },
   {
@@ -314,40 +320,40 @@ export const curriculumL1: DayLesson[] = [
     title: "Building a Simple API Endpoint",
     category: "Build",
     summary:
-      "Create a local API that returns data when you visit a URL — the foundation of web applications.",
+      "Create a local API that returns data when you hit a URL — the foundation of every web application. Demystify backends permanently.",
     task:
-      "Prompt AI to build a FastAPI endpoint that returns \"Hello World\" at `/hello`. Run it and visit the URL in your browser.",
+      "Prompt AI to build a FastAPI endpoint that returns a JSON response at `/hello`. Run it, visit the URL in your browser, then add a second endpoint that accepts a query parameter.",
     whyItMatters:
-      "APIs are how programs talk to each other. Building one demystifies the entire backend.",
+      "APIs are how programs talk to each other. Building one from scratch demystifies the entire backend of every app you've ever used.",
     tools: ["Claude", "Python", "FastAPI", "uvicorn"],
   },
   {
     day: 11,
     week: 2,
     level: 1,
-    title: "Connecting to External APIs (e.g. Weather, News)",
+    title: "Connecting to External APIs — Weather, News, or Finance",
     category: "Build",
     summary:
-      "Build a tool that calls an external API like weather or news and formats the response for you.",
+      "Build a tool that calls an external API and formats the response into something useful. The pattern here works for any API in the world.",
     task:
-      "Build a \"weather anywhere\" script. User inputs a city, script returns current temperature and condition.",
+      "Build a \"weather anywhere\" script: user inputs a city, script returns temperature, condition, and a one-sentence summary generated by Claude.",
     whyItMatters:
-      "Most valuable tools are API mashups. Once you can call APIs, you can build almost anything.",
+      "Most valuable tools are API mashups. Once you can call any API, you can build almost anything that exists on the internet.",
     tools: ["Claude", "Python", "requests", "OpenWeatherMap API"],
   },
   {
     day: 12,
     week: 2,
     level: 1,
-    title: "Scheduling Tasks — Cron Jobs with AI",
+    title: "Scheduling Tasks — Cron Jobs and GitHub Actions",
     category: "Build",
     summary:
-      "Schedule your scripts to run automatically — daily reports, hourly checks, weekly summaries.",
+      "Schedule your scripts to run automatically — daily reports, hourly checks, weekly summaries — without touching your computer.",
     task:
-      "Schedule your weather script to run every morning at 8am and save output to a file or log.",
+      "Schedule your weather script to run every morning at 8am using GitHub Actions. Save output to a log file. Confirm it runs without you.",
     whyItMatters:
-      "Automation isn’t automation if you have to run it manually. Scheduling makes it truly hands-off.",
-    tools: ["Claude", "cron", "GitHub Actions", "Replit Cron"],
+      "Automation isn't automation if you have to run it manually. Scheduling turns a script into infrastructure.",
+    tools: ["Claude", "GitHub Actions", "cron", "Python"],
   },
   {
     day: 13,
@@ -356,11 +362,11 @@ export const curriculumL1: DayLesson[] = [
     title: "Reflecting on Your Vibe Workflow",
     category: "Reflect",
     summary:
-      "Audit how you’re using AI to build. What’s working? What’s inefficient? Where do you still get stuck?",
+      "Audit how you're using AI to build. What's working? What's inefficient? Where do you still get stuck most often?",
     task:
-      "Write a 3-paragraph reflection on your vibe coding process so far. Identify one improvement for next week.",
+      "Write a 3-paragraph reflection on your vibe coding process so far. Identify one prompt pattern that's working and one habit to change next week.",
     whyItMatters:
-      "Reflection turns practice into mastery. The best vibe coders constantly refine their human–AI collaboration.",
+      "Reflection turns practice into mastery. The best vibe coders constantly refine their human-AI collaboration style.",
     tools: ["Claude", "Notion"],
   },
   {
@@ -371,27 +377,27 @@ export const curriculumL1: DayLesson[] = [
     category: "Sprint",
     isMiniProject: true,
     summary:
-      "Build something useful for colleagues — a report generator, data cleaner, or notification system.",
+      "Build something useful for colleagues — a report generator, data cleaner, link checker, or notification system. Solve a real friction.",
     task:
-      "Build one tool that solves a real friction for your team. Document it and share it with one colleague for feedback.",
+      "Build one tool that solves a real problem for your team or yourself. Document it with a one-paragraph README and share it with one person for feedback.",
     whyItMatters:
-      "Internal tools are high-visibility wins. This sprint builds your reputation as someone who gets things done.",
+      "Internal tools are high-visibility wins. This sprint builds your reputation as someone who actually ships.",
     tools: ["Claude", "Python", "Streamlit", "Gradio"],
   },
 
- // ── WEEK 3: MAKING IT YOURS (Days 15–21) ───────────────────────────────────
+  // ── WEEK 3: MAKING IT YOURS (Days 15–21) ───────────────────────────────────
   {
     day: 15,
     week: 3,
     level: 1,
-    title: "Adding a User Interface — Streamlit/Gradio",
+    title: "Adding a User Interface — Streamlit or Gradio",
     category: "Build",
     summary:
-      "Turn your script into an app with buttons, inputs, and outputs — no frontend experience required.",
+      "Turn your script into an app with buttons, inputs, and outputs — no frontend experience required. Ship something people can actually click.",
     task:
-      "Take any previous script. Wrap it in a Streamlit or Gradio UI with at least one input and one output element.",
+      "Take any previous script. Wrap it in a Streamlit UI with at least one text input, one button, and one output display. Run it locally and share the link.",
     whyItMatters:
-      "A script is useful. An app is shareable. UIs turn your automations into tools others can use.",
+      "A script is useful. An app is shareable. UIs are the last mile between a working automation and a tool anyone can use.",
     tools: ["Claude", "Streamlit", "Gradio", "Python"],
   },
   {
@@ -401,11 +407,11 @@ export const curriculumL1: DayLesson[] = [
     title: "Local Databases — SQLite with AI-Generated Queries",
     category: "Build",
     summary:
-      "Store and query data persistently using SQLite, with AI writing your SQL so you don’t have to learn it from scratch.",
+      "Store and query data persistently using SQLite, with AI writing your SQL. Data persistence turns one-off scripts into long-term assets.",
     task:
-      "Build a script that stores user inputs in a SQLite database and retrieves them on command.",
+      "Build a script that saves user inputs to a SQLite database, retrieves them on command, and displays a summary count. No raw SQL memorization required.",
     whyItMatters:
-      "Data persistence turns one-off tools into long-term assets. Databases are where serious tools live.",
+      "Databases are where serious tools live. This is the boundary between a toy and a product.",
     tools: ["Claude", "Python", "SQLite", "sqlite3"],
   },
   {
@@ -415,12 +421,12 @@ export const curriculumL1: DayLesson[] = [
     title: "Iterative Improvement — Make It Better Prompts",
     category: "Apply",
     summary:
-      "Learn to ask AI for specific improvements: add error handling, make it faster, add logging — building on existing code.",
+      "Learn to ask AI for targeted improvements: add error handling, improve messages, add logging, increase robustness — building on working code without rewriting it.",
     task:
-      "Take your Day 15 UI app. Ask AI to add 3 improvements (e.g., error handling, better messages, small performance tweak). Apply them one by one.",
+      "Take your Day 15 UI app. Ask AI to add: (1) error handling with a user-friendly message, (2) a loading spinner, (3) input validation. Apply them one by one and test each.",
     whyItMatters:
-      "First drafts are never final. The ability to iterate with AI is the difference between prototype and production.",
-    tools: ["Claude", "ChatGPT"],
+      "First drafts are never final. Targeted iteration is the difference between a prototype and something production-ready.",
+    tools: ["Claude", "Cursor"],
   },
   {
     day: 18,
@@ -429,26 +435,26 @@ export const curriculumL1: DayLesson[] = [
     title: "Reading Documentation with AI Help",
     category: "Learn",
     summary:
-      "When AI uses a library you don’t know, ask it to explain the relevant parts of the documentation.",
+      "When AI uses a library you don't know, ask it to explain the relevant parts of the docs in plain English. Never read a full library reference again.",
     task:
-      "Take a script with an unfamiliar library. Ask AI: \"Explain what line X does and show me the relevant docs.\" Paste the key doc snippet into your notes.",
+      "Take a script with an unfamiliar library. Ask Claude: \"Explain what line X does and what I need to know from the docs to change it.\" Save the explanation to your reference guide.",
     whyItMatters:
-      "You don’t need to read all docs. You need AI to extract the 5% that matters for your code.",
+      "You don't need to read all the docs. You need AI to extract the 5% that's relevant to your exact problem.",
     tools: ["Claude", "Perplexity AI"],
   },
   {
     day: 19,
     week: 3,
     level: 1,
-    title: "Environment Variables — No Hardcoded Keys!",
+    title: "Environment Variables — No Hardcoded Keys, Ever",
     category: "Secure",
     summary:
-      "Learn to store API keys and secrets outside your code — the minimum viable security practice.",
+      "Store API keys and secrets outside your code using `.env` files. This is the minimum viable security practice — and the difference between amateur and professional.",
     task:
-      "Take any script with an API key. Move it to a `.env` file. Update the script to read from environment variables.",
+      "Take any script with an API key hardcoded. Move it to a `.env` file. Update the script to read from `os.environ`. Confirm it still works. Add `.env` to `.gitignore`.",
     whyItMatters:
-      "Hardcoded secrets in code are how breaches happen. This habit alone makes you more professional than most beginners.",
-    tools: ["Claude", "python-dotenv", ".env"],
+      "Hardcoded secrets in code cause real breaches. This single habit makes your code deployable and professional from day one.",
+    tools: ["Claude", "python-dotenv", ".env", "Git"],
   },
   {
     day: 20,
@@ -457,12 +463,12 @@ export const curriculumL1: DayLesson[] = [
     title: "Refactoring with AI — Cleaning Up Messy Code",
     category: "Optimize",
     summary:
-      "Ask AI to reorganize, rename, and simplify its own code, making it readable and maintainable.",
+      "Ask AI to reorganize, rename, and simplify its own generated code — making it readable, testable, and maintainable without rewriting from scratch.",
     task:
-      "Take your messiest generated script. Ask AI: \"Refactor this to be more readable with clear function names.\" Compare before and after.",
+      "Take your messiest generated script. Ask AI: \"Refactor this into clean functions with clear names and a docstring for each.\" Compare before and after. What would have been hard to debug in the original?",
     whyItMatters:
-      "Generated code works, but messy code is hard to debug. Refactoring is the polish layer.",
-    tools: ["Claude", "ChatGPT"],
+      "Generated code works but messy code is a debt. Refactoring is the polish layer that makes your builds last.",
+    tools: ["Claude", "Cursor"],
   },
   {
     day: 21,
@@ -472,15 +478,15 @@ export const curriculumL1: DayLesson[] = [
     category: "Sprint",
     isMiniProject: true,
     summary:
-      "Build a personal dashboard that shows data from at least two sources (files, APIs, or databases).",
+      "Build a personal dashboard that pulls from at least two data sources and displays live information you actually care about.",
     task:
-      "Build a Streamlit dashboard displaying a chart from a CSV, a weather forecast, and a to-do list — all AI-generated.",
+      "Build a Streamlit dashboard showing: a chart from a CSV, a live data feed from an API, and one custom metric. Entirely AI-generated. Run it locally.",
     whyItMatters:
-      "A dashboard is a portfolio piece. It demonstrates data handling, UI, and integration — all vibe-coded.",
-    tools: ["Claude", "Streamlit", "pandas", "requests"],
+      "A dashboard is a portfolio piece — it shows data handling, UI design, and API integration all in one. Pure vibe coding.",
+    tools: ["Claude", "Streamlit", "pandas", "requests", "Python"],
   },
 
-  // ── WEEK 4: LOCAL FIRST (Days 22–28) ───────────────────────────────────────
+  // ── WEEK 4: SHIP IT (Days 22–28) ───────────────────────────────────────────
   {
     day: 22,
     week: 4,
@@ -488,11 +494,11 @@ export const curriculumL1: DayLesson[] = [
     title: "File I/O — Reading and Writing Files Like a Pro",
     category: "Learn",
     summary:
-      "Master the patterns for reading CSVs, JSON, and text files — then writing processed results back.",
+      "Master the patterns for reading CSVs, JSON, and text files — then writing processed results back to disk. Most business data lives in files.",
     task:
-      "Build a script that reads a CSV, filters rows based on a condition, and writes a new CSV with results.",
+      "Build a script that reads a CSV, filters rows based on a user-defined condition, writes a new filtered CSV, and prints a one-line summary of what was removed.",
     whyItMatters:
-      "File processing is the backbone of data automation. Most business data lives in files.",
+      "File processing is the backbone of business automation. Get this pattern right once and you'll reuse it forever.",
     tools: ["Claude", "Python", "csv", "pandas"],
   },
   {
@@ -502,12 +508,12 @@ export const curriculumL1: DayLesson[] = [
     title: "Command-Line Arguments — Make Your Scripts Reusable",
     category: "Build",
     summary:
-      "Add command-line arguments so your script accepts inputs without editing the code.",
+      "Add command-line arguments so your scripts accept inputs without editing the source code — the difference between personal tools and shared tools.",
     task:
-      "Modify your CSV filter script to accept input and output filenames as command-line arguments.",
+      "Modify your CSV filter script to accept input filename, output filename, and filter condition as command-line arguments. Test with three different inputs.",
     whyItMatters:
       "Hardcoded scripts are for you. Scripts with arguments are for everyone. This is professionalization.",
-    tools: ["Claude", "Python", "argparse", "sys"],
+    tools: ["Claude", "Python", "argparse"],
   },
   {
     day: 24,
@@ -516,12 +522,12 @@ export const curriculumL1: DayLesson[] = [
     title: "Organizing Your Vibe-Coded Projects",
     category: "Reflect",
     summary:
-      "Create a folder structure and naming convention so you can find and reuse your projects later.",
+      "Create a folder structure, naming convention, and README habit so you can find, share, and reuse every project you've built.",
     task:
-      "Organize all your scripts from the past 3 weeks into a logical folder structure. Document what each does.",
+      "Organize all your scripts from the past 3 weeks into a logical folder structure. Write a one-sentence description for each. Add a top-level README that explains what each does.",
     whyItMatters:
-      "Disorganized scripts are lost scripts. Organization compounds value — each new build adds to an asset library.",
-    tools: ["VS Code", "Finder/Explorer", "Terminal"],
+      "Disorganized scripts are lost scripts. Organization compounds value — each new build adds to an asset library you can return to for years.",
+    tools: ["VS Code", "Cursor", "Terminal", "Git"],
   },
   {
     day: 25,
@@ -530,9 +536,9 @@ export const curriculumL1: DayLesson[] = [
     title: "Sharing Scripts with Non-Technical Colleagues",
     category: "Apply",
     summary:
-      "Package your script so a non-technical colleague can run it — instructions, dependencies, and error handling.",
+      "Package your script so a non-technical colleague can run it — with clear instructions, a dependency list, and error messages that make sense to a normal human.",
     task:
-      "Take one script. Write a one-page run guide for a colleague. Test it with someone who doesn’t code.",
+      "Take one script. Write a one-page run guide for someone who has never used a terminal. Test it with someone who doesn't code. Fix every point of confusion they hit.",
     whyItMatters:
       "The best tool is useless if no one else can run it. Packaging is the final mile of value delivery.",
     tools: ["Claude", "README.md", "requirements.txt"],
@@ -544,26 +550,26 @@ export const curriculumL1: DayLesson[] = [
     title: "Your Vibe Coding Reference Guide — Build It Now",
     category: "Reflect",
     summary:
-      "Create your personal reference: prompt patterns, debugging steps, and code snippets you reuse often.",
+      "Build your personal reference: the prompt patterns, debugging steps, and code snippets you'll reuse in every project for the next year.",
     task:
-      "Build a Notion page or markdown file with your top 10 prompts and 5 debugging patterns.",
+      "Create a Notion page or markdown file with: your top 10 prompts, your 5-step debugging process, and 3 code snippet patterns you've used more than once.",
     whyItMatters:
-      "A reference guide speeds up your next build by 3×. Build it once, use it forever.",
+      "A reference guide speeds up every future build by 3×. Build it once, use it forever. This is your competitive advantage.",
     tools: ["Claude", "Notion", "Markdown"],
   },
   {
     day: 27,
     week: 4,
     level: 1,
-    title: "Peer Review — Stress-Test a Colleague’s Script",
+    title: "Peer Review — Stress-Test a Colleague's Script",
     category: "Review",
     summary:
-      "Trade scripts with a peer. Run theirs. Break it. Help them fix it. Learn from each other’s styles.",
+      "Trade scripts with a peer. Run theirs. Try to break it. Help them fix it. Learn from each other's approaches and prompt styles.",
     task:
-      "Find a peer in the program. Exchange one script. Run theirs, document issues, and suggest improvements.",
+      "Find a peer in the program. Exchange one script. Run theirs, document 3 issues or edge cases, and suggest one concrete improvement with a revised prompt.",
     whyItMatters:
-      "Reading other people’s code — even AI-generated — teaches you patterns you’d never discover alone.",
-    tools: ["Claude", "Python"],
+      "Reading other people's vibe-coded builds — even AI-generated — teaches patterns you'd never discover working alone.",
+    tools: ["Claude", "Python", "Cursor"],
   },
   {
     day: 28,
@@ -573,12 +579,12 @@ export const curriculumL1: DayLesson[] = [
     category: "Sprint",
     isMiniProject: true,
     summary:
-      "Assemble your best 3 scripts into a cohesive automation suite with shared utilities and documentation.",
+      "Assemble your three best scripts into a cohesive automation suite with shared utilities, documentation, and a 2-minute demo. Your Level 1 portfolio is done.",
     task:
-      "Create a folder with 3 working scripts, a `requirements.txt`, a README, and a 2-minute demo recording.",
+      "Create a folder with 3 working scripts, a `requirements.txt`, a README explaining each, and a Loom or screen-recorded 2-minute demo. Share it publicly or with your cohort.",
     whyItMatters:
-      "This suite is your Level 1 portfolio — proof you can build real things with AI, no engineering degree required.",
-    tools: ["Claude", "Python", "Git", "Loom"],
+      "This suite is your Level 1 portfolio — proof you can build real, working things with AI, no engineering degree required. Keep it. Show it. Build on it.",
+    tools: ["Claude", "Python", "Git", "Loom", "Cursor"],
   },
 ];
 
@@ -588,181 +594,204 @@ export const curriculumL1: DayLesson[] = [
 
 export const curriculumL2: DayLesson[] = [
 
-  // ── WEEK 1 ──────────────────────────────────────────────────────────────────
-  { day:1, week:1, level:2, category:"Strategy",
-    title:"The 2026 Finance Function — From Bookkeeping to Real-Time Advisory",
-    summary:"Survey the structural shift in accounting and finance: from periodic reporting to continuous monitoring, from manual review to AI-assisted controls. Map where your finance function sits on this spectrum and where it needs to go.",
-    task:"Produce a one-page AI readiness assessment for your finance function. Rate each of 8 accounting processes (1–5) on AI maturity. Identify your top 3 priority use cases and bottom 2 risks.",
-    tools:["Claude","ChatGPT","Google Docs"],
-    whyItMatters:"Strategy starts with an honest current-state assessment. This document becomes the baseline against which you measure transformation progress." },
-  { day:2, week:1, level:2, category:"Strategy",
-    title:"AI Use Case Prioritisation — The Finance Function Matrix",
-    summary:"Apply a 2×2 feasibility-impact matrix to the AI use cases in your finance function. Build a prioritised list that accounts for data readiness, regulatory constraints, and implementation complexity.",
-    task:"Map 8+ AI use cases for your finance function onto the feasibility-impact matrix. Produce a ranked shortlist of your top 5 with a one-line rationale for each. Format for a CFO audience.",
-    tools:["Claude","Google Sheets","Miro"],
-    whyItMatters:"Prioritisation is the most important strategic decision in AI transformation. A structured matrix prevents the common mistake of chasing exciting use cases over high-value ones." },
-  { day:3, week:1, level:2, category:"Workflows",
-    title:"Designing the AI-Assisted Month-End Close",
-    summary:"Redesign the month-end close process with AI integrated at each step — from pre-close data preparation to final review sign-off. Build a documented process blueprint that is both efficient and audit-ready.",
-    task:"Produce a Close Process Blueprint in table format: step, owner, AI action, human review point, time estimate, and pass/fail criterion. Cover at least 8 steps from data lock to signed-off financials.",
-    tools:["Claude","Google Docs","Notion"],
-    whyItMatters:"The month-end close is the highest-value process to redesign with AI. A documented blueprint is immediately deployable and demonstrates senior-level workflow design capability." },
-  { day:4, week:1, level:2, category:"Workflows",
-    title:"Advanced Prompt Engineering for Accounting",
-    summary:"Master the structured prompt techniques that produce reliable accounting output: chain-of-thought for complex calculations, few-shot examples for consistent formatting, and role prompting for different stakeholder audiences.",
-    task:"Write 5 advanced accounting prompts — one chain-of-thought, one few-shot, one role-based, one constraint-heavy, one multi-step. Test each and rate output quality. Document what made each one work.",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"Advanced prompt engineering is what separates basic AI use from senior-level AI deployment. Each technique solves a different class of accounting problem." },
-  { day:5, week:1, level:2, category:"Workflows",
-    title:"Reusable Workflow Design — AI, Spreadsheets, and Rules",
-    summary:"Design reusable accounting workflows that combine AI prompts, spreadsheet logic, and explicit rules — creating systematic processes that any team member can run consistently.",
-    task:"Design one reusable accounting workflow (e.g., invoice review, variance analysis, bank rec). Document it as a step-by-step SOP with: inputs, AI step, human step, output specification, and quality check.",
-    tools:["Claude","Google Sheets","Notion"],
-    whyItMatters:"Reusable workflows multiply your impact. A workflow you document once saves time every month for every person who runs it." },
-  { day:6, week:1, level:2, category:"Controls & Governance",
-    title:"Human-in-the-Loop Design for Finance Processes",
-    summary:"Design the human oversight layer for AI-assisted finance processes — determining which decisions require human review, what evidence standards are needed, and how to build escalation paths that work under time pressure.",
-    task:"Select one AI-assisted finance process and design the full human-in-the-loop architecture: decision triggers, reviewer qualifications, escalation path, evidence requirements, and audit trail specification.",
-    tools:["Claude","Miro","Google Docs"],
-    whyItMatters:"Human-in-the-loop design is what makes AI-assisted accounting defensible to auditors and regulators. Getting this right is the governance foundation of every AI finance deployment." },
-  { day:7, week:1, level:2, category:"Workflows", isMiniProject:true,
-    title:"Mini-Project: Close Blueprint and Human-in-the-Loop Design",
-    summary:"Finalise two senior-level portfolio pieces: your Close Process Blueprint and your Human-in-the-Loop Process Design — both formatted for a CFO or audit committee audience.",
-    task:"Polish both documents to board-ready standard. The Close Blueprint should be deployable. The Human-in-the-Loop Design should be defensible to an auditor. Both should demonstrate governance maturity.",
-    tools:["Claude","Google Docs","Canva"],
-    whyItMatters:"These documents mark a clear line between basic AI use and strategic AI deployment. They are consulting-grade deliverables that demonstrate senior finance capability." },
+  // ── WEEK 1: FULL-STACK AI APP ARCHITECTURE (Days 1–7) ──────────────────────
+  { day:1, week:1, level:2, category:"Architecture",
+    title:"The 2026 AI App Stack — From Vibe to Production",
+    summary:"Survey the full modern AI product stack: LLM APIs, vector stores, agents, MCP servers, and deployment platforms. Map where vibe coding stops and software engineering begins — then decide how much of that gap you need to close.",
+    task:"Produce a one-page architecture map for the type of AI app you want to build. Label each layer: frontend, backend, AI model, memory/storage, agent tools, and deployment. Identify your 2 biggest knowledge gaps.",
+    whyItMatters:"Strategy starts with understanding the terrain. This map becomes your north star for the next 28 days — and your blueprint for every AI project that follows." },
 
-  // ── WEEK 2 ──────────────────────────────────────────────────────────────────
-  { day:8, week:2, level:2, category:"Controls & Governance",
-    title:"Exception-Based Reconciliation at Scale",
-    summary:"Design AI-assisted reconciliation workflows built around exception detection rather than line-by-line matching — dramatically improving efficiency while maintaining control quality.",
-    task:"Redesign one reconciliation process using exception-based logic. Define your matching rules, exception criteria, and review thresholds. Write the AI prompt that implements your matching logic.",
-    tools:["Claude","ChatGPT","Xero","Google Sheets"],
-    whyItMatters:"Exception-based reconciliation is how senior accountants scale their review capacity. Designing this workflow is a direct productivity multiplier." },
-  { day:9, week:2, level:2, category:"Controls & Governance",
-    title:"Anomaly Detection — Building Your Finance Rule Library",
-    summary:"Build a systematic anomaly detection rule library for your finance function — covering transaction outliers, pattern breaks, duplicate risks, and unusual account movements.",
-    task:"Write 8+ anomaly detection rules across 5 categories (transaction, balance, pattern, duplicate, timing). For each rule, write the AI prompt that implements it and the threshold that triggers a review.",
-    tools:["Claude","ChatGPT","Google Sheets"],
-    whyItMatters:"Anomaly detection is AI's clearest competitive advantage in accounting. A documented rule library is both a control tool and a demonstration of advanced AI governance." },
-  { day:10, week:2, level:2, category:"Controls & Governance",
-    title:"Fraud Risk Screening with AI",
-    summary:"Apply AI to fraud risk screening: identifying red flags in transaction data, supplier behaviour, expense patterns, and payroll anomalies — while maintaining proportionate and legally sound processes.",
-    task:"Design a fraud screening checklist covering 4 risk areas. For each area, write 3 AI prompts that screen for specific red flags. Include the human review step required for each positive result.",
-    tools:["Claude","ChatGPT","Perplexity AI"],
-    whyItMatters:"Fraud detection is a high-stakes, high-value AI use case. A structured screening process — rather than ad-hoc checks — is what professional-standard AI deployment looks like." },
-  { day:11, week:2, level:2, category:"Reporting",
-    title:"Variance Analysis at Speed — AI-Assisted Commentary",
-    summary:"Build a systematic AI-assisted variance analysis workflow — from data preparation to management commentary — that produces consistent, accurate narrative in a fraction of the manual time.",
-    task:"Design a variance analysis prompt template for your reporting context. Include: data input format, analysis instruction, narrative specification, and tone guidance. Test with real or sample data.",
-    tools:["Claude","ChatGPT","Microsoft Copilot"],
-    whyItMatters:"Variance commentary is produced every month. A systematic AI workflow eliminates inconsistency and frees senior time for analysis rather than drafting." },
-  { day:12, week:2, level:2, category:"Reporting",
-    title:"Cash Flow Forecasting with AI-Assisted Scenario Analysis",
-    summary:"Use AI to build scenario-based cash flow forecasts — writing prompts for base, optimistic, and stress scenarios — and design the narrative that accompanies each forecast for management use.",
-    task:"Build a scenario analysis prompt framework for cash flow: inputs, scenario definitions, forecast logic, and narrative format. Produce a base and stress scenario for a sample business.",
-    tools:["Claude","ChatGPT","Google Sheets"],
-    whyItMatters:"Scenario-based forecasting is a CFO-level capability. AI dramatically accelerates the modelling — your value is in the scenario design and the narrative judgment." },
-  { day:13, week:2, level:2, category:"Reporting",
-    title:"Management Reporting — AI-Assisted Pack Production",
-    summary:"Design an AI-assisted management reporting workflow — from data pull to final pack — covering KPI commentary, variance narrative, and executive summary production.",
-    task:"Map your management reporting process end-to-end. Identify every step where AI can accelerate output. Write 3 management report prompts: KPI commentary, variance summary, and executive narrative.",
-    tools:["Claude","ChatGPT","Microsoft Copilot","Google Workspace"],
-    whyItMatters:"Management reporting is the highest-visibility output in finance. AI assistance here has direct impact on reporting quality, timeliness, and your professional reputation." },
-  { day:14, week:2, level:2, category:"Workflows", isMiniProject:true,
-    title:"Mini-Project: Month-End Review Workflow",
-    summary:"Produce a complete AI-assisted month-end review workflow: pre-close checklist, variance prompt template, anomaly detection rules, commentary specification, and quality review checklist.",
-    task:"Integrate the week's work into one cohesive workflow document. It should cover: pre-close data checks, AI-assisted variance analysis, anomaly detection run, commentary production, and CFO sign-off package.",
-    tools:["Claude","Google Docs","Notion"],
-    whyItMatters:"This is your most comprehensive workflow deliverable. It demonstrates the ability to design, document, and integrate multiple AI use cases into a deployable senior-level process." },
+  { day:2, week:1, level:2, category:"AI Integration",
+    title:"Calling Claude and GPT-4o via API — With Streaming",
+    summary:"Move beyond the chat UI. Call Claude and GPT-4o directly via API, handle streaming responses, manage token limits, and build the API wrapper pattern you'll reuse in every project.",
+    task:"Build a Python module that wraps the Anthropic API with streaming. Accept a system prompt, user message, and max tokens. Stream the output token-by-token to the terminal. Then swap models — same interface, different model.",
+    tools:["Claude API", "Anthropic SDK", "Python", "Cursor"],
+    whyItMatters:"Every serious AI product calls a model API directly. Streaming responses are the standard in 2026 — users expect real-time output, not a loading spinner." },
 
-  // ── WEEK 3 ──────────────────────────────────────────────────────────────────
-  { day:15, week:3, level:2, category:"Controls & Governance",
-    title:"Audit Readiness — Building the AI Evidence Pack",
-    summary:"Design an AI evidence pack template that captures the full audit trail for AI-assisted accounting decisions: input data, prompt used, AI output, reviewer sign-off, changes made, and rationale.",
-    task:"Build a reusable AI evidence pack template. It should be completable in under 5 minutes per AI-assisted task and produce documentation that satisfies both internal audit and external auditor requirements.",
-    tools:["Claude","Google Docs","Notion"],
-    whyItMatters:"Evidence packs are what transform informal AI use into professionally defensible practice. Without them, AI-assisted accounting is a liability rather than an asset." },
-  { day:16, week:3, level:2, category:"Controls & Governance",
-    title:"AI Audit Readiness Checklist — 15 Items, 5 Categories",
-    summary:"Build a comprehensive audit readiness checklist for AI-assisted finance: covering documentation, controls, data quality, review processes, and regulatory compliance.",
-    task:"Develop a 15-item audit readiness checklist across 5 categories. For each item: the requirement, the evidence standard, who owns it, and how to assess compliance. Format for quarterly self-assessment.",
-    tools:["Claude","Google Docs"],
-    whyItMatters:"Audit readiness is not a one-time project — it is an ongoing governance discipline. A checklist makes it systematic and auditable in itself." },
-  { day:17, week:3, level:2, category:"Controls & Governance",
-    title:"Policy Translation — From Rules to AI-Executable Logic",
-    summary:"Translate accounting policies, compliance rules, and control requirements into AI-executable IF-THEN logic — making policies actionable in your AI-assisted workflows.",
-    task:"Select 3 accounting policies (expense, revenue recognition, or disclosure). Translate each into IF-THEN rules an AI can apply. Test each translation with sample data. Document edge cases.",
-    tools:["Claude","ChatGPT"],
-    whyItMatters:"Policy translation is a senior skill — bridging the gap between written rules and automated execution. It is also the first step toward systematic compliance checking." },
-  { day:18, week:3, level:2, category:"Tax & Compliance",
-    title:"Tax Research Protocol — Multi-Step AI Verification",
-    summary:"Design a rigorous multi-step tax research protocol using AI: defining the research question, using AI for initial research, verifying against primary sources, and documenting the conclusion.",
-    task:"Research one complex tax question using your protocol. Document each step: AI query, AI output, primary source verification, discrepancies found, and final conclusion. Total time: under 30 minutes.",
-    tools:["Claude","Perplexity AI","ChatGPT"],
-    whyItMatters:"Tax research with AI is only valuable if it is also defensible. A documented protocol is what turns AI-assisted tax research into professional-standard practice." },
-  { day:19, week:3, level:2, category:"Controls & Governance",
-    title:"AP and AR Operating Models with AI",
-    summary:"Design scalable AI-assisted operating models for AP and AR — covering workflow design, AI integration points, control frameworks, exception handling, and performance metrics.",
-    task:"Design one AP or AR operating model with AI integrated. Include: process flow, AI actions, human review points, KPIs, and controls. Format as a one-page operating model diagram with notes.",
-    tools:["Claude","Miro","Google Docs"],
-    whyItMatters:"AP and AR operating models define how a finance function actually runs. Designing AI into them at the architecture level — not as a retrofit — is the mark of a strategic finance leader." },
-  { day:20, week:3, level:2, category:"Controls & Governance",
-    title:"Vendor Evaluation — AI Scorecard for Finance Tools",
-    summary:"Build a rigorous vendor evaluation scorecard for AI-powered finance tools — covering capability, data handling, integration, regulatory compliance, vendor stability, and total cost of ownership.",
-    task:"Build a 10-criterion scorecard. Apply it to evaluate one finance AI tool you are considering. Produce a recommendation with evidence for each criterion. Format for a CFO decision meeting.",
-    tools:["Claude","Perplexity AI","Google Sheets"],
-    whyItMatters:"Finance teams are being sold AI tools aggressively. A rigorous evaluation scorecard protects against poor procurement decisions and demonstrates strategic technology governance." },
-  { day:21, week:3, level:2, category:"Controls & Governance", isMiniProject:true,
-    title:"Mini-Project: AI Governance Model for Your Finance Function",
-    summary:"Produce a complete AI governance model for your finance function: roles, approval matrix, escalation paths, incident response plan, and review cadence — in a format ready for CFO or audit committee review.",
-    task:"Build your governance model in one document. It must cover: who can use AI for what, who reviews AI output, how errors are escalated, how incidents are handled, and how the governance is reviewed. One page, deployable.",
-    tools:["Claude","Google Docs","Canva"],
-    whyItMatters:"An AI governance model is what separates individual AI use from organisational AI deployment. It is the document that protects your finance function — and your career — when things go wrong." },
+  { day:3, week:1, level:2, category:"Architecture",
+    title:"System Prompts — The Hidden Engine of Every AI Product",
+    summary:"Design system prompts that produce consistent, high-quality output across hundreds of interactions. Cover persona, task scope, output format, edge cases, and refusal logic — the craft that separates good AI products from great ones.",
+    task:"Write 3 system prompts for 3 different AI product roles (e.g., document analyst, code reviewer, customer support agent). Test each with 5 edge-case inputs. Document what breaks and fix it.",
+    tools:["Claude", "ChatGPT", "Cursor"],
+    whyItMatters:"System prompts are the product. Everyone with API access has the same model — your system prompt is your proprietary advantage." },
 
-  // ── WEEK 4 ──────────────────────────────────────────────────────────────────
-  { day:22, week:4, level:2, category:"Advisory",
-    title:"Real-Time Finance Monitoring — Dashboard Design with AI",
-    summary:"Design a real-time finance monitoring dashboard: defining the 8–10 KPIs that matter, the alert thresholds, the AI-generated insight layer, and the management action framework.",
-    task:"Design a finance monitoring dashboard for your context. Define 8 KPIs, their calculation logic, alert thresholds, and the AI prompt that generates the insight commentary for each. Mockup the layout.",
-    tools:["Claude","ChatGPT","Microsoft Copilot","Canva"],
-    whyItMatters:"Real-time monitoring is the destination of AI-assisted accounting. Designing the dashboard is the capstone of the analytical capability you have built across 22 days." },
-  { day:23, week:4, level:2, category:"Advisory",
-    title:"Profitability Analysis and Decision Support",
-    summary:"Build an AI-assisted profitability analysis framework — from data inputs to CFO brief — covering product, customer, or segment profitability with scenario analysis and decision recommendations.",
-    task:"Design a profitability analysis prompt framework for one relevant segment. Test it with sample data. Produce a one-page CFO brief using AI assistance. How much of the final brief is AI vs your judgment?",
-    tools:["Claude","ChatGPT","Google Sheets"],
-    whyItMatters:"Profitability analysis is advisory work — the highest-value output of a senior finance professional. AI accelerates the analysis; your judgment drives the recommendation." },
-  { day:24, week:4, level:2, category:"Advisory",
-    title:"CFO-Level Communication — Board Packs and Executive Commentary",
-    summary:"Use AI to produce board-level finance communication: CFO commentary, executive summaries, and risk response narratives — maintaining strategic framing and appropriate tone for senior audiences.",
-    task:"Draft a CFO commentary for a set of financial results using AI. Include: headline performance, key variances, forward outlook, and risk factors. Edit the output to reflect senior executive communication standards.",
-    tools:["Claude","ChatGPT","Microsoft Copilot"],
-    whyItMatters:"Board-level communication is a senior finance skill that AI can now support. The ability to produce high-quality CFO commentary quickly is a direct career differentiator." },
-  { day:25, week:4, level:2, category:"Advisory",
-    title:"Client Advisory — AI-Powered Business Performance Reviews",
-    summary:"Design an AI-assisted business performance review methodology for client advisory work — from data analysis to insight narrative to client communication — covering the full advisory workflow.",
-    task:"Design a client performance review workflow using AI. Include: data inputs, analysis prompts, insight generation, narrative drafting, and client communication. Test with a sample client scenario.",
-    tools:["Claude","ChatGPT","Google Docs"],
-    whyItMatters:"Client advisory is the highest-value output of an accounting professional. AI assistance here multiplies both the quality and the number of clients you can serve." },
+  { day:4, week:1, level:2, category:"Architecture",
+    title:"RAG — Retrieval-Augmented Generation from Scratch",
+    summary:"Build a simple RAG pipeline: chunk documents, embed them, store in a vector store, retrieve by semantic similarity, and pass context to the LLM. Understand why RAG exists and when to use it vs fine-tuning.",
+    task:"Build a working RAG prototype: load 3 text documents, chunk them, embed with OpenAI or Cohere, store in ChromaDB, and answer 5 natural language questions using retrieved context. Measure answer quality.",
+    tools:["Claude API", "ChromaDB", "Python", "Cursor", "OpenAI Embeddings"],
+    whyItMatters:"RAG is the most deployed AI pattern in production in 2026. Every enterprise AI product uses some form of it. Building one from scratch demystifies the entire category." },
+
+  { day:5, week:1, level:2, category:"AI Integration",
+    title:"Full-Stack App Skeleton — Next.js + FastAPI + Claude",
+    summary:"Scaffold a full-stack AI application: Next.js frontend, FastAPI backend, Claude integration, and a chat interface. Use v0 or Lovable to generate the UI, AI to generate the backend, and wire it all together.",
+    task:"Build an app skeleton where a user types a message, it hits a FastAPI endpoint, Claude responds with streaming, and the response appears in the UI. No placeholder — real streaming end-to-end.",
+    tools:["Claude API", "FastAPI", "Next.js", "v0", "Vercel", "Cursor"],
+    whyItMatters:"This skeleton is the foundation of every AI app you'll ever build. Get it running once and every future project starts at step 5, not step 1." },
+
+  { day:6, week:1, level:2, category:"Architecture",
+    title:"Context Management — Memory, History, and Token Budgets",
+    summary:"Design context management strategies for AI apps: conversation history windowing, summary compression, user memory injection, and token budget control. The difference between an AI app that feels smart and one that forgets everything.",
+    task:"Add conversation history to your Day 5 app with a 10-message sliding window. Then add a compression step that summarizes older messages when the limit is hit. Test a 20-message conversation.",
+    tools:["Claude API", "Python", "Cursor"],
+    whyItMatters:"Context is the fundamental constraint of every LLM. Managing it well is the difference between a demo and a product." },
+
+  { day:7, week:1, level:2, category:"AI Integration", isMiniProject:true,
+    title:"Mini-Project: Working AI-Powered MVP",
+    summary:"Ship a working AI-powered MVP that solves one real problem. Combines your API integration, system prompt design, and app skeleton into something a real user can try today.",
+    task:"Define one problem. Build one working product: a document Q&A tool, an AI email drafter, a code reviewer, or a problem of your own. It must be runnable by someone who wasn't in the room when you built it.",
+    tools:["Claude API", "FastAPI", "Streamlit or Next.js", "Cursor"],
+    whyItMatters:"Week 1 ends with something real. Not a tutorial project — a working MVP that demonstrates full-stack AI capability from prompt to UI." },
+
+  // ── WEEK 2: AGENTS, AUTOMATION, AND MCP (Days 8–14) ───────────────────────
+  { day:8, week:2, level:2, category:"Automation",
+    title:"Agents 101 — Tools, Planning, and Execution Loops",
+    summary:"Understand the anatomy of an AI agent: tools the model can call, a planning step, an execution loop, and a stopping condition. Build the simplest possible agent that actually does something useful.",
+    task:"Build a minimal agent using Claude with tool use. Give it 2 tools: a web search function and a file writer. Give it the task: \"Research X and save a 3-bullet summary to a file.\" Confirm it completes autonomously.",
+    tools:["Claude API", "Anthropic SDK", "Python", "Cursor"],
+    whyItMatters:"Agents are the defining capability of AI in 2026. Understanding the architecture at the code level means you can build and debug them — not just prompt them." },
+
+  { day:9, week:2, level:2, category:"Automation",
+    title:"Tool Use — Give Claude Hands",
+    summary:"Design and implement custom tool functions that Claude can call: calculators, API callers, file system access, database queries, and web scrapers. Master the tool-calling pattern that works with any model.",
+    task:"Build 3 custom tools for Claude: (1) a calculator that evaluates math expressions, (2) a web fetcher that returns page text, (3) a CSV reader. Test Claude calling all 3 in a single conversation.",
+    tools:["Claude API", "Anthropic SDK", "Python", "Cursor"],
+    whyItMatters:"Tool use is what turns an LLM into a capable system. Every agent, every automation, every AI product that does real-world actions runs on this pattern." },
+
+  { day:10, week:2, level:2, category:"AI Integration",
+    title:"MCP — Model Context Protocol in Practice",
+    summary:"Connect Claude to MCP servers for persistent memory, external tool access, and context augmentation. Understand what MCP is, why it exists, and how to build and connect a custom MCP server.",
+    task:"Connect Claude Desktop or your app to 2 MCP servers: one for file system access and one of your choice from the MCP registry. Build a simple custom MCP server that exposes one tool.",
+    tools:["Claude", "MCP SDK", "Python", "Cursor"],
+    whyItMatters:"MCP is the emerging standard for AI-tool connectivity in 2026. Building with it now puts you ahead of the majority of AI developers who are still using raw tool calls." },
+
+  { day:11, week:2, level:2, category:"Automation",
+    title:"Multi-Step Pipelines — Chain of Agents",
+    summary:"Design multi-agent pipelines where specialized agents hand off tasks: a researcher, a writer, and a reviewer working in sequence. Understand orchestration, state passing, and failure recovery.",
+    task:"Build a 3-agent pipeline: Agent 1 researches a topic from the web. Agent 2 writes a structured summary. Agent 3 reviews and scores it. The output is a final document with a quality score.",
+    tools:["Claude API", "Python", "Cursor"],
+    whyItMatters:"Single agents are powerful. Pipelines of specialized agents are transformative. This pattern is how production AI systems at scale actually work in 2026." },
+
+  { day:12, week:2, level:2, category:"Automation",
+    title:"Error Handling in Production AI Systems",
+    summary:"Design robust error handling for AI-powered automations: retries with exponential backoff, fallback models, output validation, and graceful degradation when the model fails or refuses.",
+    task:"Take your Day 11 pipeline. Add: (1) retry logic with 3 attempts, (2) output schema validation that rejects malformed responses, (3) a fallback that returns a partial result if any agent fails. Test by deliberately breaking each agent.",
+    tools:["Claude API", "Python", "Pydantic", "Cursor"],
+    whyItMatters:"AI systems fail in ways traditional software doesn't — hallucinations, refusals, malformed JSON, rate limits. Production-grade error handling is the line between a demo and a deployable system." },
+
+  { day:13, week:2, level:2, category:"Automation",
+    title:"Scheduling and Running Agents Autonomously",
+    summary:"Deploy your agent or pipeline to run on a schedule — daily summaries, hourly monitors, weekly reports — using GitHub Actions, Railway, or a cron job. True automation: runs while you sleep.",
+    task:"Deploy one of your agents to run on a daily schedule using GitHub Actions. It should: fetch data, process with Claude, and save output to a file or send a notification. Confirm it runs without you.",
+    tools:["GitHub Actions", "Railway", "Python", "Claude API"],
+    whyItMatters:"An agent you run manually is a script. An agent that runs on a schedule is infrastructure. This is the step that makes your AI work for you 24/7." },
+
+  { day:14, week:2, level:2, category:"Automation", isMiniProject:true,
+    title:"Mini-Project: A Working Agent That Solves a Real Problem",
+    summary:"Build and deploy an autonomous agent that solves one real-world problem from start to finish — research to output — with no human in the loop after the trigger.",
+    task:"Define one repeating task in your life or work. Build an agent that completes it autonomously, on a schedule. It must run 3 consecutive times successfully with no manual intervention.",
+    tools:["Claude API", "Python", "GitHub Actions", "Cursor"],
+    whyItMatters:"This agent is your most impressive portfolio piece from the Advanced track. A running agent is proof of capability that no portfolio PDF can match." },
+
+  // ── WEEK 3: SHIP TO PRODUCTION (Days 15–21) ────────────────────────────────
+  { day:15, week:3, level:2, category:"Deploy",
+    title:"Deployment — Vercel, Railway, and Fly.io",
+    summary:"Deploy your AI app to the public internet. Cover environment variable management in production, HTTPS, domain setup, and the deployment pipeline that gets your app live in under 30 minutes.",
+    task:"Deploy your Day 5 (or Day 7) app to Vercel (frontend) and Railway (backend). Set all secrets via environment variables. Share the live URL. Confirm it works for someone who isn't you.",
+    tools:["Vercel", "Railway", "Fly.io", "Cursor", "GitHub"],
+    whyItMatters:"An app that runs locally is a prototype. An app on the public internet is a product. This step is where your work becomes real." },
+
+  { day:16, week:3, level:2, category:"Deploy",
+    title:"Authentication — Protecting Your AI App",
+    summary:"Add user authentication to your AI app using Clerk or Supabase Auth. Protect API endpoints, associate usage with users, and prevent unauthorized access to your Claude API key.",
+    task:"Add Clerk authentication to your app. Users must sign in to use it. API calls are only allowed for authenticated sessions. Test that unauthenticated requests are rejected.",
+    tools:["Clerk", "Supabase", "FastAPI", "Cursor"],
+    whyItMatters:"An AI app without auth burns your API budget on anyone who finds the URL. Auth is the first step from toy to product." },
+
+  { day:17, week:3, level:2, category:"Deploy",
+    title:"Rate Limiting and Usage Tracking",
+    summary:"Add rate limiting to prevent abuse, track token usage per user, and build a usage dashboard that shows you exactly what your app is doing and what it's costing.",
+    task:"Add rate limiting (10 requests/hour per user) to your API. Log each request: user ID, token count, model, and timestamp to a database. Build a 5-row summary table that shows top users and total cost.",
+    tools:["Redis", "Supabase", "FastAPI", "Python", "Cursor"],
+    whyItMatters:"AI API costs are real and can spike without warning. Usage tracking is how you run a profitable AI product instead of an expensive hobby." },
+
+  { day:18, week:3, level:2, category:"AI Integration",
+    title:"Evals — Testing That Your AI Actually Works",
+    summary:"Build an evaluation framework for your AI app: define a test set of inputs and expected outputs, run automated evals, and measure quality score across model versions and prompt changes.",
+    task:"Write 10 test cases for your AI app (input + expected output). Build a script that runs all 10 and scores each response (pass/fail or 1–5). Run it before and after a prompt change. Document what moved.",
+    tools:["Claude API", "Python", "Braintrust or custom eval script", "Cursor"],
+    whyItMatters:"Without evals, every prompt change is a guess. With evals, every change is measured. This is how professional AI teams ship with confidence." },
+
+  { day:19, week:3, level:2, category:"Deploy",
+    title:"Logging, Monitoring, and Debugging Live AI Systems",
+    summary:"Instrument your AI app with structured logging, error alerting, and response monitoring. Know when your app is failing, why it's failing, and which requests are producing bad outputs.",
+    task:"Add structured logging to your app: log every AI request and response with timestamp, user, model, tokens, and a quality flag. Set up a simple alert that triggers when error rate exceeds 5% in 1 hour.",
+    tools:["Logfire", "Sentry", "Python logging", "Railway", "Cursor"],
+    whyItMatters:"Production AI systems fail silently. Logging and monitoring is the difference between finding out about problems from your users and finding out before they do." },
+
+  { day:20, week:3, level:2, category:"Deploy",
+    title:"CI/CD — Ship When You Push",
+    summary:"Set up a CI/CD pipeline so your app automatically tests and deploys when you push to main. This is the workflow of every professional engineering team and it works for vibe-coded apps too.",
+    task:"Create a GitHub Actions workflow that: runs your eval suite on every PR, blocks merge if evals fail, and auto-deploys to Railway on push to main. Test by pushing a breaking change.",
+    tools:["GitHub Actions", "Railway", "Vercel", "Python", "Cursor"],
+    whyItMatters:"Manual deployment is slow and error-prone. CI/CD means every push is tested and shipped automatically — the final step from hobbyist to professional." },
+
+  { day:21, week:3, level:2, category:"Deploy", isMiniProject:true,
+    title:"Mini-Project: Fully Deployed, Auth-Protected AI App",
+    summary:"Polish and finalize your deployed app: auth working, rate limiting in place, evals green, logs flowing, CI/CD shipping automatically. This is production-ready.",
+    task:"Deploy a complete AI app with all production requirements: authentication, rate limiting, eval suite, structured logging, and CI/CD. Share the live URL and confirm 3 people can use it without your help.",
+    tools:["Vercel", "Railway", "Clerk", "GitHub Actions", "Cursor"],
+    whyItMatters:"Production-ready is a bar, not a feeling. This mini-project is the moment your app earns that label — and your portfolio earns a live link." },
+
+  // ── WEEK 4: PRODUCT THINKING AND CAPSTONE (Days 22–28) ─────────────────────
+  { day:22, week:4, level:2, category:"Product",
+    title:"Prompt Architecture — Designing for Scale and Quality",
+    summary:"Design a production prompt architecture: separate system prompts per user role, dynamic context injection, few-shot examples, and output validation schemas. The craft that keeps AI quality consistent at scale.",
+    task:"Redesign your app's prompt system. Create 3 role-specific system prompts, add 2 few-shot examples per prompt, and define a Pydantic output schema that validates every response. Run your eval suite against the new architecture.",
+    tools:["Claude API", "Pydantic", "Python", "Cursor"],
+    whyItMatters:"A prompt that works in a demo sometimes fails at scale. A prompt architecture that works at scale is a product asset — and a rare skill in 2026." },
+
+  { day:23, week:4, level:2, category:"Product",
+    title:"Using v0 and Lovable for Rapid UI Generation",
+    summary:"Generate production-quality UI components and full pages using v0 (Vercel) and Lovable — then integrate them into your existing app. Go from idea to deployed UI in under an hour.",
+    task:"Design and generate a new page for your app using v0 or Lovable. Integrate it with your existing backend. Deploy it. The UI should be something you're proud to show in a portfolio.",
+    tools:["v0", "Lovable", "Next.js", "Cursor", "Vercel"],
+    whyItMatters:"In 2026, UI is no longer a bottleneck. The constraint is imagination and product judgment, not CSS knowledge. This session removes the last technical barrier between idea and shipped feature." },
+
+  { day:24, week:4, level:2, category:"Product",
+    title:"Writing a Technical Spec for an AI Build",
+    summary:"Write the technical specification for an AI product: user problem, solution architecture, data flow, prompt design, eval criteria, and launch requirements. The document that aligns teams and survives scope creep.",
+    task:"Write a 2-page technical spec for a new AI product idea (yours or a chosen prompt). It must include: problem statement, architecture diagram, prompt design summary, eval criteria, and 3 launch requirements.",
+    tools:["Claude", "Google Docs", "Miro"],
+    whyItMatters:"The gap between a prototype and a funded product is usually a well-written spec. This document is how you communicate ideas to teammates, investors, and future-you." },
+
+  { day:25, week:4, level:2, category:"Product",
+    title:"Productizing Your Vibe-Coded Tool — Pricing and Positioning",
+    summary:"Turn your AI tool into something others will pay for: define the user, the value proposition, the pricing model, and the landing page. Learn how AI tools are being packaged and sold in 2026.",
+    task:"Write a one-page product brief for your best tool: target user, core value proposition, pricing model (freemium/subscription/one-time), and 3-sentence landing page headline + subhead. Show it to one potential user.",
+    tools:["Claude", "Notion", "Carrd or Framer"],
+    whyItMatters:"Every skill in this course has monetary value. Productizing your work is how you turn 28 days of learning into income — consulting, SaaS, or your own company." },
+
   { day:26, week:4, level:2, category:"Strategy",
-    title:"The 90-Day AI Transformation Roadmap",
-    summary:"Build a practical 90-day AI transformation roadmap for your accounting team or finance function — covering quick wins, capability building, governance implementation, and measurable outcomes.",
-    task:"Produce a 90-day roadmap in three phases (30/60/90 days). For each phase: 3 actions, the owner, the resource requirement, and the success metric. Format for a CFO or CEO presentation.",
-    tools:["Claude","Google Slides","Canva"],
-    whyItMatters:"A 90-day roadmap is what turns AI aspiration into organisational action. It is the deliverable that gets buy-in, budget, and accountability — the prerequisites for real transformation." },
-  { day:27, week:4, level:2, category:"Strategy",
-    title:"Automation Design — End-to-End Process Transformation",
-    summary:"Design a complete end-to-end automation for one accounting process: current state, future state, tool selection, control framework, evidence standards, and implementation plan.",
-    task:"Produce a full automation design document for one process. Include: as-is process map, to-be design, AI and tool selection rationale, controls, evidence pack requirement, and 60-day implementation plan.",
-    tools:["Claude","Miro","Google Docs"],
-    whyItMatters:"End-to-end automation design is the capstone analytical skill of the Advanced track. It integrates every capability developed across 27 days into one strategic deliverable." },
-  { day:28, week:4, level:2, category:"Mixed", isMiniProject:true,
-    title:"Final Capstone — Your AI-Ready Accounting Operating Model",
-    summary:"Produce your AI-Ready Accounting Operating Model: an 8-section strategic document covering vision, use cases, governance, workflows, evidence standards, team development, 90-day roadmap, and personal reflection.",
-    task:"Complete all 8 sections: (1) Finance function vision, (2) Top 5 AI use cases with ROI estimates, (3) Governance model, (4) Workflow designs for 2 core processes, (5) Evidence and audit trail standards, (6) Team skills development plan, (7) 90-day implementation roadmap, (8) Personal reflection paragraph.",
-    tools:["Claude","ChatGPT","Google Docs","Canva","Notion"],
-    whyItMatters:"This operating model is a boardroom-ready document — evidence of 28 days of structured senior-level learning and a practical blueprint for transforming a finance function with AI." },
+    title:"The AI Developer Landscape — Where to Go from Here",
+    summary:"Map the paths from vibe coder to AI product builder: freelance, internal tooling, SaaS, AI agency, or founding. Understand which skills compound and which employers and clients are hiring for in 2026.",
+    task:"Write a 1-page personal positioning statement: what you can now build, who you can build it for, what differentiates you, and your next 3 steps. Use Claude to pressure-test your positioning.",
+    tools:["Claude", "Perplexity AI", "Notion"],
+    whyItMatters:"Skills without a plan evaporate. A positioning statement turns your capability into a direction — and a direction into opportunities." },
+
+  { day:27, week:4, level:2, category:"Product",
+    title:"Portfolio Assembly — Three Projects, One Story",
+    summary:"Assemble your Level 2 portfolio: 3 shipped projects with live links, technical write-ups, and demo recordings. Build the GitHub profile, Notion portfolio page, or website that tells your story in under 60 seconds.",
+    task:"Finalize 3 projects: live URL, 2-minute Loom demo, and a 3-sentence technical write-up for each. Publish to GitHub (with READMEs) and a portfolio page. Share the link with your cohort.",
+    tools:["GitHub", "Loom", "Notion or Framer", "Cursor"],
+    whyItMatters:"Portfolios close opportunities. Three working AI products with live links are more powerful than any resume, certification, or bootcamp credential." },
+
+  { day:28, week:4, level:2, category:"Strategy", isMiniProject:true,
+    title:"Final Capstone — Ship Something Real",
+    summary:"Build and ship your capstone: a complete, deployed AI product that solves a real problem for real users. Combines full-stack architecture, agent or RAG design, production deployment, and product positioning.",
+    task:"Ship a complete AI product: (1) real problem solved, (2) live URL, (3) at least 3 people who have used it, (4) eval suite with >80% pass rate, (5) 5-minute recorded demo, (6) one-page product brief. Present to your cohort.",
+    tools:["Claude API", "Vercel", "Railway", "GitHub Actions", "Cursor", "Loom"],
+    whyItMatters:"This capstone is the line between someone who learned about AI and someone who builds with it. The product you ship today is the first entry in a body of work that compounds for the rest of your career." },
 ];
 
 // Backwards-compat default
@@ -773,49 +802,41 @@ export const curriculum = curriculumL1;
 // ─────────────────────────────────────────────
 
 export const systemsSummaryL1 = [
-  { week:1, title:"Foundations & AI Context", systems:["AI review checklist — 5 rules for evaluating AI accounting output","Finance tech stack map — tools, AI features, and manual gaps","Financial statements plain-English summary framework","Double-entry verification habit with AI as practice partner","First prompt: AI as accounting explainer and tutor"] },
-  { week:2, title:"Bookkeeping Workflow SOPs", systems:["Transaction categorisation review checklist (5 rules)","Invoice data extraction field checklist","Reconciliation prompt library (3 core rules)","Bookkeeping error spotter prompt list (5 prompts)","Data cleaning SOP (5-step, plain English)"] },
-  { week:3, title:"Month-End & Controls", systems:["Month-end close checklist with AI and human review steps","AP process map with control classifications (A/B/C)","AR email template library (3 chaser tones)","Expense policy + AI compliance check prompt","Personal AI ethics and usage policy (5 rules)"] },
-  { week:4, title:"Reporting & Communication", systems:["Tax research prompt framework (process + sources + flags)","Variance commentary prompt specification","Client communication template set (update, explanation, summary)","KPI calculation and narrative prompt set (5 KPIs)","Personal accountant prompt library (10+ prompts, 6 categories)"] },
+  { week:1, title:"The Vibe Coding Mindset", systems:["3-part prompt structure: Goal / Constraints / Format","Debugging loop: paste error → get fix → understand → iterate","Cursor or VS Code AI-native setup with working sandbox","First working automation: tested, documented, saved","Week 1 prompt library: 5+ reusable patterns"] },
+  { week:2, title:"Building Real Things", systems:["PDF and CSV extraction SOP with pdfplumber + pandas","Web scraping pattern: requests + BeautifulSoup + pagination","FastAPI local server with one working endpoint","External API integration pattern: weather, news, or finance","GitHub Actions scheduled cron job running autonomously"] },
+  { week:3, title:"Making It Yours", systems:["Streamlit UI wrapper pattern: any script → shareable app","SQLite persistence pattern: store → retrieve → summarize","`.env` security standard applied to all scripts","Refactoring SOP: from messy generated code to clean functions","Personal dashboard: 2+ data sources, live, all AI-generated"] },
+  { week:4, title:"Ship It — Portfolio and Graduation", systems:["File I/O pipeline: read → filter → write → summarize","CLI argument pattern: argparse for reusable scripts","Project folder structure with README for every script","Non-technical run guide: tested by a real non-coder","Level 1 portfolio: 3 scripts, requirements.txt, README, demo"] },
 ];
 
 export const systemsSummaryL2 = [
-  { week:1, title:"AI Close Design & Workflow Architecture", systems:["Finance function AI readiness assessment (one-page)","AI use case priority matrix (2x2, 8+ use cases)","Close Process Blueprint (step, time, AI action, human review)","Advanced prompt library (5 structured prompts, 5 categories)","Human-in-the-loop process design with escalation path"] },
-  { week:2, title:"Anomaly Detection & Reporting", systems:["Exception-based reconciliation workflow (matching rules + KPIs)","Anomaly detection rule library (8+ rules, 5 categories)","Fraud risk screening checklist (4 areas × 3 prompts)","Variance analysis prompt template (actuals + budget + narrative)","Month-end review workflow (pre-close + analysis + sign-off)"] },
-  { week:3, title:"Governance & Policy Design", systems:["AI audit readiness checklist (15+ items, 5 categories)","AI evidence pack template (input → prompt → output → sign-off)","Policy-to-IF-THEN rules framework (3 policies translated)","Tax research protocol (multi-step prompt + source verification)","AI governance model (roles, approval matrix, escalation, incident response)"] },
-  { week:4, title:"Advisory & Transformation", systems:["Finance monitoring dashboard design (8-10 KPIs + alert logic)","Profitability analysis prompt framework (input → analysis → CFO brief)","Board communication templates (CFO commentary, exec summary, risk response)","90-day AI transformation roadmap (3 phases, actions, metrics)","AI-Ready Accounting Operating Model (8-section capstone document)"] },
+  { week:1, title:"Full-Stack AI App Architecture", systems:["Anthropic API wrapper with streaming response handling","System prompt library: 3 roles, tested against edge cases","RAG pipeline: chunk → embed → store → retrieve → respond","Full-stack app skeleton: Next.js + FastAPI + Claude (live)","Context management: sliding window + compression strategy"] },
+  { week:2, title:"Agents, Automation, and MCP", systems:["Minimal agent with 2+ tools running to completion autonomously","Tool-use pattern: 3 custom tools wired to Claude","MCP server connection + custom MCP server with 1 tool","3-agent pipeline: researcher → writer → reviewer","Production error handling: retries + validation + fallback"] },
+  { week:3, title:"Ship to Production", systems:["Deployed app: Vercel frontend + Railway backend, live URL","Clerk authentication protecting all API endpoints","Rate limiting (per-user) + usage log (user / tokens / cost)","Eval suite: 10 test cases, automated scoring, CI-gated","CI/CD pipeline: auto-test on PR, auto-deploy on merge"] },
+  { week:4, title:"Product Thinking and Capstone", systems:["Production prompt architecture: role prompts + few-shot + schema","v0 or Lovable generated UI integrated into live app","2-page technical spec: architecture + prompts + evals + launch","Personal positioning statement: what you build, for whom, next steps","Level 2 portfolio: 3 live projects with demos and technical write-ups"] },
 ];
 
 export const systemsSummary = systemsSummaryL1;
-
-// ─────────────────────────────────────────────
-// METRICS TO TRACK
-// ─────────────────────────────────────────────
-
-export const metricsToTrack = [
-  { metric:"Prompt Quality", why:"Track how often your first AI prompt gives usable output without heavy editing. Improving this is the fastest way to save time on recurring accounting tasks." },
-  { metric:"Review Time per Task", why:"Measure how long it takes to review and correct AI output vs doing it manually. This is your personal productivity case for AI adoption." },
-  { metric:"Errors Caught", why:"Track how many AI suggestions you correct or reject per session. A high rate signals your prompts or data need work." },
-  { metric:"Prompt Library Size", why:"Count the reusable prompts you have built. Each one represents a recurring task you have systematised. Aim for 10 by Day 28." },
-];
 
 // ─────────────────────────────────────────────
 // STARTER TOOLKIT (combined)
 // ─────────────────────────────────────────────
 
 export const starterToolkit: ToolkitItem[] = [
-  { name:"Claude", url:"https://claude.ai", category:"AI Assistant", desc:"Best for structured reasoning, long documents, and complex accounting instructions. First choice for governance frameworks, policy analysis, and management commentary." },
-  { name:"ChatGPT", url:"https://chat.openai.com", category:"AI Assistant", desc:"Strong for drafting, summarising, and explaining accounting concepts. Note: geo-blocked in HK — use Gemini or Claude instead." },
-  { name:"Gemini", url:"https://gemini.google.com", category:"AI Assistant", desc:"Google's AI — recommended for Hong Kong users. Built into Google Docs and Sheets for seamless accounting workflows." },
-  { name:"Perplexity AI", url:"https://perplexity.ai", category:"AI Assistant", desc:"AI research with source citations. Best for tax rule lookups, standard references, and regulatory summaries." },
-  { name:"Xero", url:"https://xero.com", category:"Accounting Platform", desc:"Cloud accounting with AI transaction categorisation, bank reconciliation, and reporting. Most widely used SME platform in 2026." },
-  { name:"QuickBooks", url:"https://quickbooks.intuit.com", category:"Accounting Platform", desc:"AI-assisted bookkeeping, cash flow forecasting, and expense management. Strong in the US and globally used." },
-  { name:"Dext", url:"https://dext.com", category:"Document AI", desc:"OCR and AI document extraction for invoices, receipts, and bank statements. Integrates with Xero and QuickBooks." },
-  { name:"Hubdoc", url:"https://hubdoc.com", category:"Document AI", desc:"Automated document collection and data extraction. Fetches bills and statements from supplier portals." },
-  { name:"Microsoft Copilot", url:"https://copilot.microsoft.com", category:"Productivity", desc:"AI in Excel for formula writing, data cleaning, financial modelling, and dashboard design. In Word for management commentary and board packs." },
-  { name:"Google Workspace", url:"https://workspace.google.com", category:"Productivity", desc:"Docs, Sheets, and Drive with Gemini built in. Use for all deliverable production — board packs, operating models, and governance frameworks." },
-  { name:"Notion", url:"https://notion.so", category:"Productivity", desc:"Build your prompt library, store SOPs, governance models, and evidence pack templates." },
-  { name:"Canva", url:"https://canva.com", category:"Productivity", desc:"Professional visual deliverables: process diagrams, governance charts, dashboard mockups, and transformation roadmap visuals." },
+  { name:"Claude", url:"https://claude.ai", category:"AI Assistant", desc:"Primary AI partner for code generation, debugging, architecture design, and prompt engineering. Claude 4 (Sonnet/Opus) is the recommended model for vibe coding in 2026 — best for structured code and long context." },
+  { name:"ChatGPT / GPT-4o", url:"https://chat.openai.com", category:"AI Assistant", desc:"Strong alternative for code generation and explaining concepts. Useful for comparing approaches. Note: geo-blocked in some regions — use Claude or Gemini instead." },
+  { name:"Gemini", url:"https://gemini.google.com", category:"AI Assistant", desc:"Google's AI — built into Google Docs and Sheets. Recommended for users in regions where ChatGPT is blocked. Strong for research and document tasks." },
+  { name:"Perplexity AI", url:"https://perplexity.ai", category:"AI Assistant", desc:"AI research with real-time source citations. Best for looking up libraries, frameworks, APIs, and finding documentation fast. Saves hours of search time." },
+  { name:"Cursor", url:"https://cursor.sh", category:"IDE", desc:"The leading AI-native code editor in 2026. Vibe coding's home base. Autocomplete, inline chat, and multi-file edit powered by Claude and GPT-4o. Highly recommended over VS Code for beginners." },
+  { name:"Claude Code", url:"https://claude.ai/code", category:"IDE Extension", desc:"Anthropic's agentic coding CLI and VS Code/JetBrains extension. For advanced vibe coders who want Claude with full codebase context and terminal access." },
+  { name:"v0", url:"https://v0.dev", category:"UI Generation", desc:"Vercel's AI UI generator. Describe a component or page in plain English and get production-quality React/Tailwind code instantly. The fastest way to build UIs in 2026." },
+  { name:"Lovable", url:"https://lovable.dev", category:"UI Generation", desc:"Full-app AI builder — generate complete React apps from a prompt. Integrates with Supabase and Stripe. Best for quickly prototyping product ideas without touching a frontend framework." },
+  { name:"Replit", url:"https://replit.com", category:"Sandbox", desc:"Browser-based coding environment — no install required. Best for beginners who want to run code immediately. Includes Replit Agent for AI-assisted building." },
+  { name:"GitHub Actions", url:"https://github.com/features/actions", category:"Automation", desc:"Free CI/CD and cron scheduling. Run your scripts on a schedule, auto-test on every push, and auto-deploy to production. The backbone of every automated pipeline in this course." },
+  { name:"Railway", url:"https://railway.app", category:"Deployment", desc:"The easiest way to deploy Python backends, FastAPI apps, and scheduled jobs. Free tier for small projects. Connects directly to GitHub for auto-deploy." },
+  { name:"Vercel", url:"https://vercel.com", category:"Deployment", desc:"Best-in-class frontend deployment for Next.js and React apps. Free tier. Auto-deploys from GitHub on every push. The standard platform for AI product frontends in 2026." },
+  { name:"Streamlit", url:"https://streamlit.io", category:"UI", desc:"Turn any Python script into a shareable web app in minutes. No frontend knowledge required. The fastest way to add a UI to your automation." },
+  { name:"Notion", url:"https://notion.so", category:"Productivity", desc:"Build your prompt library, document your scripts, and maintain your vibe coding reference guide. Essential personal knowledge system for every vibe coder." },
+  { name:"Loom", url:"https://loom.com", category:"Productivity", desc:"Record 2-minute screen demos for every portfolio project. The fastest way to show what you built without writing a word." },
 ];
 
 // ─────────────────────────────────────────────
@@ -823,21 +844,16 @@ export const starterToolkit: ToolkitItem[] = [
 // ─────────────────────────────────────────────
 
 export const portfolioTargets: PortfolioTarget[] = [
-  { title:"AI Review Checklist", week:1, level:1, desc:"5 personal rules for evaluating AI accounting output — your first professional AI governance document." },
-  { title:"Finance Tech Stack Map", week:1, level:1, desc:"A visual map of your accounting tool stack with AI features marked." },
-  { title:"Bookkeeping Error Spotter Prompts", week:2, level:1, desc:"5 reusable AI prompts for catching common bookkeeping errors." },
-  { title:"Mini Dataset Lab", week:2, level:1, desc:"End-to-end worked example: 15 transactions categorised, reconciled, and summarised in plain English." },
-  { title:"Month-End Close Checklist", week:3, level:1, desc:"A 5-step AI-assisted close checklist with AI actions, human review points, and sign-off requirements." },
-  { title:"AR Email Template Library", week:3, level:1, desc:"3 professionally drafted payment chaser emails at different overdue stages." },
-  { title:"Personal AI Ethics Policy", week:3, level:1, desc:"5 personal rules governing AI use in your finance work." },
-  { title:"Accountant Prompt Library", week:4, level:1, desc:"10+ reusable prompts across 6 accounting categories." },
-  { title:"AI-Assisted Monthly Accounting Workflow", week:4, level:1, desc:"28-day capstone: a one-page workflow from transaction capture to reporting with AI tools and human review points." },
-  { title:"Human-in-the-Loop Process Design", week:1, level:2, desc:"A fully mapped finance process with AI steps, human review points, and escalation paths." },
-  { title:"Month-End Review Workflow", week:2, level:2, desc:"Complete AI-assisted month-end workflow: pre-close checklist, variance prompts, anomaly rules, commentary spec." },
-  { title:"AI Evidence Pack Template", week:3, level:2, desc:"A reusable documentation template capturing the full AI audit trail for any accounting decision." },
-  { title:"AI Governance Model", week:3, level:2, desc:"One-page governance framework with roles, approval matrix, escalation paths, and incident response." },
-  { title:"End-to-End Automation Design", week:4, level:2, desc:"Complete automation design for one process: as-is, to-be, tool selection, controls, and implementation plan." },
-  { title:"AI-Ready Accounting Operating Model", week:4, level:2, desc:"28-day capstone: an 8-section strategic document covering vision, use cases, governance, workflows, and 90-day roadmap." },
+  // Level 1
+  { title:"Working Automation #1", week:1, level:1, desc:"A working Python script that solves a real problem — file organizer, data cleaner, or text summarizer. Tested, documented, and saved." },
+  { title:"Internal Team Tool", week:2, level:1, desc:"A practical tool built for a real colleague — report generator, data cleaner, or link checker — with a one-paragraph README." },
+  { title:"Personal Dashboard", week:3, level:1, desc:"A Streamlit dashboard pulling from 2+ data sources with a chart, live data feed, and one custom metric. All AI-generated." },
+  { title:"Level 1 Automation Suite", week:4, level:1, desc:"3 working scripts with a requirements.txt, full README, and a 2-minute Loom demo recording. Your complete Level 1 portfolio." },
+  // Level 2
+  { title:"AI-Powered MVP", week:1, level:2, desc:"A working, runnable AI product with a system prompt, streaming Claude API integration, and a UI. Solvable by a real user who wasn't in the room." },
+  { title:"Autonomous Agent", week:2, level:2, desc:"A deployed agent that runs on a schedule, completes a multi-step task with no human input, and has run successfully 3+ times." },
+  { title:"Deployed Production App", week:3, level:2, desc:"A live AI app with authentication, rate limiting, eval suite, structured logging, and CI/CD. Shareable URL. Used by real people." },
+  { title:"Level 2 Capstone — Shipped AI Product", week:4, level:2, desc:"A complete AI product: live URL, 3+ real users, 80%+ eval pass rate, 5-minute recorded demo, and a one-page product brief. Your flagship portfolio piece." },
 ];
 
 // ─────────────────────────────────────────────
@@ -855,124 +871,138 @@ export interface ServiceTier {
 
 export const serviceLadder: ServiceTier[] = [
 
-  // ── Level 1 Basic Services ────────────────────────────────────────────────
+  // ── Level 1 Services ──────────────────────────────────────────────────────
   {
     tier: 1,
     level: 1,
-    name: "AI Bookkeeping Review",
-    description: "A structured review of a client's existing bookkeeping using AI-assisted error detection and categorisation quality checks.",
-    price: "$150–350",
+    name: "Script Automation Build",
+    description: "A custom Python script that automates one specific repetitive task — file processing, data extraction, report generation, or scheduled alerts.",
+    price: "$150–400",
     examples: [
-      "Transaction categorisation audit (up to 3 months)",
-      "AI error spotter report with findings",
-      "Reconciliation gap summary",
-      "5 recommended corrections with journal entries",
+      "File organizer, renamer, or deduplicator",
+      "PDF or CSV data extractor",
+      "Scheduled report or digest email",
+      "Simple API integration pulling data to a spreadsheet",
     ],
   },
   {
     tier: 2,
     level: 1,
-    name: "Month-End Close Package",
-    description: "A done-with-you month-end close using your AI-assisted checklist — covering adjusting entries, reconciliations, and management summary.",
-    price: "$350–700",
+    name: "Internal Tool with UI",
+    description: "A web-based internal tool built with Streamlit or Gradio — a script wrapped in a clickable UI that any non-technical colleague can use.",
+    price: "$300–700",
     examples: [
-      "AI-assisted month-end close checklist execution",
-      "Accruals and prepayments review",
-      "Bank and accounts reconciliation",
-      "One-page management summary in plain English",
+      "Data cleaner with upload and download",
+      "Report generator from a template",
+      "Text summarizer or document Q&A tool",
+      "Simple dashboard for a specific dataset",
     ],
   },
   {
     tier: 3,
     level: 1,
-    name: "AI-Assisted Financial Report",
-    description: "A monthly or quarterly financial report with AI-generated variance commentary and plain-English narrative for non-finance founders or managers.",
-    price: "$500–1,000",
+    name: "Automation Audit and Opportunity Map",
+    description: "A structured review of a client's manual workflows — identifying the top 5 automation opportunities with effort/impact ratings and a recommended build order.",
+    price: "$300–600",
     examples: [
-      "P&L, balance sheet, and cash flow summary",
-      "Key variance commentary (budget vs actual)",
-      "3–5 plain-English insights for decision-making",
-      "KPI dashboard with month-on-month comparison",
+      "Workflow interview and process mapping",
+      "Top 5 automation opportunities scored by effort and ROI",
+      "Recommended tool stack for each opportunity",
+      "Written report formatted for a non-technical owner",
     ],
   },
   {
     tier: 4,
     level: 1,
     name: "Prompt Library Build",
-    description: "A custom accountant prompt library built for a specific client or industry — 15+ tested prompts across bookkeeping, reporting, and compliance tasks.",
+    description: "A custom prompt library for a specific team or use case — 15+ tested prompts across core workflows with a usage guide and worked examples.",
     price: "$400–800",
     examples: [
-      "15+ industry-specific accounting prompts",
-      "Categorised by task: bookkeeping, tax, reporting, AR/AP",
-      "Usage guide and example outputs",
-      "One 60-minute walkthrough session",
+      "15+ prompts organized by workflow type",
+      "Tested against real inputs with example outputs",
+      "Usage guide written for non-technical staff",
+      "One 60-minute walkthrough session included",
     ],
   },
 
-  // ── Level 2 Advanced Services ─────────────────────────────────────────────
+  // ── Level 2 Services ──────────────────────────────────────────────────────
   {
     tier: 5,
     level: 2,
-    name: "AI Finance Function Audit",
-    description: "A comprehensive assessment of a finance function's AI readiness — covering process maturity, tool stack, governance gaps, and priority use cases.",
-    price: "$800–2,000",
+    name: "AI-Powered MVP Build",
+    description: "A production-ready AI-powered application — full-stack, deployed, with authentication and a real user-facing UI. Solves one well-defined problem.",
+    price: "$1,500–4,000",
     examples: [
-      "AI maturity assessment across 8 finance processes",
-      "Priority use case matrix (feasibility vs impact)",
-      "Governance gap analysis",
-      "Written recommendations report for CFO/founder",
+      "Document Q&A tool with RAG backend",
+      "AI-assisted workflow tool with streaming UI",
+      "Internal AI assistant for a specific team function",
+      "Deployed to Vercel + Railway with auth and rate limiting",
     ],
   },
   {
     tier: 6,
     level: 2,
-    name: "Close Process Redesign",
-    description: "A full redesign of the month-end close process with AI integrated at each step — producing a documented, audit-ready Close Process Blueprint.",
-    price: "$1,500–3,500",
+    name: "Autonomous Agent Build",
+    description: "Design and deployment of an autonomous AI agent that completes a multi-step task on a schedule — research, data processing, report generation, or monitoring.",
+    price: "$2,000–5,000",
     examples: [
-      "As-is close process mapping",
-      "AI-integrated Close Process Blueprint",
-      "Human-in-the-loop control design",
-      "Estimated time savings and quality improvement metrics",
+      "Daily research agent that summarizes and emails a digest",
+      "Data monitoring agent with anomaly alerting",
+      "Automated report generation from live data sources",
+      "Multi-step pipeline with error handling and logging",
     ],
   },
   {
     tier: 7,
     level: 2,
-    name: "AI Governance Framework",
-    description: "Design and documentation of a complete AI governance model for a finance team — covering roles, approval matrix, evidence standards, and incident response.",
-    price: "$2,000–5,000",
+    name: "AI Integration Into Existing Product",
+    description: "Integration of Claude or GPT-4o into an existing product or workflow — adding AI features without rebuilding from scratch.",
+    price: "$2,500–6,000",
     examples: [
-      "AI governance charter (roles and approval matrix)",
-      "Acceptable use policy for finance AI",
-      "Evidence pack template (audit trail standard)",
-      "Incident response protocol",
+      "AI-powered feature added to an existing SaaS product",
+      "Document analysis layer added to existing tool",
+      "Prompt architecture design + API integration",
+      "Eval suite and monitoring setup for existing AI features",
     ],
   },
   {
     tier: 8,
     level: 2,
-    name: "Finance Transformation Roadmap",
-    description: "A 90-day AI transformation roadmap for a finance function — with prioritised use cases, resource requirements, implementation milestones, and board-ready summary.",
-    price: "$3,000–8,000",
+    name: "AI Product Build — SaaS-Ready",
+    description: "A complete, commercially deployable AI product — built, tested, and packaged for launch. Includes architecture design, production deployment, eval framework, and product brief.",
+    price: "$5,000–15,000",
     examples: [
-      "90-day roadmap (3 phases, actions, owners, metrics)",
-      "AI use case business cases with ROI estimates",
-      "Board-ready executive summary",
-      "One-page operating model vision",
+      "Full-stack AI SaaS with auth, billing, and rate limiting",
+      "Eval suite ensuring production quality at scale",
+      "CI/CD pipeline for ongoing development",
+      "Technical spec and product brief for investor or team use",
     ],
   },
   {
     tier: 9,
     level: "both",
-    name: "Monthly AI Finance Retainer",
-    description: "Ongoing AI-assisted accounting and advisory support — combining bookkeeping oversight, reporting, and strategic guidance in one monthly engagement.",
-    price: "$500–2,500/month",
+    name: "Monthly AI Build Retainer",
+    description: "Ongoing vibe coding and AI development support — building, iterating, and maintaining AI tools and automations on a monthly engagement.",
+    price: "$500–3,000/month",
     examples: [
-      "Monthly AI-assisted close and reporting",
-      "Variance analysis and CFO commentary",
-      "Governance and compliance monitoring",
-      "Ad hoc advisory and prompt library updates",
+      "2–4 new automation or AI features per month",
+      "Ongoing maintenance and iteration on live tools",
+      "Prompt library updates as models and requirements evolve",
+      "Monthly review call and priority planning",
     ],
   },
 ];
+
+// ─────────────────────────────────────────────
+// METRICS TO TRACK
+// ─────────────────────────────────────────────
+
+export const metricsToTrack = [
+  { metric:"Prompt Quality Score", why:"Track how often your first prompt produces usable output without heavy editing. Target: 70%+ usable on first attempt by Week 4." },
+  { metric:"Time to Working Code", why:"Measure how long from problem description to working, tested script. This is your personal productivity curve. Watch it drop week over week." },
+  { metric:"Bug Resolution Speed", why:"Track how quickly you resolve errors — from paste-to-Claude to confirmed fix. Faster resolution means better debugging instincts, not just better prompts." },
+  { metric:"Prompt Library Size", why:"Count your saved, reusable prompts. Each one is a problem you've systematized. Target 10 by Day 14, 25+ by Day 28." },
+  { metric:"Projects Shipped", why:"Count projects that are running, tested, and usable by someone other than you. Shipped beats polished. Aim for 1 per week." },
+  { metric:"Portfolio Live Links", why:"Count public-facing deployed projects with live URLs. These are your most powerful credential — more than any certification or course completion." },
+];
+
