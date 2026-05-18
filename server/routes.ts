@@ -2,7 +2,8 @@
 // File: routes.ts  |  Repo: ai-vibe-coding
 // Last updated: May 2026
 //
-// PRICING UPDATE: Single $69 "bundle" — grants both levels (56 days)
+// PRICING UPDATE: Single $69 "bundle" — grants both levels (56 days total)
+// Course: Crafter (Level 1) + Composer (Level 2)
 
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
@@ -21,14 +22,14 @@ const SessionStore = MemoryStore(session);
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", { apiVersion: "2023-10-16" });
 
 // USD via Stripe (amounts in cents)
-// Single $69 price grants access to both levels (56 days total)
+// Single $69 price grants access to both levels (Crafter + Composer, 56 days total)
 const PRICES: Record<string, { amount: number; label: string }> = {
   "bundle": { amount: 6900, label: "Vibe Coding & IOP — Complete Course (Crafter + Composer)" },
 };
 
 // No hardcoded PAYMONGO_PRICES – now using live rate dynamically
 
-const APP_URL = process.env.APP_URL || "https://ai-sprint-agentic-course-production.up.railway.app";
+const APP_URL = process.env.APP_URL || "https://ai-vibe-coding-production.up.railway.app";
 
 if (!process.env.SESSION_SECRET) {
   console.warn("WARNING: SESSION_SECRET is not set. Using a default secret for development.");
@@ -277,7 +278,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.setHeader("Content-Type", "text/plain; charset=utf-8");
 
       let messages = req.body.messages || [];
-      const dayContext = req.body.dayContext || "You are a helpful AI assistant focused on systems and coding.";
+      const dayContext = req.body.dayContext || "You are an AI assistant for the Vibe Coding & IOP course, helping students master prompting, building automations, and production AI systems.";
       if (messages.length === 0 && req.body.prompt) {
         messages = [{ role: "user", content: req.body.prompt }];
       }
@@ -482,7 +483,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const planKey = b.data?.plan || "bundle";
       const usdPriceCents = PRICES[planKey]?.amount || PRICES["bundle"].amount;
-      const usdPrice = usdPriceCents / 100; // e.g., 3500 → $35.00
+      const usdPrice = usdPriceCents / 100;
 
       // Fetch live USD/PHP rate
       let phpAmountCentavos: number;
@@ -604,7 +605,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           to:       ["support@aisprint.app"],
           reply_to: b.data.email,
           subject:  `[Vibe Coding & IOP Course] Message from ${b.data.name}`,
-          html: `<h2>New Contact Form — Vibe Coding & IOP</h2>
+          html: `<h2>New Contact Form — Vibe Coding & IOP Course</h2>
             <p><strong>Name:</strong> ${b.data.name}</p>
             <p><strong>Email:</strong> <a href="mailto:${b.data.email}">${b.data.email}</a></p>
             <hr/>
