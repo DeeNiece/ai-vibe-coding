@@ -1,84 +1,137 @@
+// ── AI Sprint · Architecture & Interior Design ──────────────────────────────
+// File: nav.tsx | Repo: ai-archi
+// Last updated: May 2026
+//
+// PRICING UPDATE: "Pricing & Upgrades" → "Pricing" · hasL1/L2 → hasAccess
+//
+// ── THEME PERSISTENCE ────────────────────────────────────────────────────────
+// The desktop + mobile toggle buttons call handleToggle() instead of toggle()
+// directly. handleToggle() calls the theme-provider's toggle(), then also:
+//   1. Writes "ai-sprint-theme" = "light" | "dark" to localStorage so the
+//      pricing page (and any other non-landing page) can read the preference.
+//   2. Dispatches a "themechange" CustomEvent for same-tab real-time sync.
+//   3. Toggles "lp-light" on <html> as a DOM-class fallback for observers.
+// ─────────────────────────────────────────────────────────────────────────────
+
 import { Link, useLocation } from "wouter";
 import logoImg from "@assets/ai-sprint-logo.jpg";
 import { useTheme } from "@/components/theme-provider";
 import { useAuth } from "@/components/auth-provider";
 import {
-  Sun, Moon, LogOut, Settings, HelpCircle, 
-  Layers, Flame, KeyRound, CreditCard, User, ChevronDown,
-  Wrench, FolderKanban, Terminal, LayoutDashboard, Rocket, BarChart2,
-  Menu, X
+  Sun,
+  Moon,
+  Menu,
+  X,
+  LogOut,
+  Settings,
+  HelpCircle,
+  Layers,
+  Flame,
+  KeyRound,
+  CreditCard,
+  User,
+  ChevronDown,
+  Wrench,
+  FolderKanban,
+  Terminal,
+  LayoutDashboard,
+  Rocket,
+  BarChart2,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import type { DayProgress } from "@shared/schema";
 
-const THEME_COLOR = "#0d7c8a"; // Accounting Teal
+// ── Level theme config (Architecture) ─────────────────────────────
+// Level 1 = Teal (Foundation), Level 2 = Orange (Advanced Studio)
+const LEVEL_THEMES = {
+  "1": { color: "#0d7c8a", label: "Level 1 · Foundation", pulse: "rgba(13,124,138,0.4)" },
+  "2": { color: "#d97706", label: "Level 2 · Advanced Studio", pulse: "rgba(217,119,6,0.4)" },
+} as const;
 
-// --- Helper Functions ---
+// Determine active level — localStorage persists choice, URL path overrides on day routes
+function useActiveLevel(): "1" | "2" {
+  const [loc] = useLocation();
+  if (loc.startsWith("/day/L2")) return "2";
+  if (loc.startsWith("/day/L1")) return "1";
+  try {
+    return localStorage.getItem("archi_level") === "2" ? "2" : "1";
+  } catch {
+    return "1";
+  }
+}
+
 const LAUNCH_DATE = new Date("2026-04-15T00:00:00Z").getTime();
-function getDaysPassed() { return Math.max(0, Math.floor((Date.now() - LAUNCH_DATE) / (1000 * 60 * 60 * 24))); }
 
-function getDynamicTicker() {
+function getDaysPassed() {
+  return Math.max(0, Math.floor((Date.now() - LAUNCH_DATE) / (1000 * 60 * 60 * 24)));
+}
+
+// Architecture-specific ticker copy
+function getDynamicTicker(level: "1" | "2") {
   const days = getDaysPassed();
+  const streak = Math.min(56, 3 + Math.floor(days / 5));
+  if (level === "2") {
+    return [
+      `🚀 Sarah just finalised her advanced concept board!`,
+      `🏆 Alex unlocked 'Studio Lead Architect'!`,
+      `💬 David left a 5-star review on Day 56!`,
+      `🔥 Emily completed her client-ready presentation set!`,
+      `📐 Dee_Niece is on a ${streak}-day studio streak!`,
+    ];
+  }
   return [
-    `🔥 Sarah just finished Day ${Math.min(28, 4 + Math.floor(days / 3))}!`,
-    `🏆 Alex unlocked 'Prompt Pro'!`,
-    `🚀 Emily started the Advanced track!`,
-    `🔥 Dee_Niece is on a ${Math.min(28, 3 + Math.floor(days / 5))}-day streak!`,
+    `🔥 Sarah just finished her first space-planning exercise!`,
+    `🏆 Alex unlocked 'Architecture Explorer'!`,
+    `💬 David left a 5-star review on Day 28!`,
+    `🚀 Emily completed her first project storyboard!`,
+    `📐 Dee_Niece is on a ${streak}-day studio streak!`,
   ];
 }
 
 export default function Nav() {
-  const { theme, toggle } = useTheme();
+  const { theme: _themeRaw, toggle: _toggle } = useTheme();
+  // Dark mode locked — always dark, toggle hidden. Light mode CSS preserved.
+  const theme = "dark" as const;
+  const toggle = _toggle; // kept for future use
   const { user, logout } = useAuth();
-  const [location, setLocation] = useLocation();
-  const { t } = useLanguage();
 
-  // --- Level detection: from URL (day pages) or localStorage, then default ---
-  function getLevelFromUrl(): "1" | "2" {
-    const match = location.match(/\/day\/L([12])-/);
-    if (match) return match[1] as "1" | "2";
+  // ── handleToggle — wraps theme-provider toggle with full persistence ────────
+  // Calling toggle() alone only flips the in-memory theme-provider state.
+  // handleToggle also persists to localStorage and fires events so the pricing
+  // page (and any other page using useDarkMode()) stays in sync.
+  function handleToggle() {
+    toggle(); // flip the theme-provider state (dark ↔ light)
+    const nextDark = theme !== "dark"; // theme hasn't flipped yet, so invert
     try {
-      const stored = localStorage.getItem("accounting_level");
-      if (stored === "2") return "2";
+      localStorage.setItem("ai-sprint-theme", nextDark ? "dark" : "light");
+      window.dispatchEvent(new CustomEvent("themechange", { detail: { dark: nextDark } }));
+      document.documentElement.classList.toggle("lp-light", !nextDark);
     } catch {}
-    return "1";
   }
+  const [loc] = useLocation();
+  const { t } = useLanguage();
+  const activeLevel = useActiveLevel();
+  const THEME_COLOR = LEVEL_THEMES[activeLevel].color;
+  const PULSE_COLOR = LEVEL_THEMES[activeLevel].pulse;
 
-  const [activeLevel, setActiveLevelState] = useState<"1" | "2">(getLevelFromUrl);
-  const LEVEL_COLOR = activeLevel === "2" ? "#e8820c" : THEME_COLOR;
-  const LEVEL_LABEL = activeLevel === "2" ? "Advanced Track" : "Basic Track";
-
-  // Sync activeLevel when URL changes
-  useEffect(() => {
-    const urlLevel = getLevelFromUrl();
-    if (urlLevel !== activeLevel) {
-      setActiveLevelState(urlLevel);
-      try {
-        localStorage.setItem("accounting_level", urlLevel);
-      } catch {}
-    }
-  }, [location]);
-
-  // Switch level and navigate to home page (dashboard) of that track
   function switchLevel(lvl: "1" | "2") {
     try {
-      localStorage.setItem("accounting_level", lvl);
+      localStorage.setItem("archi_level", lvl);
     } catch {}
-    setActiveLevelState(lvl);
-    // Navigate to home page – the dashboard will read localStorage and show the correct track
-    setLocation("/");
-    // Close any open menus
     setLevelOpen(false);
-    setMobileMenuOpen(false);
+    // Dispatch so home.tsx hears it immediately
+    window.dispatchEvent(
+      new StorageEvent("storage", { key: "archi_level", newValue: lvl })
+    );
   }
 
   const [levelOpen, setLevelOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [blueprintOpen, setBlueprintOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const { data: progressData = [] } = useQuery<DayProgress[]>({
     queryKey: ["/api/progress"],
@@ -87,54 +140,68 @@ export default function Nav() {
 
   const completedCount = progressData.filter((p) => p.completed).length;
 
-  // Rank Logic
-  let rankTitle = "AI Curious";
-  if (completedCount >= 28) { rankTitle = "AI Accounting Legend"; }
-  else if (completedCount >= 21) { rankTitle = "Advisory Pro"; }
-  else if (completedCount >= 14) { rankTitle = "Workflow Architect"; }
-  else if (completedCount >= 7) { rankTitle = "Prompt Accountant"; }
+  // Rank logic adapted to 56-day architecture program
+  let rankTitle = "Architecture Explorer";
+  let rankColor = "#a1a1aa";
+  if (completedCount >= 56) {
+    rankTitle = "Studio Lead Architect";
+    rankColor = THEME_COLOR;
+  } else if (completedCount >= 28) {
+    rankTitle = "Design Builder";
+    rankColor = LEVEL_THEMES["2"].color;
+  } else if (completedCount >= 14) {
+    rankTitle = "Studio Planner";
+    rankColor = "#fbbf24";
+  } else if (completedCount >= 7) {
+    rankTitle = "Space Creator";
+    rankColor = LEVEL_THEMES["1"].color;
+  }
 
-  const tickerMessages = getDynamicTicker();
+  const tickerMessages = getDynamicTicker(activeLevel);
   const [tickerIdx, setTickerIdx] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => setTickerIdx((prev) => (prev + 1) % tickerMessages.length), 4500);
+    const interval = setInterval(() => {
+      setTickerIdx((prev) => (prev + 1) % tickerMessages.length);
+    }, 4500);
     return () => clearInterval(interval);
   }, [tickerMessages.length]);
 
-  // Close everything on route change
   useEffect(() => {
     setBlueprintOpen(false);
     setCommandOpen(false);
     setLevelOpen(false);
     setUserMenuOpen(false);
-    setMobileMenuOpen(false);
-  }, [location]);
+    setMobileOpen(false);
+  }, [loc]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
       document.body.style.overflow = "";
-    }
-    return () => { document.body.style.overflow = ""; };
-  }, [mobileMenuOpen]);
+    };
+  }, [mobileOpen]);
+
+  const licensedLevels = user?.licensedLevels || [];
+  // Single $69 price unlocks both levels
+  const hasAccess = licensedLevels.includes("bundle") || licensedLevels.includes("1") || licensedLevels.includes("2");
+  const hasL1 = hasAccess;
+  const hasL2 = hasAccess;
 
   return (
     <>
       <style>{`
-        @keyframes pulse-teal {
-          0% { box-shadow: 0 0 0 0 rgba(13, 124, 138, 0.4); }
-          70% { box-shadow: 0 0 0 10px rgba(13, 124, 138, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(13, 124, 138, 0); }
+        @keyframes pulse-theme {
+          0% { box-shadow: 0 0 0 0 ${PULSE_COLOR}; }
+          70% { box-shadow: 0 0 0 10px transparent; }
+          100% { box-shadow: 0 0 0 0 transparent; }
         }
-        .pulse-icon { animation: pulse-teal 2s infinite; border-radius: 50%; }
+        .pulse-icon-theme { animation: pulse-theme 2s infinite; border-radius: 50%; }
         .nav-dropdown {
-          position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+          position: absolute; top: calc(100% + 10px); left: 0;
           background: var(--color-surface); border: 1px solid var(--color-border);
-          border-radius: 12px; padding: 8px; min-width: 200px;
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4); z-index: 100;
+          border-radius: 12px; padding: 8px; min-width: 220px;
+          box-shadow: 0 10px 25px -5px rgba(0,0,0,0.4); z-index: 100;
           display: flex; flex-direction: column; gap: 4px;
           backdrop-filter: blur(12px);
         }
@@ -143,78 +210,24 @@ export default function Nav() {
           text-decoration: none; color: var(--color-text); border-radius: 8px;
           font-size: 0.85rem; font-weight: 500; transition: background 0.2s;
         }
-        .dropdown-item:hover { background: rgba(13, 124, 138, 0.1); color: ${THEME_COLOR}; }
+        .dropdown-item:hover { background: rgba(13,124,138,0.1); color: ${THEME_COLOR}; }
 
-        /* Level switcher dropdown styles */
-        .level-switcher {
-          position: relative;
-        }
-        .level-switcher-btn {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 6px 12px;
-          border-radius: 40px;
-          font-size: 0.8rem;
-          font-weight: 600;
-          background: var(--color-surface-offset);
-          border: 1px solid var(--color-border);
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-        .level-switcher-dropdown {
-          position: absolute;
-          top: 100%;
-          right: 0;
-          margin-top: 8px;
-          background: var(--color-surface);
-          border: 1px solid var(--color-border);
-          border-radius: 12px;
-          padding: 6px;
-          min-width: 180px;
-          z-index: 100;
-          box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-          backdrop-filter: blur(12px);
-        }
-        .level-switcher-item {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 8px 12px;
-          border-radius: 8px;
-          font-size: 0.85rem;
-          font-weight: 500;
-          cursor: pointer;
-          transition: background 0.15s;
-          width: 100%;
-          background: none;
-          border: none;
-          text-align: left;
-        }
-        .level-switcher-item:hover {
-          background: rgba(13,124,138,0.1);
-        }
-        .level-switcher-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          flex-shrink: 0;
-        }
-
-        /* Mobile styles */
         .mobile-menu-btn { display: none; }
+
         @media (max-width: 768px) {
           .nav-links { display: none !important; }
           .level-switcher { display: none !important; }
           .nav-user { display: none !important; }
           .mobile-menu-btn { display: flex !important; align-items: center; justify-content: center; }
         }
+
         .mobile-drawer-overlay {
           display: none; position: fixed; inset: 0;
           background: rgba(0,0,0,0.55); z-index: 200;
           backdrop-filter: blur(4px);
         }
         .mobile-drawer-overlay.open { display: block; }
+
         .mobile-drawer {
           position: fixed; top: 0; right: -100%;
           width: min(320px, 85vw); height: 100dvh;
@@ -226,6 +239,7 @@ export default function Nav() {
           box-shadow: -12px 0 40px rgba(0,0,0,0.3);
         }
         .mobile-drawer.open { right: 0; }
+
         .mobile-drawer-header {
           display: flex; align-items: center; justify-content: space-between;
           padding: 1rem 1.25rem;
@@ -252,7 +266,7 @@ export default function Nav() {
           background: none; border: none; text-align: left; cursor: pointer;
         }
         .mobile-nav-item:hover { background: var(--color-surface-offset); color: var(--color-text); }
-        .mobile-nav-item.active { background: rgba(13, 124, 138, 0.1); color: ${THEME_COLOR}; font-weight: 600; }
+        .mobile-nav-item.active { background: rgba(13,124,138,0.1); color: ${THEME_COLOR}; font-weight: 600; }
         .mobile-section-label {
           font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
           letter-spacing: 0.08em; color: var(--color-text-faint);
@@ -266,129 +280,428 @@ export default function Nav() {
           border-radius: var(--radius-md);
           margin-bottom: 0.5rem;
         }
+
+        /* Level badge pills */
+        .level-pill {
+          display: inline-flex; align-items: center; gap: 5px;
+          font-size: 0.7rem; font-weight: 700; padding: 3px 9px;
+          border-radius: 20px; border: 1px solid;
+        }
+        .level-pill-l1 {
+          color: #0d7c8a;
+          background: rgba(13,124,138,0.1);
+          border-color: rgba(13,124,138,0.3);
+        }
+        .level-pill-l2 {
+          color: #d97706;
+          background: rgba(217,119,6,0.1);
+          border-color: rgba(217,119,6,0.3);
+        }
       `}</style>
 
       <header className="nav-header">
-        <div className="nav-inner" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-          
-          {/* LEFT: Logo — now links to home page "/" */}
-          <div style={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
-            <Link href="/" className="nav-logo">
-              <img src={logoImg} alt="AI Sprint" className="nav-logo-img" />
-              <div className="nav-logo-sub" style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", fontWeight: 700 }}>
-                Accounting · {LEVEL_LABEL.replace(" Track", "")}
-              </div>
+        <div
+          className="nav-inner"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <Link href="/" className="nav-logo">
+            <img src={logoImg} alt="AI Sprint" className="nav-logo-img" />
+            <div
+              className="nav-logo-sub"
+              style={{
+                fontSize: "var(--text-xs)",
+                color: "var(--color-text-muted)",
+                fontWeight: 700,
+              }}
+            >
+              Architecture Course
+            </div>
+          </Link>
+
+          <nav className="nav-links">
+            <Link
+              href="/"
+              className={`nav-link ${loc === "/" ? "active" : ""}`}
+            >
+              {t("nav.journey")}
             </Link>
-          </div>
 
-          {/* CENTER: Main Nav (desktop only) */}
-          <nav className="nav-links" style={{ flex: 1, display: "flex", justifyContent: "center", gap: "24px" }}>
-            {/* Journey link — now points to home page "/" */}
-            <Link href="/" className={`nav-link ${location === "/" ? "active" : ""}`}>{t("nav.journey")}</Link>
-
-            {/* THE BLUEPRINT DROPDOWN */}
-            <div style={{ position: 'relative' }}>
-              <button onClick={() => { setBlueprintOpen(!blueprintOpen); setCommandOpen(false); }} className={`nav-link ${(location === "/toolkit" || location === "/portfolio" || location === "/systems" || location === "/services") ? "active" : ""}`} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', cursor: 'pointer' }}>
-                <Rocket size={16} className="pulse-icon" style={{ color: THEME_COLOR }} /> The Blueprint <ChevronDown size={14} style={{ transform: blueprintOpen ? 'rotate(180deg)' : 'rotate(0)', transition: '0.2s' }} />
+            {/* The Blueprint dropdown (Architecture) */}
+            <div style={{ position: "relative" }}>
+              <button
+                onClick={() => {
+                  setBlueprintOpen(!blueprintOpen);
+                  setCommandOpen(false);
+                }}
+                className={`nav-link ${
+                  ["/systems", "/portfolio", "/toolkit"].includes(loc)
+                    ? "active"
+                    : ""
+                }`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <Rocket
+                  size={16}
+                  className="pulse-icon-theme"
+                  style={{ color: THEME_COLOR }}
+                />
+                Studio Blueprint
+                <ChevronDown
+                  size={14}
+                  style={{
+                    transform: blueprintOpen ? "rotate(180deg)" : "rotate(0)",
+                    transition: "0.2s",
+                  }}
+                />
               </button>
+
               {blueprintOpen && (
-                <div className="nav-dropdown" onMouseLeave={() => setBlueprintOpen(false)}>
-                  <Link href="/systems" className="dropdown-item"><Terminal size={16} style={{ color: THEME_COLOR }} /> AI Workflows</Link>
-                  <Link href="/portfolio" className="dropdown-item"><FolderKanban size={16} style={{ color: THEME_COLOR }} /> Portfolio Targets</Link>
-                  <Link href="/toolkit" className="dropdown-item"><Wrench size={16} style={{ color: THEME_COLOR }} /> Accountant Toolkit</Link>
-                  <Link href="/services" className="dropdown-item"><BarChart2 size={16} style={{ color: THEME_COLOR }} /> Client Services</Link>
+                <div
+                  className="nav-dropdown"
+                  onMouseLeave={() => setBlueprintOpen(false)}
+                >
+                  <Link href="/systems" className="dropdown-item">
+                    <Terminal size={16} style={{ color: THEME_COLOR }} /> Studio
+                    Systems
+                  </Link>
+                  <Link href="/portfolio" className="dropdown-item">
+                    <FolderKanban
+                      size={16}
+                      style={{ color: THEME_COLOR }}
+                    />{" "}
+                    Portfolio Projects
+                  </Link>
+                  <Link href="/toolkit" className="dropdown-item">
+                    <Wrench size={16} style={{ color: THEME_COLOR }} /> Design
+                    Toolkit
+                  </Link>
+                  <Link href="/services" className="dropdown-item">
+                    <BarChart2 size={16} style={{ color: THEME_COLOR }} />{" "}
+                    Service Offers
+                  </Link>
                 </div>
               )}
             </div>
 
-            {/* COMMAND CENTER DROPDOWN */}
-            <div style={{ position: 'relative' }}>
-              <button onClick={() => { setCommandOpen(!commandOpen); setBlueprintOpen(false); }} className={`nav-link ${(location === "/settings" || location === "/faq") ? "active" : ""}`} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', cursor: 'pointer' }}>
-                <LayoutDashboard size={16} /> Command Center <ChevronDown size={14} style={{ transform: commandOpen ? 'rotate(180deg)' : 'rotate(0)', transition: '0.2s' }} />
+            {/* Command Center dropdown */}
+            <div style={{ position: "relative" }}>
+              <button
+                onClick={() => {
+                  setCommandOpen(!commandOpen);
+                  setBlueprintOpen(false);
+                }}
+                className={`nav-link ${
+                  ["/settings", "/faq"].includes(loc) ? "active" : ""
+                }`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <LayoutDashboard size={16} />
+                Command Center
+                <ChevronDown
+                  size={14}
+                  style={{
+                    transform: commandOpen ? "rotate(180deg)" : "rotate(0)",
+                    transition: "0.2s",
+                  }}
+                />
               </button>
+
               {commandOpen && (
-                <div className="nav-dropdown" onMouseLeave={() => setCommandOpen(false)}>
-                  <Link href="/settings" className="dropdown-item"><Settings size={16} /> {t("nav.settings")}</Link>
-                  <Link href="/faq" className="dropdown-item"><HelpCircle size={16} /> Help & FAQ</Link>
+                <div
+                  className="nav-dropdown"
+                  onMouseLeave={() => setCommandOpen(false)}
+                >
+                  <Link href="/settings" className="dropdown-item">
+                    <Settings size={16} /> {t("nav.settings")}
+                  </Link>
+                  <Link href="/faq" className="dropdown-item">
+                    <HelpCircle size={16} /> Help & FAQ
+                  </Link>
                 </div>
               )}
             </div>
           </nav>
 
-          {/* RIGHT: Controls */}
-          <div className="nav-controls" style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "8px" }}>
+          <div className="nav-controls">
+            {/* Level switcher */}
             {user && (
               <div className="level-switcher">
-                <button className="level-switcher-btn" onClick={() => { setLevelOpen(!levelOpen); setUserMenuOpen(false); }}
-                  style={{ borderColor: LEVEL_COLOR, color: LEVEL_COLOR }}>
-                  <span style={{ width: 8, height: 8, borderRadius: "50%", background: LEVEL_COLOR, flexShrink: 0 }} />
-                  {LEVEL_LABEL} ▾
+                <button
+                  className="level-switcher-btn"
+                  onClick={() => {
+                    setLevelOpen(!levelOpen);
+                    setUserMenuOpen(false);
+                  }}
+                >
+                  <Layers size={12} />
+                  {activeLevel === "2" ? "Level 2" : "Level 1"} ▾
                 </button>
                 {levelOpen && (
-                  <div className="level-switcher-dropdown" onMouseLeave={() => setLevelOpen(false)}>
-                    <button className="level-switcher-item" onClick={() => switchLevel("1")}
-                      style={{ color: activeLevel === "1" ? THEME_COLOR : "var(--color-text)", fontWeight: activeLevel === "1" ? 700 : 500 }}>
-                      <span className="level-switcher-dot" style={{ background: THEME_COLOR }} />
-                      Basic Track
-                      {activeLevel === "1" && <span style={{ marginLeft: "auto", fontSize: "0.7rem" }}>✓</span>}
+                  <div
+                    className="level-switcher-dropdown"
+                    onMouseLeave={() => setLevelOpen(false)}
+                  >
+                    <button
+                      className={`level-switcher-item ${
+                        activeLevel === "1" ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        switchLevel("1");
+                        if (hasL1) window.location.href = "/#/";
+                      }}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: hasL1 ? "pointer" : "not-allowed",
+                        width: "100%",
+                        textAlign: "left",
+                        opacity: hasL1 ? 1 : 0.5,
+                      }}
+                    >
+                      <span
+                        className="level-switcher-dot"
+                        style={{ background: LEVEL_THEMES["1"].color }}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 1,
+                        }}
+                      >
+                        <span>{LEVEL_THEMES["1"].label}</span>
+                        {!hasL1 && (
+                          <span
+                            style={{
+                              fontSize: "0.7rem",
+                              color: "var(--color-text-faint)",
+                            }}
+                          >
+                            🔒 Not licensed
+                          </span>
+                        )}
+                      </div>
                     </button>
-                    <button className="level-switcher-item" onClick={() => switchLevel("2")}
-                      style={{ color: activeLevel === "2" ? "#e8820c" : "var(--color-text)", fontWeight: activeLevel === "2" ? 700 : 500 }}>
-                      <span className="level-switcher-dot" style={{ background: "#e8820c" }} />
-                      Advanced Track
-                      {activeLevel === "2" && <span style={{ marginLeft: "auto", fontSize: "0.7rem" }}>✓</span>}
+                    <button
+                      className={`level-switcher-item ${
+                        activeLevel === "2" ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        switchLevel("2");
+                        if (hasL2) window.location.href = "/#/";
+                      }}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: hasL2 ? "pointer" : "not-allowed",
+                        width: "100%",
+                        textAlign: "left",
+                        opacity: hasL2 ? 1 : 0.5,
+                      }}
+                    >
+                      <span
+                        className="level-switcher-dot"
+                        style={{ background: LEVEL_THEMES["2"].color }}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 1,
+                        }}
+                      >
+                        <span>{LEVEL_THEMES["2"].label}</span>
+                        {!hasL2 && (
+                          <span
+                            style={{
+                              fontSize: "0.7rem",
+                              color: "var(--color-text-faint)",
+                            }}
+                          >
+                            🔒 Not licensed
+                          </span>
+                        )}
+                      </div>
                     </button>
                   </div>
                 )}
               </div>
             )}
 
+            {/* User menu */}
             {user && (
-              <div className="nav-user" style={{ position: 'relative' }}>
-                <button 
-                  className="level-switcher-btn" 
-                  onClick={() => { setUserMenuOpen(!userMenuOpen); setLevelOpen(false); }}
-                  style={{ background: 'transparent', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '4px 10px' }}
+              <div className="nav-user" style={{ position: "relative" }}>
+                <button
+                  className="level-switcher-btn"
+                  onClick={() => {
+                    setUserMenuOpen(!userMenuOpen);
+                    setLevelOpen(false);
+                  }}
+                  style={{
+                    background: "transparent",
+                    border: "1px solid var(--color-border)",
+                    borderRadius: "var(--radius-md)",
+                    padding: "4px 10px",
+                  }}
                 >
                   <User size={14} />
-                  <span className="nav-user-name" style={{ marginLeft: '4px' }}>{user.displayName}</span>
-                  <ChevronDown size={12} style={{ marginLeft: '4px', opacity: 0.5 }} />
+                  <span
+                    className="nav-user-name"
+                    style={{ marginLeft: "4px" }}
+                  >
+                    {user.displayName}
+                  </span>
+                  <ChevronDown
+                    size={12}
+                    style={{ marginLeft: "4px", opacity: 0.5 }}
+                  />
                 </button>
 
                 {userMenuOpen && (
-                  <div className="level-switcher-dropdown" style={{ minWidth: '220px', padding: '12px', right: 0 }} onMouseLeave={() => setUserMenuOpen(false)}>
-                    
-                    {/* FLAME & RANKING */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 4px', borderBottom: '1px solid var(--color-divider)', marginBottom: '8px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#f97316', fontWeight: 800 }}>
-                        <Flame size={16} fill="#f97316" stroke="#f97316" /> {completedCount}
+                  <div
+                    className="level-switcher-dropdown"
+                    style={{ minWidth: "220px", padding: "12px", right: 0 }}
+                    onMouseLeave={() => setUserMenuOpen(false)}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        padding: "8px 4px",
+                        borderBottom: "1px solid var(--color-divider)",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "4px",
+                          color: "#ff6b6b",
+                          fontWeight: 800,
+                        }}
+                      >
+                        <Flame size={16} /> {completedCount}
                       </div>
-                      <div style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: THEME_COLOR }}>{rankTitle}</div>
-                    </div>
-                    
-                    {/* PLAN INFO */}
-                    <div className="level-switcher-item" style={{ cursor: 'default', opacity: 0.8 }}>
-                      <CreditCard size={14} />
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <span style={{ fontSize: '10px', textTransform: 'uppercase', color: 'var(--color-text-faint)' }}>Current Plan</span>
-                        <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: THEME_COLOR }}>Accounting · {LEVEL_LABEL}</span>
+                      <div
+                        style={{
+                          fontSize: "var(--text-xs)",
+                          fontWeight: 700,
+                          color: rankColor,
+                        }}
+                      >
+                        {rankTitle}
                       </div>
                     </div>
 
-                    <div style={{ height: '1px', background: 'var(--color-divider)', margin: '8px 0' }} />
-                    
-                    {/* RESET PASSWORD & PRICING */}
-                    <Link href="/settings/password" className="level-switcher-item" onClick={() => setUserMenuOpen(false)}>
+                    <div
+                      className="level-switcher-item"
+                      style={{ cursor: "default", opacity: 0.8 }}
+                    >
+                      <CreditCard size={14} />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 4,
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            textTransform: "uppercase",
+                            color: "var(--color-text-faint)",
+                          }}
+                        >
+                          Current Plan
+                        </span>
+                        <div style={{ display: "flex", gap: 4 }}>
+                          {hasL1 && (
+                            <span className="level-pill level-pill-l1">
+                              L1 Foundation
+                            </span>
+                          )}
+                          {hasL2 && (
+                            <span className="level-pill level-pill-l2">
+                              L2 Advanced Studio
+                            </span>
+                          )}
+                          {!hasL1 && !hasL2 && (
+                            <span
+                              style={{
+                                fontSize: "var(--text-sm)",
+                                color: "var(--color-text-faint)",
+                              }}
+                            >
+                              No active plan
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        height: "1px",
+                        background: "var(--color-divider)",
+                        margin: "8px 0",
+                      }}
+                    />
+
+                    <Link
+                      href="/settings/password"
+                      className="level-switcher-item"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
                       <KeyRound size={14} /> Reset Password
                     </Link>
-                    <Link href="/pricing" className="level-switcher-item" onClick={() => setUserMenuOpen(false)}>
-                      <CreditCard size={14} /> Pricing & Upgrades
+                    <Link
+                      href="/pricing"
+                      className="level-switcher-item"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      <CreditCard size={14} /> Pricing
                     </Link>
 
-                    <div style={{ height: '1px', background: 'var(--color-divider)', margin: '8px 0' }} />
-                    
-                    {/* LOG OUT */}
-                    <button onClick={logout} className="level-switcher-item" style={{ width: '100%', color: '#dc2626', background: 'none', border: 'none', textAlign: 'left' }}>
+                    <div
+                      style={{
+                        height: "1px",
+                        background: "var(--color-divider)",
+                        margin: "8px 0",
+                      }}
+                    />
+
+                    <button
+                      onClick={logout}
+                      className="level-switcher-item"
+                      style={{
+                        width: "100%",
+                        color: "#dc2626",
+                        background: "none",
+                        border: "none",
+                        textAlign: "left",
+                      }}
+                    >
                       <LogOut size={14} /> {t("nav.logout")}
                     </button>
                   </div>
@@ -396,16 +709,16 @@ export default function Nav() {
               </div>
             )}
 
-            <button onClick={toggle} className="icon-btn">
-              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} /> }
-            </button>
+            {/* Theme toggle hidden — dark mode locked
+            <button onClick={handleToggle} className="icon-btn">
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button> */}
 
-            {/* Hamburger — mobile only */}
             <button
               className="mobile-menu-btn icon-btn"
-              onClick={() => setMobileMenuOpen(true)}
+              onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
-              aria-expanded={mobileMenuOpen}
+              aria-expanded={mobileOpen}
             >
               <Menu size={22} />
             </button>
@@ -413,104 +726,231 @@ export default function Nav() {
         </div>
       </header>
 
-      {/* Mobile Overlay */}
+      {/* Mobile overlay */}
       <div
-        className={`mobile-drawer-overlay ${mobileMenuOpen ? "open" : ""}`}
-        onClick={() => setMobileMenuOpen(false)}
+        className={`mobile-drawer-overlay ${mobileOpen ? "open" : ""}`}
+        onClick={() => setMobileOpen(false)}
         aria-hidden="true"
       />
 
-      {/* Mobile Drawer */}
-      <div className={`mobile-drawer ${mobileMenuOpen ? "open" : ""}`} role="dialog" aria-label="Navigation menu">
-
-        {/* Header */}
+      {/* Mobile drawer */}
+      <div
+        className={`mobile-drawer ${mobileOpen ? "open" : ""}`}
+        role="dialog"
+        aria-label="Navigation menu"
+      >
         <div className="mobile-drawer-header">
-          <Link href="/" className="nav-logo" onClick={() => setMobileMenuOpen(false)}>
+          <Link
+            href="/"
+            className="nav-logo"
+            onClick={() => setMobileOpen(false)}
+          >
             <img src={logoImg} alt="AI Sprint" className="nav-logo-img" />
-            <div style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", fontWeight: 700 }}>
-              Accounting · {LEVEL_LABEL.replace(" Track", "")}
+            <div
+              style={{
+                fontSize: "var(--text-xs)",
+                color: "var(--color-text-muted)",
+                fontWeight: 700,
+              }}
+            >
+              Architecture Course
             </div>
           </Link>
-          <button className="icon-btn" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
+          <button
+            className="icon-btn"
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close menu"
+          >
             <X size={20} />
           </button>
         </div>
 
-        {/* Body */}
         <div className="mobile-drawer-body">
-
           {user && (
             <div className="mobile-rank-bar">
-              <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#ff6b6b", fontWeight: 800 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                  color: "#ff6b6b",
+                  fontWeight: 800,
+                }}
+              >
                 <Flame size={16} /> {completedCount}
               </div>
-              <div style={{ fontSize: "var(--text-xs)", fontWeight: 700, color: THEME_COLOR }}>{rankTitle}</div>
+              <div
+                style={{
+                  fontSize: "var(--text-xs)",
+                  fontWeight: 700,
+                  color: rankColor,
+                }}
+              >
+                {rankTitle}
+              </div>
             </div>
           )}
 
           <div className="mobile-section-label">Navigation</div>
-          <Link href="/" className={`mobile-nav-item ${location === "/" ? "active" : ""}`} onClick={() => setMobileMenuOpen(false)}>
+          <Link
+            href="/"
+            className={`mobile-nav-item ${loc === "/" ? "active" : ""}`}
+            onClick={() => setMobileOpen(false)}
+          >
             <LayoutDashboard size={16} /> {t("nav.journey")}
           </Link>
 
           {user && (
             <>
-              <div className="mobile-section-label">Track</div>
-              <button className={`mobile-nav-item ${activeLevel === "1" ? "active" : ""}`}
-                style={{ color: activeLevel === "1" ? THEME_COLOR : "var(--color-text)" }}
-                onClick={() => { switchLevel("1"); setMobileMenuOpen(false); }}>
-                <span style={{ width: 8, height: 8, borderRadius: "50%", background: THEME_COLOR, flexShrink: 0 }} /> Basic Track
-                {activeLevel === "1" && <span style={{ marginLeft: "auto", fontSize: "0.7rem" }}>✓</span>}
-              </button>
-              <button className={`mobile-nav-item ${activeLevel === "2" ? "active" : ""}`}
-                style={{ color: activeLevel === "2" ? "#e8820c" : "var(--color-text)" }}
-                onClick={() => { switchLevel("2"); setMobileMenuOpen(false); }}>
-                <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#e8820c", flexShrink: 0 }} /> Advanced Track
-                {activeLevel === "2" && <span style={{ marginLeft: "auto", fontSize: "0.7rem" }}>✓</span>}
-              </button>
+              <div className="mobile-section-label">Switch Level</div>
+              <a
+                className={`mobile-nav-item ${
+                  activeLevel === "1" ? "active" : ""
+                }`}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchLevel("1");
+                  if (hasL1) window.location.href = "/#/";
+                  setMobileOpen(false);
+                }}
+                style={
+                  activeLevel === "1"
+                    ? { color: LEVEL_THEMES["1"].color }
+                    : {}
+                }
+              >
+                <span
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: LEVEL_THEMES["1"].color,
+                    flexShrink: 0,
+                  }}
+                />
+                Level 1 · Foundation {!hasL1 && "🔒"}
+              </a>
+              <a
+                className={`mobile-nav-item ${
+                  activeLevel === "2" ? "active" : ""
+                }`}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  switchLevel("2");
+                  if (hasL2) window.location.href = "/#/";
+                  setMobileOpen(false);
+                }}
+                style={
+                  activeLevel === "2"
+                    ? { color: LEVEL_THEMES["2"].color }
+                    : {}
+                }
+              >
+                <span
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: LEVEL_THEMES["2"].color,
+                    flexShrink: 0,
+                  }}
+                />
+                Level 2 · Advanced Studio {!hasL2 && "🔒"}
+              </a>
             </>
           )}
 
-          <div className="mobile-section-label">The Blueprint</div>
-          <Link href="/systems" className={`mobile-nav-item ${location === "/systems" ? "active" : ""}`} onClick={() => setMobileMenuOpen(false)}>
-            <Terminal size={16} style={{ color: THEME_COLOR }} /> AI Workflows
+          <div className="mobile-section-label">Studio Blueprint</div>
+          <Link
+            href="/systems"
+            className={`mobile-nav-item ${
+              loc === "/systems" ? "active" : ""
+            }`}
+            onClick={() => setMobileOpen(false)}
+          >
+            <Terminal size={16} style={{ color: THEME_COLOR }} /> Studio Systems
           </Link>
-          <Link href="/portfolio" className={`mobile-nav-item ${location === "/portfolio" ? "active" : ""}`} onClick={() => setMobileMenuOpen(false)}>
-            <FolderKanban size={16} style={{ color: THEME_COLOR }} /> Portfolio Targets
+          <Link
+            href="/portfolio"
+            className={`mobile-nav-item ${
+              loc === "/portfolio" ? "active" : ""
+            }`}
+            onClick={() => setMobileOpen(false)}
+          >
+            <FolderKanban size={16} style={{ color: THEME_COLOR }} /> Portfolio
+            Projects
           </Link>
-          <Link href="/toolkit" className={`mobile-nav-item ${location === "/toolkit" ? "active" : ""}`} onClick={() => setMobileMenuOpen(false)}>
-            <Wrench size={16} style={{ color: THEME_COLOR }} /> Accountant Toolkit
+          <Link
+            href="/toolkit"
+            className={`mobile-nav-item ${
+              loc === "/toolkit" ? "active" : ""
+            }`}
+            onClick={() => setMobileOpen(false)}
+          >
+            <Wrench size={16} style={{ color: THEME_COLOR }} /> Design Toolkit
           </Link>
-          <Link href="/services" className={`mobile-nav-item ${location === "/services" ? "active" : ""}`} onClick={() => setMobileMenuOpen(false)}>
-            <BarChart2 size={16} style={{ color: THEME_COLOR }} /> Client Services
+          <Link
+            href="/services"
+            className={`mobile-nav-item ${
+              loc === "/services" ? "active" : ""
+            }`}
+            onClick={() => setMobileOpen(false)}
+          >
+            <BarChart2 size={16} style={{ color: THEME_COLOR }} /> Service
+            Offers
           </Link>
 
           <div className="mobile-section-label">Command Center</div>
-          <Link href="/settings" className={`mobile-nav-item ${location === "/settings" ? "active" : ""}`} onClick={() => setMobileMenuOpen(false)}>
+          <Link
+            href="/settings"
+            className={`mobile-nav-item ${
+              loc === "/settings" ? "active" : ""
+            }`}
+            onClick={() => setMobileOpen(false)}
+          >
             <Settings size={16} /> {t("nav.settings")}
           </Link>
-          <Link href="/faq" className={`mobile-nav-item ${location === "/faq" ? "active" : ""}`} onClick={() => setMobileMenuOpen(false)}>
+          <Link
+            href="/faq"
+            className={`mobile-nav-item ${loc === "/faq" ? "active" : ""}`}
+            onClick={() => setMobileOpen(false)}
+          >
             <HelpCircle size={16} /> Help & FAQ
           </Link>
-
         </div>
 
-        {/* Footer */}
         {user && (
-          <div className="mobile-drawer-footer" style={{ paddingBottom: "80px" }}>
-            <Link href="/settings/password" className="mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
+          <div
+            className="mobile-drawer-footer"
+            style={{ paddingBottom: "80px" }}
+          >
+            <Link
+              href="/settings/password"
+              className="mobile-nav-item"
+              onClick={() => setMobileOpen(false)}
+            >
               <KeyRound size={16} /> Reset Password
             </Link>
-            <Link href="/pricing" className="mobile-nav-item" onClick={() => setMobileMenuOpen(false)}>
-              <CreditCard size={16} /> Pricing & Upgrades
+            <Link
+              href="/pricing"
+              className="mobile-nav-item"
+              onClick={() => setMobileOpen(false)}
+            >
+              <CreditCard size={16} /> Pricing
             </Link>
             <div className="mobile-divider" />
-            <button onClick={toggle} className="mobile-nav-item">
+            {/* Theme toggle hidden — dark mode locked
+            <button onClick={handleToggle} className="mobile-nav-item">
               {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
               {theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            </button>
+            </button> */}
             <button
-              onClick={() => { logout(); setMobileMenuOpen(false); }}
+              onClick={() => {
+                logout();
+                setMobileOpen(false);
+              }}
               className="mobile-nav-item"
               style={{ color: "#dc2626" }}
             >
@@ -520,16 +960,46 @@ export default function Nav() {
         )}
       </div>
 
-      {/* TICKER — hidden when mobile drawer is open */}
-      {user && !mobileMenuOpen && (
-        <div style={{
-          position: "fixed", bottom: "20px", left: "20px", background: "rgba(26, 27, 38, 0.8)",
-          backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.1)", 
-          padding: "10px 15px", borderRadius: "50px", display: "flex", alignItems: "center", 
-          gap: "10px", boxShadow: "var(--shadow-md)", zIndex: 1000, fontSize: "0.85rem", fontWeight: 500,
-        }}>
-          <span style={{ display: "inline-block", width: "8px", height: "8px", background: THEME_COLOR, borderRadius: "50%", boxShadow: `0 0 8px ${THEME_COLOR}` }} />
-          <span key={tickerIdx} style={{ animation: "fadeIn 0.5s ease-in-out", color: "white" }}>{tickerMessages[tickerIdx]}</span>
+      {/* Activity ticker */}
+      {user && !mobileOpen && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            left: "20px",
+            background: "rgba(26, 27, 38, 0.8)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            padding: "10px 15px",
+            borderRadius: "50px",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            boxShadow: "var(--shadow-md)",
+            zIndex: 1000,
+            fontSize: "0.85rem",
+            fontWeight: 500,
+          }}
+        >
+          <span
+            style={{
+              display: "inline-block",
+              width: "8px",
+              height: "8px",
+              background: THEME_COLOR,
+              borderRadius: "50%",
+              boxShadow: `0 0 8px ${THEME_COLOR}`,
+            }}
+          />
+          <span
+            key={tickerIdx}
+            style={{
+              animation: "fadeIn 0.5s ease-in-out",
+              color: "white",
+            }}
+          >
+            {tickerMessages[tickerIdx]}
+          </span>
         </div>
       )}
     </>
