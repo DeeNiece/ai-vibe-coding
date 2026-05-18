@@ -1,30 +1,4 @@
-// ── AI Sprint · Architecture & Interior Design ──────────────────────────────
-// File: pricing.tsx | Repo: ai-archi
-// Last updated: May 2026
-//
-// PRICING UPDATE: Single $69 price grants both levels (56 days total)
-// USD_PRICES/PLANS removed — COURSE_PRICE_USD=69 is the only purchase option
-//
-// ── THEME SYSTEM ─────────────────────────────────────────────────────────────
-// Theme is read from useTheme() — the same React context the Nav uses.
-// This guarantees zero-delay sync: the moment Nav toggles, this page
-// re-renders instantly because they share the same context value.
-//
-// Previously used useDarkMode() which polled localStorage — that caused
-// a visible delay because:
-//   • window "storage" event only fires in OTHER tabs, not the current one
-//   • window "focus" event only fires when the window regains focus
-// Both are async and unpredictable; React context is synchronous.
-//
-// Dark  → near-black bg (#0d0d14)  + light text (#e8e6f4 / #9896b0)
-// Light → white/light-gray bg      + dark text  (#111827 / #374151)
-// ─────────────────────────────────────────────────────────────────────────────
-
-import { useState, useEffect } from "react";
-import { useAuth } from "@/components/auth-provider";
-import { useTheme } from "@/components/theme-provider";
-import Nav from "@/components/nav";
-import {// ── AI Sprint · Vibe Coding & IOP ──────────────────────────────
+// ── AI Sprint · Vibe Coding & IOP ──────────────────────────────
 // File: pricing.tsx | Repo: ai-vibe-coding
 // Last updated: May 2026
 //
@@ -147,7 +121,7 @@ function ContactSection() {
     const form = e.currentTarget;
     const data = new FormData(form);
     try {
-      const res  = await fetch("https://api.web3forms.com/submit", { method: "POST", body: data });
+      const res  = await fetch("/api/contact", { method: "POST", body: data });
       const json = await res.json();
       if (json.success) { setSubmitted(true); form.reset(); }
       else setError("Something went wrong. Please try emailing us directly.");
@@ -205,9 +179,7 @@ function ContactSection() {
             onSubmit={handleSubmit}
             style={{ background: cardBg, border: `1px solid ${cardBorder}`, borderRadius: 16, padding: "36px 32px", display: "flex", flexDirection: "column", gap: 18, boxShadow: isDark ? "none" : "0 10px 30px rgba(0,0,0,0.05)" }}
           >
-            <input type="hidden" name="access_key" value="9354c53d-f37d-4c31-845b-88286c03d1d4" />
-            <input type="hidden" name="subject"    value="AI Sprint Vibe Coding & IOP Support Request" />
-            <input type="hidden" name="from_name"  value="AI Sprint Vibe Coding & IOP Pricing Page" />
+            {/* contact sent via /api/contact → Resend */}
 
             {error && (
               <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#ef4444", padding: "10px 14px", borderRadius: 8, fontSize: "0.875rem", display: "flex", alignItems: "center", gap: 8 }}>
@@ -560,7 +532,7 @@ function ContactSection() {
     const form = e.currentTarget;
     const data = new FormData(form);
     try {
-      const res  = await fetch("https://api.web3forms.com/submit", { method: "POST", body: data });
+      const res  = await fetch("/api/contact", { method: "POST", body: data });
       const json = await res.json();
       if (json.success) { setSubmitted(true); form.reset(); }
       else setError("Something went wrong. Please try emailing us directly.");
@@ -618,9 +590,7 @@ function ContactSection() {
             onSubmit={handleSubmit}
             style={{ background: cardBg, border: `1px solid ${cardBorder}`, borderRadius: 16, padding: "36px 32px", display: "flex", flexDirection: "column", gap: 18, boxShadow: isDark ? "none" : "0 10px 30px rgba(0,0,0,0.05)" }}
           >
-            <input type="hidden" name="access_key" value="9354c53d-f37d-4c31-845b-88286c03d1d4" />
-            <input type="hidden" name="subject"    value="AI Sprint Architecture Course Support Request" />
-            <input type="hidden" name="from_name"  value="AI Sprint Architecture Course Pricing Page" />
+            {/* contact sent via /api/contact → Resend */}
 
             {error && (
               <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#ef4444", padding: "10px 14px", borderRadius: 8, fontSize: "0.875rem", display: "flex", alignItems: "center", gap: 8 }}>
@@ -737,7 +707,7 @@ export default function PricingPage() {
         {/* ── Page Header ─────────────────────────────────────────────────── */}
         <div style={{ textAlign: "center", padding: "60px 20px 32px", maxWidth: 700, margin: "0 auto" }}>
           <h1 style={{ fontSize: "clamp(1.5rem, 4vw, 2.2rem)", fontWeight: 800, color: headingClr, lineHeight: 1.2, margin: "0 0 16px" }}>
-            Master Architecture &amp; Interior Design — Both Levels for ${COURSE_PRICE_USD}
+            Master Vibe Coding &amp; IOP — Both Levels for ${COURSE_PRICE_USD}
           </h1>
           <p style={{ color: bodyClr, fontSize: "1rem", lineHeight: 1.7, margin: "0 auto 20px", maxWidth: 600 }}>
             One price. 56 days. Full mastery. Get Foundation (design principles, spatial planning,
@@ -770,7 +740,7 @@ export default function PricingPage() {
             {/* Card heading */}
             <div style={{ textAlign: "center", marginBottom: 24 }}>
               <div style={{ fontSize: "1.1rem", fontWeight: 700, color: cardTitleClr, marginBottom: 6 }}>
-                Complete Architecture &amp; Interior Design Course
+                Complete Vibe Coding &amp; IOP Course
               </div>
               <div style={{ fontSize: "0.9rem", color: cardSubClr }}>
                 56 days · 2 levels · Foundation → Professional
