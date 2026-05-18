@@ -1,5 +1,5 @@
-// ── AI Sprint · Architecture & Interior Design ────────────────────────────────────────────────
-// File: landing.tsx | Repo: ai-sprint-architecture-interior-course
+// ── AI Sprint · Vibe Coding & IOP ─────────────────────────────────────────────────────────────
+// File: landing.tsx | Repo: ai-vibe-coding
 // Last updated: May 2026
 // Hero: Cinematic full-bleed (Hero_Image_AI_Vibe_Coding.webp)
 //       Image path: client/public/assets/Hero_Image_AI_Vibe_Coding.webp
@@ -18,10 +18,30 @@ import {
   Eye, EyeOff, X, Brain, BarChart2, Shield,
   BookOpen, Target, Layers, Send, CheckCircle2,
 } from "lucide-react";
+import {
+  curriculumL1,
+  curriculumL2,
+  weekOverviewsL1,
+  weekOverviewsL2,
+  starterToolkit,
+  portfolioTargets,
+  serviceLadder,
+} from "@/data/curriculum";
 
 const L1_COLOR = "#0d7c8a";
 const L2_COLOR = "#d97706";
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&";
+
+// Helper to get week 1 lessons for preview
+function getWeek1Lessons(level: "1" | "2") {
+  const curriculum = level === "1" ? curriculumL1 : curriculumL2;
+  return curriculum.filter(lesson => lesson.week === 1).slice(0, 7);
+}
+
+// Helper to get portfolio targets by level
+function getPortfolioTargets(level: "1" | "2") {
+  return portfolioTargets.filter(p => p.level === parseInt(level));
+}
 
 // ── Auth Modal ────────────────────────────────────────────────────
 function AuthModal({ onClose, defaultLevel, defaultMode = "register", isDark = true }: { onClose: () => void; defaultLevel: "1" | "2"; defaultMode?: "login" | "register"; isDark?: boolean }) {
@@ -78,7 +98,6 @@ function AuthModal({ onClose, defaultLevel, defaultMode = "register", isDark = t
       <div className="lp-modal-card">
         <button className="lp-modal-close" onClick={onClose} aria-label="Close"><X size={18} /></button>
 
-        {/* Logo & tagline */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", marginBottom: "1.25rem" }}>
           <img src={logoImg} alt="AI Sprint" className="auth-logo-img" />
           <div className="auth-tagline">Learn AI Fast. Design Better Forever.</div>
@@ -86,7 +105,7 @@ function AuthModal({ onClose, defaultLevel, defaultMode = "register", isDark = t
 
         <h1 className="auth-heading" style={{ fontSize: "1.75rem", fontWeight: 800, marginBottom: "0.5rem", textAlign: "center" }}>
           {mode === "login"
-            ? `Welcome back to ${defaultLevel === "2" ? "Level 2 Advanced" : "Level 1 Basic"}`
+            ? `Welcome back to ${defaultLevel === "2" ? "Level 2 · Composer" : "Level 1 · Crafter"}`
             : t("auth.createAccount")
           }
         </h1>
@@ -94,13 +113,14 @@ function AuthModal({ onClose, defaultLevel, defaultMode = "register", isDark = t
         <p className="auth-subtext" style={{ marginBottom: "1.5rem", fontSize: "0.95rem", textAlign: "center" }}>
           {mode === "login"
             ? defaultLevel === "2"
-              ? "Advance your architecture and interior AI workflow with stronger visuals, systems, and professional applications."
-              : "Build the AI design skills that help you create concepts, prompts, and presentations faster."
-            : t("auth.signupSubtext")
+              ? "Continue building production AI systems and autonomous agents."
+              : "Continue your vibe coding journey and shipping real automations."
+            : defaultLevel === "2"
+              ? "Join the Composer track and build full-stack AI apps with Claude."
+              : "Join the Crafter track and ship your first automation in 28 days."
           }
         </p>
 
-        {/* Error messages */}
         {error && (
           <div className="auth-error" style={{ color: "#ef4444", display: "flex", alignItems: "center", gap: "8px", marginBottom: "1rem" }}>
             <AlertCircle size={14} /> {error}
@@ -232,7 +252,7 @@ function AuthModal({ onClose, defaultLevel, defaultMode = "register", isDark = t
   );
 }
 
-// ── Contact Section (unchanged, but label colors improved) ──────
+// ── Contact Section ──────────────────────────────────────────────
 function ContactSection({ theme }: { theme: string }) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -286,7 +306,6 @@ function ContactSection({ theme }: { theme: string }) {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="lp-contact-form" style={{ borderRadius: 16, padding: "36px 32px", display: "flex", flexDirection: "column", gap: 18 }}>
-            {/* contact sent via /api/contact → Resend */}
             {error && <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#ef4444", padding: "10px 14px", borderRadius: 8, fontSize: "0.875rem", display: "flex", alignItems: "center", gap: 8 }}><AlertCircle size={14} /> {error}</div>}
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <label className="lp-form-label" style={{ fontSize: "0.8rem", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}><UserCircle size={13} /> Your Name</label>
@@ -310,7 +329,53 @@ function ContactSection({ theme }: { theme: string }) {
     </section>
   );
 }
-// ── Landing Page (unchanged except AuthModal integration) ────────
+
+// ── Week Preview Component ───────────────────────────────────────
+function WeekPreview({ level }: { level: "1" | "2" }) {
+  const weekOverviews = level === "1" ? weekOverviewsL1 : weekOverviewsL2;
+  const THEME = level === "2" ? L2_COLOR : L1_COLOR;
+
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.5rem", marginTop: "2rem" }}>
+      {weekOverviews.map((week, i) => (
+        <div key={week.week} style={{
+          background: "rgba(255,255,255,.03)",
+          border: `1px solid ${THEME}25`,
+          borderRadius: "1rem",
+          padding: "1.5rem",
+          transition: "transform 0.2s, border-color 0.2s",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
+            <div style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              background: `${THEME}22`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontWeight: 800,
+              color: THEME,
+            }}>{week.week}</div>
+            <div>
+              <div style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: THEME }}>
+                {level === "1" ? "Crafter" : "Composer"}
+              </div>
+              <div style={{ fontWeight: 700 }}>{week.title}</div>
+            </div>
+          </div>
+          <ul style={{ margin: 0, paddingLeft: "1.2rem", fontSize: "0.85rem", color: "var(--lp-body, #c8c6e0)", lineHeight: 1.6 }}>
+            {week.outcomes.slice(0, 3).map((outcome, idx) => (
+              <li key={idx} style={{ marginBottom: "0.5rem" }}>{outcome}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Landing Page ─────────────────────────────────────────────────
 export default function LandingPage() {
   const [showAuth, setShowAuth] = useState(false);
   const [authLevel, setAuthLevel] = useState<"1" | "2">("1");
@@ -318,17 +383,14 @@ export default function LandingPage() {
   const [activeTab, setActiveTab] = useState<"1" | "2">("1");
   const THEME = activeTab === "2" ? L2_COLOR : L1_COLOR;
 
-  // ── Cursor glow ──────────────────────────────────────────────
   const cursorRef = useRef<HTMLDivElement>(null);
 
-  // ── H1 scramble — re-fires on tab change ─────────────────────
   const H1s = {
-    "1": "In 28 days, go from curious to confident with AI for architecture and interior design.",
-    "2": "In 28 days, build advanced AI workflows for high-quality design visuals and studio practice.",
+    "1": "In 28 days, go from AI-aware to a Crafter who ships real software — no engineering degree required.",
+    "2": "In 28 days, become the Composer who designs, deploys, and orchestrates production AI systems.",
   };
   const [scrambledH1, setScrambledH1] = useState(H1s["1"]);
 
-  // ── Animated stat counters ────────────────────────────────────
   const [s28, setS28] = useState(0);
   const [s15, setS15] = useState(0);
   const [s2, setS2] = useState(0);
@@ -336,37 +398,36 @@ export default function LandingPage() {
   const statsRef = useRef<HTMLDivElement>(null);
   const statsFired = useRef(false);
 
-  // ── Ticker ────────────────────────────────────────────────────
   const TICKS: Record<"1"|"2", string[]> = {
     "1": [
-      "Sarah just finished her first interior concept set · Day 14",
-      "James completed his prompt refinement sprint · Basic",
-      "3 new designers enrolled in Level 1 today",
-      "Emily created her first presentation-ready visual · Week 2",
-      "Dee is on a 9-day streak · Basic track",
+      "Sarah shipped her first automation script · Day 7",
+      "James completed his first vibe coding sprint · Crafter",
+      "3 new professionals enrolled in the Crafter track today",
+      "Emily built her first internal tool · Week 2",
+      "Dee is on a 9-day streak · Crafter track",
     ],
     "2": [
-      "Sarah completed a multi-image concept workflow for a client deck",
-      "James unlocked Advanced Visual Direction · Level 2",
-      "Designers joined the advanced track this month",
-      "Emily mapped her studio AI workflow · Week 3",
-      "Dee is on a 14-day streak · Advanced track",
+      "Sarah deployed her first full-stack AI app · Composer",
+      "James unlocked Agent Architect rank · Composer",
+      "Professionals joined the Composer track this month",
+      "Emily shipped her first autonomous agent · Week 3",
+      "Dee is on a 14-day streak · Composer track",
     ],
   };
   const [tickerIdx, setTickerIdx] = useState(0);
   const [tickerVisible, setTickerVisible] = useState(true);
 
-  // ── Scroll reveal ─────────────────────────────────────────────
   const [revealCards, setRevealCards] = useState(false);
   const cardsRef = useRef<HTMLDivElement>(null);
   const [revealTestimonials, setRevealTestimonials] = useState(false);
   const testimonialsRef = useRef<HTMLDivElement>(null);
-  // ── Theme from shared context — syncs instantly with Nav toggle ───────────
   const { theme: _themeRaw, toggle: _toggleTheme } = useTheme();
-  // Dark mode locked — always dark, toggle hidden. All lp-light CSS preserved & reversible.
   const isDark = true;
-  const toggleTheme = () => {}; // no-op — re-enable to restore toggle
+  const toggleTheme = () => {};
   const testiScrollRef = useRef<HTMLDivElement>(null);
+
+  const week1Lessons = getWeek1Lessons(activeTab);
+  const portfolioTargetsList = getPortfolioTargets(activeTab);
 
   function openAuth(level: "1" | "2", mode: "login" | "register" = "register") {
     setAuthLevel(level);
@@ -374,7 +435,6 @@ export default function LandingPage() {
     setShowAuth(true);
   }
 
-  // Cursor glow
   useEffect(() => {
     const el = cursorRef.current;
     if (!el) return;
@@ -386,7 +446,6 @@ export default function LandingPage() {
     return () => window.removeEventListener("mousemove", move);
   }, []);
 
-  // H1 scramble — re-fires on tab change
   useEffect(() => {
     const target = H1s[activeTab];
     let frame = 0;
@@ -403,7 +462,6 @@ export default function LandingPage() {
     return () => clearInterval(iv);
   }, [activeTab]);
 
-  // Stat counters
   useEffect(() => {
     const el = statsRef.current;
     if (!el) return;
@@ -428,7 +486,6 @@ export default function LandingPage() {
     return () => obs.disconnect();
   }, []);
 
-  // Ticker — resets on tab change
   useEffect(() => {
     setTickerIdx(0);
     const iv = setInterval(() => {
@@ -438,7 +495,6 @@ export default function LandingPage() {
     return () => clearInterval(iv);
   }, [activeTab]);
 
-  // Scroll reveal — feature cards
   useEffect(() => {
     const el = cardsRef.current;
     if (!el) return;
@@ -449,7 +505,6 @@ export default function LandingPage() {
     return () => obs.disconnect();
   }, [activeTab]);
 
-  // Scroll reveal — testimonials
   useEffect(() => {
     const el = testimonialsRef.current;
     if (!el) return;
@@ -460,7 +515,6 @@ export default function LandingPage() {
     return () => obs.disconnect();
   }, []);
 
-  // ── AUTO-SCROLL testimonials: one card at a time ──
   useEffect(() => {
     let timer: ReturnType<typeof setInterval> | null = null;
     let paused = false;
@@ -488,14 +542,12 @@ export default function LandingPage() {
   return (
     <div className={`lp-root${isDark ? "" : " lp-light"}`} style={{ "--color-primary": THEME, background: isDark ? "#0d0d14" : "#f4f6fb", color: isDark ? "#e8e6f4" : "#1a1a2e", minHeight: "100vh" } as any}>
 
-      {/* Cursor glow */}
       <div ref={cursorRef} style={{
         position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
         background: `radial-gradient(600px at var(--cx,50%) var(--cy,50%), ${THEME}12, transparent 70%)`,
         transition: "background 0.4s ease",
       }} />
 
-      {/* Circuit grid */}
       <div style={{
         position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
         backgroundImage: `linear-gradient(${THEME}06 1px,transparent 1px),linear-gradient(90deg,${THEME}06 1px,transparent 1px)`,
@@ -504,7 +556,6 @@ export default function LandingPage() {
         WebkitMaskImage: "linear-gradient(to bottom,rgba(0,0,0,.6) 0%,transparent 55%)",
       }} />
 
-      {/* Live ticker pill */}
       <div className="lp-ticker" style={{
         position:"fixed", bottom:16, left:"50%", transform:"translateX(-50%)",
         zIndex:50, maxWidth:360, width:"calc(100% - 40px)",
@@ -523,32 +574,24 @@ export default function LandingPage() {
         @keyframes lpPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
         @keyframes lpHeroReveal { from{transform:scale(1.06);opacity:.7} to{transform:scale(1);opacity:1} }
         @keyframes lpRise { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-        /* Portrait mobile — show ~1/5 of face on right */
         @media(max-width:768px) and (orientation:portrait){
-          .lp-archi-cin-bg{ background-position:55% center !important; }
+          .lp-vibe-cin-bg{ background-position:55% center !important; }
         }
-        /* Landscape mobile */
         @media(max-width:900px) and (orientation:landscape){
-          .lp-archi-cin-bg{ background-position:70% center !important; }
-          .lp-archi-cin-content{ padding:5rem 1.4rem 4rem !important; }
+          .lp-vibe-cin-bg{ background-position:70% center !important; }
+          .lp-vibe-cin-content{ padding:5rem 1.4rem 4rem !important; }
         }
-        /* scramble target — reserve space to prevent layout shift */
-        .lp-archi-cin-h1 { display:block; min-height:0.97em; line-height:0.97; }
+        .lp-vibe-cin-h1 { display:block; min-height:0.97em; line-height:0.97; }
         .lp-reveal { opacity:0; transform:translateY(24px); transition:opacity .65s ease, transform .65s ease; }
         .lp-reveal.visible { opacity:1; transform:translateY(0); }
         [data-autoscroll]::-webkit-scrollbar { display: none; }
 
-        /* ── DARK MODE base variables ── */
         .lp-root { --lp-body: #c8c6e0; --lp-muted: #9896b0; --lp-card-bg: rgba(255,255,255,.04); --lp-card-border: rgba(255,255,255,.09); --lp-tab-border: rgba(255,255,255,0.15); --lp-tab-inactive: rgba(255,255,255,0.5); }
         .lp-root p, .lp-root li { color: var(--lp-body); }
-
-        /* ── Dark mode section backgrounds ── */
         .lp-root .lp-section { background: #0d0d14; }
         .lp-root .lp-contact-section { background: #111; }
         .lp-root .lp-testi-section { background: #0d0d14; }
         .lp-root .lp-human-section { background: #0d0d14; }
-
-        /* ── Dark mode: Auth Modal ── */
         .lp-modal-card { background: rgba(16,17,28,0.96); color: #e8e6f4; }
         .auth-tagline { color: #bbb; }
         .auth-heading { color: #ffffff; }
@@ -561,13 +604,10 @@ export default function LandingPage() {
         .auth-divider-label { background: rgba(16,17,28,0.96); color: #999; }
         .auth-footer-text { color: #aaa; }
         .auth-footer-text a { color: #888; }
-
-        /* ── Dark mode: Contact form ── */
         .lp-root .lp-contact-form { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); }
         .lp-root .lp-form-label { color: #ccc; }
         .lp-root .lp-contact-input { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; }
 
-        /* ── LIGHT MODE ── */
         .lp-light { --lp-body: #374151; --lp-muted: #6b7280; --lp-card-bg: #ffffff; --lp-card-border: rgba(0,0,0,.08); --lp-tab-border: rgba(0,0,0,0.15); --lp-tab-inactive: #6b7280; }
         .lp-light section { background: #f4f6fb !important; }
         .lp-light .lp-dark-section { background: #ffffff !important; }
@@ -613,8 +653,6 @@ export default function LandingPage() {
         .lp-light .lp-human-bullet { color: #374151 !important; }
         .lp-root:not(.lp-light) .lp-swipe-hint { color: #9896b0 !important; }
         .lp-light .lp-swipe-hint { color: #6b7280 !important; }
-
-        /* Light mode: Auth Modal */
         .lp-light .lp-modal-card { background: #ffffff !important; color: #111827 !important; }
         .lp-light .auth-tagline { color: #6b7280 !important; }
         .lp-light .auth-heading { color: #111827 !important; }
@@ -629,37 +667,28 @@ export default function LandingPage() {
         .lp-light .auth-footer-text a { color: #6b7280 !important; }
         .lp-light .lp-modal-close { color: #6b7280 !important; }
         .lp-light .lp-modal-close:hover { color: #111827 !important; }
-
-        /* Light mode: Contact form */
         .lp-light .lp-contact-form { background: #ffffff !important; border: 1px solid rgba(0,0,0,.08) !important; box-shadow: 0 10px 30px rgba(0,0,0,.05) !important; }
         .lp-light .lp-contact-input { background: #f9fafb !important; border: 1px solid rgba(0,0,0,.12) !important; color: #111827 !important; }
         .lp-contact-input::placeholder { color: rgba(255,255,255,0.4); }
         .lp-light .lp-contact-input::placeholder { color: rgba(17,17,17,0.4) !important; }
         .lp-light .lp-contact-input { box-shadow: 0 1px 2px rgba(0,0,0,0.03); }
         .lp-contact-input:focus { border-color: var(--color-primary) !important; box-shadow: 0 0 0 3px rgba(0,0,0,0.08); }
-
-        /* 7-day preview */
         .lp-light .lp-seven-day-section { background: #f4f6fb !important; }
         .lp-light .lp-seven-day-section h2 { color: #111827 !important; }
         .lp-light .lp-seven-day-section p { color: #6b7280 !important; }
         .lp-light .lp-day-card { background: #ffffff !important; border-color: rgba(0,0,0,.09) !important; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
         .lp-light .lp-day-title { color: #111827 !important; }
         .lp-light .lp-day-hint { color: #9ca3af !important; }
-        /* contact — granular selectors */
         .lp-light .lp-contact-title { color: #111827 !important; }
         .lp-light .lp-contact-subtext { color: #4b5563 !important; }
         .lp-light .lp-contact-success-title { color: #111827 !important; }
         .lp-light .lp-contact-success-text { color: #6b7280 !important; }
-
         .lp-light .lp-recommendation-text { color: #111827 !important; }
-        /* ── HERO STATS ── */
         .lp-light .lp-stats { background: rgba(0,0,0,.04) !important; border: 1px solid rgba(0,0,0,.08) !important; backdrop-filter: none !important; }
         .lp-light .lp-stats .lp-stat-num { color: #111827 !important; text-shadow: none !important; }
         .lp-light .lp-stats .lp-stat-label { color: #6b7280 !important; }
         .lp-light .lp-stats .lp-stat-divider { background: rgba(0,0,0,.15) !important; }
         .lp-light .lp-stats .lp-stat { color: #111827 !important; }
-
-        /* ── THEME TOGGLE BUTTON ── */
         .lp-theme-toggle {
           width: 42px; height: 22px; border-radius: 100px;
           border: 1px solid rgba(13,124,138,.4);
@@ -682,56 +711,23 @@ export default function LandingPage() {
 
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} defaultLevel={authLevel} defaultMode={authMode} isDark={isDark} />}
 
-      {/* Nav */}
-      <nav
-  className="lp-nav"
-  style={{
-    position: "sticky",
-    top: 0,
-    zIndex: 1000,
-    backdropFilter: "blur(12px)",
-    WebkitBackdropFilter: "blur(12px)",
-  }}
->
-  <div className="lp-nav-logo">
-    <a
-      href="https://aisprint.app"
-      style={{ display: "flex", alignItems: "center", textDecoration: "none" }}
-    >
-      <img src={logoImg} alt="AI Sprint" className="lp-nav-logo-img" />
-    </a>
-  </div>
+      <nav className="lp-nav" style={{ position: "sticky", top: 0, zIndex: 1000, backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
+        <div className="lp-nav-logo">
+          <a href="https://aisprint.app" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+            <img src={logoImg} alt="AI Sprint" className="lp-nav-logo-img" />
+          </a>
+        </div>
+        <div className="lp-nav-actions">
+          <button className="lp-btn-ghost" onClick={() => openAuth(activeTab, "login")}>Log In</button>
+          <button className="lp-btn-primary" style={{ background: THEME }} onClick={() => openAuth(activeTab, "register")}>
+            {activeTab === "2" ? "Start Composer Journey →" : "Start Crafter Journey →"}
+          </button>
+        </div>
+      </nav>
 
-  <div className="lp-nav-actions">
-    {/* Dark mode locked — toggle hidden. Re-enable by uncommenting:
-    <button
-      className={`lp-theme-toggle${isDark ? "" : " light"}`}
-      onClick={() => toggleTheme()}
-      aria-label="Toggle dark/light mode"
-      title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-    >
-      <div className="lp-theme-toggle-thumb" />
-    </button> */}
-
-    <button className="lp-btn-ghost" onClick={() => openAuth(activeTab, "login")}>
-      Log In
-    </button>
-
-    <button
-      className="lp-btn-primary"
-      style={{ background: THEME }}
-      onClick={() => openAuth(activeTab, "register")}
-    >
-      {activeTab === "2" ? "Start Level 2 Journey →" : "Start Level 1 Journey →"}
-    </button>
-  </div>
-</nav>
-
-      {/* ── CINEMATIC HERO — full-bleed architecture image ────────────────────── */}
+      {/* ── CINEMATIC HERO ────────────────────────────────────────────── */}
       <section style={{ position:"relative", width:"100%", minHeight:"100vh", display:"flex", alignItems:"center", overflow:"hidden", zIndex:1, contain:"layout style" }}>
-
-        {/* Background image — 78% portrait / 70% landscape keeps face visible */}
-        <div className="lp-archi-cin-bg" style={{
+        <div className="lp-vibe-cin-bg" style={{
           position:"absolute", inset:0,
           backgroundImage:"url('/assets/Hero_Image_AI_Vibe_Coding.webp')",
           backgroundSize:"cover",
@@ -739,31 +735,13 @@ export default function LandingPage() {
           backgroundRepeat:"no-repeat",
           animation:"lpHeroReveal 1.4s cubic-bezier(.22,1,.36,1) forwards",
         }} />
-
-        {/* Left gradient — text legibility */}
-        <div style={{
-          position:"absolute", inset:0, zIndex:1,
-          background:"linear-gradient(105deg, rgba(13,13,20,.95) 0%, rgba(13,13,20,.85) 30%, rgba(13,13,20,.52) 56%, rgba(13,13,20,.15) 76%, transparent 100%)",
-        }} />
-
-        {/* Bottom vignette — blends into sections below */}
-        <div style={{
-          position:"absolute", bottom:0, left:0, right:0, height:200, zIndex:1,
-          background:"linear-gradient(to bottom, transparent, rgba(13,13,20,.97) 85%, #0d0d14 100%)",
-        }} />
-
-        {/* Content — left aligned */}
-        <div className="lp-archi-cin-content" style={{
-          position:"relative", zIndex:2,
-          maxWidth:620, padding:"10rem 2.5rem 7rem",
-          display:"flex", flexDirection:"column",
-        }}>
-
-          {/* Level selector pills */}
+        <div style={{ position:"absolute", inset:0, zIndex:1, background:"linear-gradient(105deg, rgba(13,13,20,.95) 0%, rgba(13,13,20,.85) 30%, rgba(13,13,20,.52) 56%, rgba(13,13,20,.15) 76%, transparent 100%)" }} />
+        <div style={{ position:"absolute", bottom:0, left:0, right:0, height:200, zIndex:1, background:"linear-gradient(to bottom, transparent, rgba(13,13,20,.97) 85%, #0d0d14 100%)" }} />
+        <div className="lp-vibe-cin-content" style={{ position:"relative", zIndex:2, maxWidth:620, padding:"10rem 2.5rem 7rem", display:"flex", flexDirection:"column" }}>
           <div style={{ display:"flex", gap:8, marginBottom:"1.4rem", animation:"lpRise .7s ease both", flexWrap:"wrap" }}>
             {(["1","2"] as const).map(lvl => {
               const color = lvl === "1" ? L1_COLOR : L2_COLOR;
-              const label = lvl === "1" ? "L1 · Basic · Days 1-28" : "L2 · Advanced · Days 29-56";
+              const label = lvl === "1" ? "L1 · Crafter · Days 1–28" : "L2 · Composer · Days 29–56";
               return (
                 <button key={lvl} onClick={() => setActiveTab(lvl)} style={{
                   fontSize:".72rem", fontWeight:700, color,
@@ -776,58 +754,34 @@ export default function LandingPage() {
               );
             })}
           </div>
-
-          {/* Eyebrow */}
           <p style={{ fontSize:"clamp(.72rem,1.5vw,.85rem)", color:"rgba(200,200,220,.65)", letterSpacing:"2px", textTransform:"uppercase", fontWeight:600, marginBottom:".8rem", marginTop:0, animation:"lpRise .75s .05s ease both" }}>
-            Designed for architects, interior designers & creative professionals.
+            Built for professionals who want to build real software with AI — no degree required.
           </p>
-
-          {/* H1 — scrambled, reserves height */}
-          <h1 className="lp-archi-cin-h1" style={{
-            fontFamily:"monospace", fontWeight:900,
-            fontSize:"clamp(1.7rem,5vw,3.5rem)",
-            lineHeight:.97, letterSpacing:"-.02em",
-            color:"white", margin:"0 0 1rem",
-          }}>{scrambledH1}</h1>
-
-          {/* Tagline */}
+          <h1 className="lp-vibe-cin-h1" style={{ fontFamily:"monospace", fontWeight:900, fontSize:"clamp(1.7rem,5vw,3.5rem)", lineHeight:.97, letterSpacing:"-.02em", color:"white", margin:"0 0 1rem" }}>{scrambledH1}</h1>
           <p style={{ color:THEME, fontWeight:700, fontSize:".9rem", letterSpacing:".4px", margin:"0 0 .5rem", animation:"lpRise .85s .15s ease both" }}>
-            {activeTab === "2" ? "Consistency. Visual direction. Studio workflow." : "Foundations. Prompting. Concepts. Workflow."}
+            {activeTab === "2" ? "Systems. Agents. Production-grade AI products." : "Prompting. Building. Shipping. Automating."}
           </p>
-
-          {/* Sub */}
           <p style={{ color:"rgba(200,200,220,.75)", lineHeight:1.7, fontSize:".95rem", maxWidth:500, margin:"0 0 1.4rem", animation:"lpRise .9s .18s ease both" }}>
             {activeTab === "2"
-              ? "Level 2 is for designers who want stronger prompt systems, more consistent visuals, and advanced AI workflows for architecture and interior projects."
-              : "Level 1 builds the foundation for using AI in architecture and interior design, from prompt structure to concepts, visuals, and professional workflow."
+              ? curriculumL2[0]?.summary || "Level 2 is for professionals who want to build full-stack AI apps, deploy autonomous agents, and ship production-grade AI systems."
+              : curriculumL1[0]?.summary || "Level 1 builds the vibe coding foundation — prompting, building, debugging, and shipping real automations in just 15 minutes a day."
             }
           </p>
-
-          {/* Badge pill */}
           <div style={{ display:"inline-flex", alignItems:"center", gap:6, color:THEME, background:`${THEME}1a`, border:`1px solid ${THEME}44`, borderRadius:100, padding:"5px 14px", fontSize:".7rem", fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", width:"fit-content", margin:"0 0 1.6rem", animation:"lpRise .85s .12s ease both" }}>
             <span style={{ width:6, height:6, borderRadius:"50%", background:THEME, boxShadow:`0 0 6px ${THEME}`, display:"inline-block", animation:"lpPulse 2s infinite" }} />
-            {activeTab === "2" ? "⚡ Advanced AI Workflows for Design" : "🏛️ AI for Architecture & Interior Design"}
+            {activeTab === "2" ? "⚡ Composer · Production AI Systems" : "🛠️ Crafter · Vibe Coding & IOP"}
           </div>
-
-          {/* CTA row */}
           <div style={{ display:"flex", alignItems:"center", gap:"1rem", flexWrap:"wrap", marginBottom:"1.8rem", animation:"lpRise 1s .25s ease both" }}>
-            <button
-              style={{ background:THEME, color:"#fff", border:"none", padding:".9rem 2.2rem", borderRadius:100, fontWeight:800, fontSize:".9rem", cursor:"pointer", boxShadow:`0 8px 28px ${THEME}55`, transition:"transform .2s, box-shadow .2s", letterSpacing:".5px", whiteSpace:"nowrap" }}
+            <button style={{ background:THEME, color:"#fff", border:"none", padding:".9rem 2.2rem", borderRadius:100, fontWeight:800, fontSize:".9rem", cursor:"pointer", boxShadow:`0 8px 28px ${THEME}55`, transition:"transform .2s, box-shadow .2s", letterSpacing:".5px", whiteSpace:"nowrap" }}
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform="translateY(-2px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow=`0 14px 36px ${THEME}66`; }}
               onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform=""; (e.currentTarget as HTMLButtonElement).style.boxShadow=`0 8px 28px ${THEME}55`; }}
-              onClick={() => openAuth(activeTab, "register")}
-            >{activeTab === "2" ? "Start Level 2 Journey →" : "Start Level 1 Journey →"}</button>
+              onClick={() => openAuth(activeTab, "register")}>{activeTab === "2" ? "Start Composer Journey →" : "Start Crafter Journey →"}</button>
             {activeTab === "2" && (
-              <button
-                onClick={() => setActiveTab("1")}
-                style={{ color:"rgba(200,200,220,.8)", background:"transparent", border:"1px solid rgba(255,255,255,.18)", borderRadius:100, padding:".75rem 1.6rem", fontSize:".82rem", fontWeight:600, cursor:"pointer", transition:"border-color .2s, color .2s", whiteSpace:"nowrap" }}
+              <button onClick={() => setActiveTab("1")} style={{ color:"rgba(200,200,220,.8)", background:"transparent", border:"1px solid rgba(255,255,255,.18)", borderRadius:100, padding:".75rem 1.6rem", fontSize:".82rem", fontWeight:600, cursor:"pointer", transition:"border-color .2s, color .2s", whiteSpace:"nowrap" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor=THEME; (e.currentTarget as HTMLButtonElement).style.color=THEME; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor="rgba(255,255,255,.18)"; (e.currentTarget as HTMLButtonElement).style.color="rgba(200,200,220,.8)"; }}
-              >Start with Level 1 first</button>
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor="rgba(255,255,255,.18)"; (e.currentTarget as HTMLButtonElement).style.color="rgba(200,200,220,.8)"; }}>Start with Level 1 first</button>
             )}
           </div>
-
-          {/* Stats strip */}
           <div ref={statsRef} style={{ display:"flex", alignItems:"center", background:"rgba(255,255,255,.04)", border:"1px solid rgba(255,255,255,.08)", borderRadius:14, padding:".9rem 0", width:"fit-content", animation:"lpRise 1.1s .35s ease both" }}>
             {([{num:s28,label:"Days"},{num:s15,label:"Min/Day"},{num:s2,label:"Levels"},{num:s0,label:"Exp. Needed"}] as const).map((s,i,arr) => (
               <div key={i} style={{ display:"flex", alignItems:"center" }}>
@@ -839,13 +793,10 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
-
-          {/* Urgency pill */}
           <div style={{ display:"inline-flex", alignItems:"center", gap:".45rem", background:"rgba(249,115,22,.08)", border:"1px solid rgba(249,115,22,.25)", borderRadius:"100px", padding:".28rem 1rem", fontSize:".68rem", letterSpacing:"1.5px", textTransform:"uppercase", color:"#fb923c", fontWeight:700, marginTop:"1.2rem", width:"fit-content", animation:"lpRise 1.1s .4s ease both" }}>
             <span style={{ width:6, height:6, borderRadius:"50%", background:"#f97316", display:"inline-block", animation:"lpPulse 2s infinite" }} />
-            {activeTab === "1" ? "Designers are building real AI workflows in Level 1" : "Advanced students are refining studio-ready AI systems"}
+            {activeTab === "1" ? "Professionals are shipping real automations in the Crafter track" : "Composer students are deploying production AI products"}
           </div>
-
         </div>
       </section>
 
@@ -860,19 +811,19 @@ export default function LandingPage() {
         <div style={{ flex:1, height:1, background:`${THEME}25` }}/>
       </div>
 
-      {/* What you'll learn */}
+      {/* What you'll learn - now using curriculum data */}
       <section className="lp-section">
         <div className="lp-section-inner">
           <div className="lp-section-label" style={{ color: THEME }}>
-            {activeTab === "2" ? "LEVEL 2 ADVANCED" : "LEVEL 1 BASIC"}
+            {activeTab === "2" ? "LEVEL 2 COMPOSER" : "LEVEL 1 CRAFTER"}
           </div>
           <h2 className="lp-section-h2">
-            {activeTab === "2" ? "Build advanced design AI workflows" : "Build practical AI skills for design"}
+            {activeTab === "2" ? "Build production AI systems and agents" : "Build real software with AI — no degree needed"}
           </h2>
           <p className="lp-section-sub">
             {activeTab === "2"
-              ? "Level 2 is for designers ready to move beyond simple outputs and build repeatable systems for visual quality, storytelling, and studio workflow."
-              : "Level 1 gives you the foundations for AI-assisted architecture and interior work without changing your role as the designer."
+              ? curriculumL2[0]?.summary || "Level 2 is for professionals ready to build full-stack AI apps, agents, and production systems."
+              : curriculumL1[0]?.summary || "Level 1 gives you the vibe coding foundations — prompting, building, debugging, and shipping real automations."
             }
           </p>
 
@@ -881,39 +832,129 @@ export default function LandingPage() {
               <>
                 <div className={`lp-why-card lp-reveal ${revealCards ? "visible" : ""}`} style={{ transition:"opacity .65s ease 0s, transform .65s ease 0s" }}>
                   <div className="lp-why-icon" style={{ color: THEME, background: `${THEME}1a` }}><BookOpen size={24} /></div>
-                  <h3 className="lp-card-title">Design foundations</h3>
-                  <p className="lp-card-body">Understand how AI is used in architecture and interior design, and learn the structure of an effective design prompt.</p>
+                  <h3 className="lp-card-title">Vibe coding foundations</h3>
+                  <p className="lp-card-body">{curriculumL1[0]?.summary || "Understand the vibe coding mindset and learn the 3-part prompt structure."}</p>
                 </div>
                 <div className={`lp-why-card lp-reveal ${revealCards ? "visible" : ""}`} style={{ transition:"opacity .65s ease .12s, transform .65s ease .12s" }}>
                   <div className="lp-why-icon" style={{ color: THEME, background: `${THEME}1a` }}><Target size={24} /></div>
-                  <h3 className="lp-card-title">Concept generation</h3>
-                  <p className="lp-card-body">Generate room concepts, style variations, facade studies, and sketch-to-render visuals for faster idea exploration.</p>
+                  <h3 className="lp-card-title">Build real automations</h3>
+                  <p className="lp-card-body">{curriculumL1[7]?.summary || "Build working scripts, data pipelines, and automation tools from natural language prompts."}</p>
                 </div>
                 <div className={`lp-why-card lp-reveal ${revealCards ? "visible" : ""}`} style={{ transition:"opacity .65s ease .24s, transform .65s ease .24s" }}>
                   <div className="lp-why-icon" style={{ color: THEME, background: `${THEME}1a` }}><Shield size={24} /></div>
-                  <h3 className="lp-card-title">Professional workflow</h3>
-                  <p className="lp-card-body">Use AI responsibly in presentations, drafting support, collaboration, and design review without losing human judgment.</p>
+                  <h3 className="lp-card-title">Ship and deploy</h3>
+                  <p className="lp-card-body">{curriculumL1[21]?.summary || "Package, document, and deploy your tools so colleagues can use them."}</p>
                 </div>
               </>
             ) : (
               <>
                 <div className={`lp-why-card lp-reveal ${revealCards ? "visible" : ""}`} style={{ transition:"opacity .65s ease 0s, transform .65s ease 0s" }}>
                   <div className="lp-why-icon" style={{ color: THEME, background: `${THEME}1a` }}><BarChart2 size={24} /></div>
-                  <h3 className="lp-card-title">Prompt systems</h3>
-                  <p className="lp-card-body">Build reusable prompt frameworks for consistency across multiple images, views, and project types.</p>
+                  <h3 className="lp-card-title">Agent architecture</h3>
+                  <p className="lp-card-body">{curriculumL2[7]?.summary || "Design multi-agent pipelines that run end-to-end without human intervention."}</p>
                 </div>
                 <div className={`lp-why-card lp-reveal ${revealCards ? "visible" : ""}`} style={{ transition:"opacity .65s ease .12s, transform .65s ease .12s" }}>
                   <div className="lp-why-icon" style={{ color: THEME, background: `${THEME}1a` }}><Shield size={24} /></div>
-                  <h3 className="lp-card-title">Quality control</h3>
-                  <p className="lp-card-body">Refine realism, fix distortions, and build a checklist for reviewing AI-generated architecture and interior visuals.</p>
+                  <h3 className="lp-card-title">Production deployment</h3>
+                  <p className="lp-card-body">{curriculumL2[14]?.summary || "Deploy full-stack AI apps with auth, rate limiting, and eval suites."}</p>
                 </div>
                 <div className={`lp-why-card lp-reveal ${revealCards ? "visible" : ""}`} style={{ transition:"opacity .65s ease .24s, transform .65s ease .24s" }}>
                   <div className="lp-why-icon" style={{ color: THEME, background: `${THEME}1a` }}><Layers size={24} /></div>
-                  <h3 className="lp-card-title">Studio integration</h3>
-                  <p className="lp-card-body">Connect AI outputs to presentations, CAD workflows, service packaging, and advanced design storytelling.</p>
+                  <h3 className="lp-card-title">Intent-oriented programming</h3>
+                  <p className="lp-card-body">{curriculumL2[9]?.summary || "Master IOP — encoding your intent into Cursor Rules and system prompts."}</p>
                 </div>
               </>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Week overview section - NEW from curriculum */}
+      <section className="lp-dark-section" style={{ padding: "60px 20px" }}>
+        <div className="lp-section-inner">
+          <div className="lp-section-label" style={{ color: THEME }}>CURRICULUM OVERVIEW</div>
+          <h2 className="lp-section-h2">Your {activeTab === "1" ? "28-day Crafter" : "28-day Composer"} journey</h2>
+          <p className="lp-section-sub">
+            {activeTab === "1"
+              ? "Four weeks of daily lessons, mini-projects, and portfolio-building sprints."
+              : "Four weeks of production AI systems, agent architecture, and deployment."
+            }
+          </p>
+          <WeekPreview level={activeTab} />
+        </div>
+      </section>
+
+      {/* First week preview - from curriculum data */}
+      <section className="lp-seven-day-section" style={{ padding: "60px 20px" }}>
+        <div className="lp-section-inner">
+          <div className="lp-section-label" style={{ color: THEME }}>FIRST WEEK SAMPLE</div>
+          <h2 className="lp-section-h2">What you'll build in Week 1</h2>
+          <p className="lp-section-sub">
+            {activeTab === "1"
+              ? "Master the vibe coding mindset and ship your first working automation."
+              : "Build a full-stack AI app with Vercel AI SDK streaming and Claude."
+            }
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1rem", marginTop: "2rem" }}>
+            {week1Lessons.slice(0, 7).map((lesson, idx) => (
+              <div key={lesson.day} style={{
+                padding: "1rem 1.2rem",
+                background: "rgba(255,255,255,.03)",
+                borderRadius: "0.75rem",
+                borderLeft: `3px solid ${THEME}`,
+              }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+                  <span style={{ fontSize: "0.7rem", fontWeight: 700, color: THEME, textTransform: "uppercase", letterSpacing: "1px" }}>Day {lesson.day}</span>
+                  <span style={{ fontSize: "0.65rem", color: "#888" }}>{lesson.category}</span>
+                </div>
+                <div style={{ fontWeight: 700, marginBottom: "0.4rem", fontSize: "0.9rem" }}>{lesson.title}</div>
+                <div style={{ fontSize: "0.8rem", color: "var(--lp-muted, #9896b0)", lineHeight: 1.5 }}>{lesson.summary.substring(0, 100)}...</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio targets section - from curriculum data */}
+      <section className="lp-section" style={{ padding: "60px 20px" }}>
+        <div className="lp-section-inner">
+          <div className="lp-section-label" style={{ color: THEME }}>PORTFOLIO TARGETS</div>
+          <h2 className="lp-section-h2">What you'll ship by graduation</h2>
+          <p className="lp-section-sub">
+            {activeTab === "1"
+              ? "4 portfolio pieces that prove you can build real software with AI."
+              : "4 production-grade deliverables that demonstrate Composer-level mastery."
+            }
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "2rem" }}>
+            {portfolioTargetsList.map((target, idx) => (
+              <div key={target.title} style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: "1rem",
+                padding: "1rem 1.2rem",
+                background: "rgba(255,255,255,.03)",
+                borderRadius: "0.75rem",
+                border: `1px solid ${THEME}20`,
+              }}>
+                <div style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: "50%",
+                  background: `${THEME}22`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 800,
+                  color: THEME,
+                  flexShrink: 0,
+                }}>{target.week}</div>
+                <div>
+                  <div style={{ fontWeight: 700, marginBottom: "0.25rem" }}>{target.title}</div>
+                  <div style={{ fontSize: "0.85rem", color: "var(--lp-muted, #9896b0)" }}>{target.desc}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -927,19 +968,19 @@ export default function LandingPage() {
               <ul className="lp-check-list">
                 {activeTab === "1" ? (
                   <>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Personal prompt library for architecture and interiors</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> AI use checklist for ethical professional practice</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> AI-assisted workflow map for ideation, drafting, and presentation</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Concept sheet with prompt, image, and design notes</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Mini portfolio of AI-assisted design work</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Personal prompt library for vibe coding workflows</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Debugging SOP — 5-step loop from error to confirmed fix</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> 3 working automation scripts with README and requirements.txt</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> A shareable internal tool with a non-technical run guide</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Level 1 portfolio — 3 scripts, Loom demo, pushed to GitHub</li>
                   </>
                 ) : (
                   <>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Reusable prompt framework for consistent outputs</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Visual quality checklist for realism and consistency</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Studio workflow map with AI touchpoints</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> AI-assisted service packaging and pricing framework</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Capstone concept presentation for architecture or interiors</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Full-stack AI app with Vercel AI SDK streaming — live URL</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Autonomous agent running on a schedule — 3 successful runs</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Production app with auth, rate limiting, and eval suite</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Cursor Rules file encoding your full stack and conventions</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Capstone — shipped AI product with 3+ real users and demo</li>
                   </>
                 )}
               </ul>
@@ -949,15 +990,15 @@ export default function LandingPage() {
               <ul className="lp-check-list">
                 {activeTab === "1" ? (
                   <>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Architects and interior designers starting with AI</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Design students building practical workflow skills</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Creative professionals who want AI support without coding</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Professionals and creators starting with vibe coding</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Non-technical people who want to ship real software with AI</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Entrepreneurs building tools and automations in 15 min/day</li>
                   </>
                 ) : (
                   <>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Level 1 graduates or designers already comfortable with AI basics</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Professionals building higher-quality concept and presentation workflows</li>
-                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Studios and freelancers refining advanced AI-assisted design systems</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Level 1 graduates or developers already comfortable with AI basics</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Professionals building full-stack AI products and agents</li>
+                    <li className="lp-check-item"><span className="lp-check-icon" style={{ color: THEME }}>✓</span> Teams and freelancers productising AI tools for real users</li>
                   </>
                 )}
               </ul>
@@ -966,7 +1007,7 @@ export default function LandingPage() {
         </div>
       </section>
       
-            {/* Prerequisite callout for Level 2 */}
+      {/* Prerequisite callout for Level 2 */}
       {activeTab === "2" && (
         <section style={{ padding: "40px 20px", background: `${L1_COLOR}0d`, borderTop: `1px solid ${L1_COLOR}22`, borderBottom: `1px solid ${L1_COLOR}22` }}>
           <div style={{ maxWidth: 680, margin: "0 auto", display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
@@ -975,18 +1016,13 @@ export default function LandingPage() {
             </div>
             <div style={{ flex: 1, minWidth: 240 }}>
               <div className="lp-recommendation-text" style={{ fontWeight: 700, fontSize: "1rem", marginBottom: 4 }}>
-                New to design AI? Start with Level 1 first.
+                New to vibe coding? Start with the Crafter track first.
               </div>
               <div style={{ color: "#888", fontSize: "0.9rem" }}>
-                Level 2 assumes you're already comfortable with AI basics, prompting, and concept generation. If you're still building your foundation, Level 1 is the best place to start.
+                The Composer track assumes you're already comfortable with AI basics and have shipped at least one automation. If you're still building your foundation, the Crafter track is the right place to start.
               </div>
             </div>
-            <button
-              onClick={() => setActiveTab("1")}
-              style={{ padding: "10px 22px", borderRadius: 8, border: `1px solid ${L1_COLOR}`, color: L1_COLOR, background: "transparent", fontWeight: 700, cursor: "pointer", fontSize: "0.9rem", flexShrink: 0 }}
-            >
-              Explore Level 1 →
-            </button>
+            <button onClick={() => setActiveTab("1")} style={{ padding: "10px 22px", borderRadius: 8, border: `1px solid ${L1_COLOR}`, color: L1_COLOR, background: "transparent", fontWeight: 700, cursor: "pointer", fontSize: "0.9rem", flexShrink: 0 }}>Explore Level 1 →</button>
           </div>
         </section>
       )}
@@ -997,18 +1033,16 @@ export default function LandingPage() {
       <section className="lp-testi-section" style={{ padding:"60px 20px", borderTop:"1px solid rgba(255,255,255,.06)" }}>
         <div style={{ maxWidth:480, margin:"0 auto" }}>
           <div style={{ textAlign:"center", marginBottom:36 }}>
-            <div style={{ display:"inline-flex", alignItems:"center", gap:6, fontSize:".72rem", fontWeight:700, letterSpacing:".1em", textTransform:"uppercase", color:THEME, background:`${THEME}18`, border:`1px solid ${THEME}30`, borderRadius:20, padding:"5px 14px", marginBottom:14 }}>
-              Student Stories
-            </div>
-            <h2 style={{ fontSize:"clamp(1.5rem,3.5vw,2rem)", fontWeight:800, color:"inherit", margin:"0 0 10px" }}>Real results from designers</h2>
-            <p style={{ color:"#888", fontSize:".95rem" }}>Architects, interior designers, and creatives building real AI workflow skills.</p>
+            <div style={{ display:"inline-flex", alignItems:"center", gap:6, fontSize:".72rem", fontWeight:700, letterSpacing:".1em", textTransform:"uppercase", color:THEME, background:`${THEME}18`, border:`1px solid ${THEME}30`, borderRadius:20, padding:"5px 14px", marginBottom:14 }}>Student Stories</div>
+            <h2 style={{ fontSize:"clamp(1.5rem,3.5vw,2rem)", fontWeight:800, color:"inherit", margin:"0 0 10px" }}>Real results from builders</h2>
+            <p style={{ color:"#888", fontSize:".95rem" }}>Professionals and creators shipping real software with AI.</p>
           </div>
           <div style={{ display:"flex", flexDirection:"row", overflow:"hidden", scrollbarWidth:"none" as any }}
             ref={(el) => { (testimonialsRef as any).current = el; (testiScrollRef as any).current = el; }}>
             {[
-              { text:"I used to spend hours trying to explain a concept before I even had something strong to show. After Level 1, I could generate room directions faster and walk into client conversations with much more confidence.", name:"Marcus L.", role:"Interior Designer, London", initials:"ML", color:L1_COLOR, course:"Level 1 · Basic", photo:"/assets/testimonials/face-g.png" },
-              { text:"The workflow I built in Level 2 helped me keep style and materials consistent across multiple views. That alone changed how I prepare presentation visuals for clients.", name:"James W.", role:"Architect, Singapore", initials:"JW", color:L2_COLOR, course:"Level 2 · Advanced", photo: null },
-              { text:"15 minutes a day felt small at first, but by Week 4 I had concept images, a cleaner prompt system, and a mini portfolio piece I could actually use in my process.", name:"Priya M.", role:"Design Consultant, Toronto", initials:"PM", color:L1_COLOR, course:"Level 1 · Basic", photo: null },
+              { text:"I used to spend hours on repetitive data tasks. After the Crafter track I had 3 working automations that saved my team 4 hours a week — built in 15 minutes a day.", name:"Marcus L.", role:"Operations Manager, London", initials:"ML", color:L1_COLOR, course:"Level 1 · Crafter", photo:"/assets/testimonials/face-g.png" },
+              { text:"The Composer track changed how I build products. I shipped a full-stack AI app with auth and streaming in Week 1. That used to take me a month.", name:"James W.", role:"Software Builder, Singapore", initials:"JW", color:L2_COLOR, course:"Level 2 · Composer", photo: null },
+              { text:"15 minutes a day felt small at first, but by Week 4 I had 3 deployed automations and a portfolio I could actually show clients. This course changed what I think I'm capable of.", name:"Priya M.", role:"Entrepreneur, Toronto", initials:"PM", color:L1_COLOR, course:"Level 1 · Crafter", photo: null },
             ].map((t, i) => (
               <div key={i} className={`lp-testi-card lp-reveal ${revealTestimonials ? "visible" : ""}`} style={{
                 background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)",
@@ -1040,7 +1074,7 @@ export default function LandingPage() {
       <section className="lp-human-section" style={{ padding:"60px 20px", position:"relative", zIndex:1 }}>
         <div style={{ maxWidth:"820px", margin:"0 auto", display:"flex", flexDirection:"row", alignItems:"center", gap:"3rem", flexWrap:"wrap" }}>
           <div style={{ flex:"0 0 260px", maxWidth:"100%" }}>
-            <img src="/assets/testimonials/face-h.png" alt="Designer learning AI for architecture and interior workflows"
+            <img src="/assets/testimonials/face-h.png" alt="Professional learning vibe coding and IOP"
               style={{ width:"100%", borderRadius:20, objectFit:"cover", objectPosition:"center top",
                 boxShadow:"0 20px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(13,124,138,.15)",
                 border:`1px solid ${L1_COLOR}33` }} />
@@ -1051,13 +1085,13 @@ export default function LandingPage() {
               You don't need to code.<br/>You need a stronger design workflow.
             </h2>
             <p style={{ color:"var(--lp-body,#9896b0)", lineHeight:1.75, fontSize:".95rem", marginBottom:"1.25rem" }}>
-              This course is for architects, interior designers, and creative professionals who want to use AI to explore concepts faster, improve presentations, and build a more efficient workflow. No coding. No hype. Just practical AI skills for real design work.
+              This course is for professionals, creators, and entrepreneurs who want to ship real software with AI — no engineering degree required. No fluff. No hype. Just practical vibe coding and IOP skills that produce working tools in 15 minutes a day.
             </p>
             <div style={{ display:"flex", flexDirection:"column", gap:".6rem", marginBottom:"1.5rem" }}>
               {[
-                "Perfect for architects, interior designers, and design students",
-                "2 levels — build foundations first, then master advanced workflows",
-                "15 minutes a day — designed for real creative schedules",
+                "Perfect for professionals, entrepreneurs, and creators",
+                "2 levels — Crafter foundations, then Composer systems",
+                "15 minutes a day — designed for real professional schedules",
               ].map((item, i) => (
                 <div key={i} style={{ display:"flex", gap:".65rem", alignItems:"flex-start" }}>
                   <span style={{ color:THEME, fontWeight:800, flexShrink:0, marginTop:2 }}>✓</span>
@@ -1069,7 +1103,7 @@ export default function LandingPage() {
               style={{ background:THEME, color:"white", border:"none", padding:".75rem 1.8rem",
                 borderRadius:100, fontWeight:700, fontSize:".9rem", cursor:"pointer",
                 boxShadow:`0 8px 24px ${THEME}44` }}>
-              {activeTab === "2" ? "Start Level 2 Journey →" : "Start Level 1 Journey →"}
+              {activeTab === "2" ? "Start Composer Journey →" : "Start Crafter Journey →"}
             </button>
           </div>
         </div>
@@ -1090,17 +1124,17 @@ export default function LandingPage() {
       <section className="lp-cta-section" style={{ background: THEME, paddingBottom:"60px" }}>
         <div className="lp-section-inner" style={{ textAlign: "center" }}>
           <h2 className="lp-cta-h2">
-            {activeTab === "2" ? "Ready to build advanced AI design workflows?" : "Ready to build your AI design foundation?"}
+            {activeTab === "2" ? "Ready to build production AI systems and agents?" : "Ready to ship your first real AI tool?"}
           </h2>
           <p className="lp-cta-sub" style={{ color:"rgba(255,255,255,.9)", fontWeight:600, fontSize:"1.05rem" }}>
             {activeTab === "2"
-              ? "Advance from prompt experimentation to consistent visuals, storytelling, and studio-ready workflow systems."
-              : "Start building practical AI skills for architecture and interior design in just 15 minutes a day."
+              ? curriculumL2[0]?.task?.substring(0, 100) || "Level up from scripts to full-stack AI apps, autonomous agents, and production-grade systems."
+              : curriculumL1[0]?.task?.substring(0, 100) || "Start building real software with AI in just 15 minutes a day — no degree required."
             }
           </p>
           <button className="lp-cta-btn" style={{ background: "#ffffff", color: THEME, fontWeight: "bold" }}
             onClick={() => openAuth(activeTab, "register")}>
-            {activeTab === "2" ? "Start Level 2 Journey →" : "Start Level 1 Journey →"}
+            {activeTab === "2" ? "Start Composer Journey →" : "Start Crafter Journey →"}
           </button>
         </div>
       </section>
