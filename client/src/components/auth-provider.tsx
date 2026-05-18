@@ -5,7 +5,7 @@ interface AuthUser {
   id: number;
   email: string;
   displayName: string;
-  licensedLevels: string[]; // ["1", "2", "3"]
+  licensedLevels: string[]; // ["1", "2"]
   isAdmin?: boolean;
 }
 
@@ -21,14 +21,12 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Initialise state from sessionStorage for "Auto-Logout" on close
-  const [user, setUser] = useState<AuthUser | null>(() => {
-    const saved = sessionStorage.getItem("auth_user");
-    return saved ? JSON.parse(saved) : null;
-  });
+  // Always start null — never trust cached sessionStorage for licensedLevels.
+  // Fetch fresh from server on every mount so routing decisions are always
+  // based on server-verified license state, not stale cache.
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Helper to update both React state and sessionStorage
   const updateAuth = (userData: AuthUser | null) => {
     setUser(userData);
     if (userData) {
@@ -43,7 +41,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const r = await fetch("/api/auth/me");
       if (r.ok) {
         const data = await r.json();
-        updateAuth({ ...data, licensedLevels: data.licensedLevels || [] });
+        if (data) {
+          // Always use server-fresh licensedLevels
+          updateAuth({ ...data, licensedLevels: data.licensedLevels || [] });
+        } else {
+          updateAuth(null);
+        }
       } else {
         updateAuth(null);
       }
@@ -63,24 +66,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
       if (!res.ok) {
         const err = await res.json();
         return err.error || "Login failed";
       }
-
       const data = await res.json();
-      const levels = data.licensedLevels || [];
-      updateAuth({ ...data, licensedLevels: levels });
+      updateAuth({ ...data, licensedLevels: data.licensedLevels || [] });
       queryClient.clear();
-
-      // ✅ FIX: Let App.tsx routing handle where to go after login.
-      // The Route for "/" already shows HomePage for logged-in users.
-      // No hard redirect needed here — removing it prevents bypassing
-      // the ProtectedRoute license checks in App.tsx.
-      if (typeof window !== "undefined") {
-        window.location.hash = levels.length > 0 ? "" : "/pricing";
-      }
+      // App.tsx routing handles redirect — no manual hash needed
       return null;
     } catch {
       return "Network error";
@@ -94,26 +87,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, displayName }),
       });
-
       if (!res.ok) {
         const err = await res.json();
         return err.error || "Registration failed";
       }
-
       const data = await res.json();
-      const levels = data.licensedLevels || [];
-      updateAuth({ ...data, licensedLevels: levels });
+      updateAuth({ ...data, licensedLevels: data.licensedLevels || [] });
       queryClient.clear();
-
-      // ✅ FIX: New users ALWAYS go to /pricing after signup.
-      // A brand-new account has no licensedLevels, so the old logic
-      // `levels.includes("1") ? "" : "/pricing"` was accidentally
-      // sending them to "" (home/Level 1) when levels was [].
-      // Now we explicitly send them to /pricing unless they somehow
-      // already have a license (e.g. admin-granted before signup).
-      if (typeof window !== "undefined") {
-        window.location.hash = levels.length > 0 ? "" : "/pricing";
-      }
       return null;
     } catch {
       return "Network error";
@@ -126,7 +106,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       updateAuth(null);
       queryClient.clear();
-      // Redirect to landing page immediately upon logout
       if (typeof window !== "undefined") window.location.hash = "/";
     }
   }
