@@ -1,4 +1,4 @@
-// ── AI Sprint · Vibe Coding & IOP ──────────────────────────────
+// ── AI Sprint · Vibe Coding & IOP  ──────────────────────────────
 // File: pricing.tsx | Repo: ai-vibe-coding
 // Last updated: May 2026
 //
