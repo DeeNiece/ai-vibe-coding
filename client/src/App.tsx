@@ -25,12 +25,12 @@ import ServicesPage from "@/pages/services";
 
 function hasBasic(user: any) {
   const levels = user?.licensedLevels || [];
-  return levels.includes("accounting-basic") || levels.includes("accounting-bundle");
+  return levels.includes("vibe-crafter") || levels.includes("vibe-bundle");
 }
 
 function hasAdvanced(user: any) {
   const levels = user?.licensedLevels || [];
-  return levels.includes("accounting-advanced") || levels.includes("accounting-bundle");
+  return levels.includes("vibe-composer") || levels.includes("vibe-bundle");
 }
 
 function hasAnyLevel(user: any) {
@@ -78,6 +78,10 @@ function AppRoutes() {
           <Route path="/admin">
             {user?.isAdmin ? <AdminPage /> : <div style={{ color: "white", padding: "100px", textAlign: "center" }}><h1>403</h1><p>Admin Required</p></div>}
           </Route>
+          <Route path="/privacy" component={() => { const P = require("@/pages/privacy").default; return <P />; }} />
+          <Route path="/terms" component={() => { const T = require("@/pages/terms").default; return <T />; }} />
+          <Route path="/accessibility" component={() => { const A = require("@/pages/accessibility").default; return <A />; }} />
+          <Route path="/cookie-settings" component={() => { const C = require("@/pages/cookie-settings").default; return <C />; }} />
           <Route><div style={{ color: "white", padding: "100px", textAlign: "center" }}><h1>404</h1><p>Page Not Found</p></div></Route>
         </Switch>
       </Router>

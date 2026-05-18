@@ -1,5 +1,5 @@
-// ── AI Sprint · Architecture & Interior Design ────────────────────────────────
-// File: home.tsx  |  Repo: architecture-interior
+// ── AI Sprint · Vibe Coding & IOP ────────────────────────────────
+// File: home.tsx  |  Repo: ai-vibe-coding
 // Last updated: May 2026
 //
 // CERTIFICATE FEATURE (dashboard):
@@ -107,9 +107,9 @@ function getGreeting(name: string): string {
 }
 
 // ── Level-specific captions (module-level to avoid inline quote build errors) ──
-const CERT_CAPTION_L1_HOME = "🎓 I just completed AI in Architecture & Interior Design — Foundation Level on AISprint.app — 28 days of spatial planning, materials & design fundamentals. Ready for Professional! #AIDesign #AISprint";
-const CERT_CAPTION_L2_HOME = "🎓 I just completed AI in Architecture & Interior Design — Professional Level on AISprint.app — 28 days of construction drawings, 3D rendering & real client projects. Portfolio ready! #AIDesign #AISprint";
-const CERT_SHARE_URL_HOME  = "https://ai-sprint-architecture-interior-course-production.up.railway.app";
+const CERT_CAPTION_L1_HOME = "🎓 I just completed AI in Vibe Coding & IOP — Foundation Level on AISprint.app — 28 days of spatial planning, materials & design fundamentals. Ready for Professional! #AIDesign #AISprint";
+const CERT_CAPTION_L2_HOME = "🎓 I just completed AI in Vibe Coding & IOP — Professional Level on AISprint.app — 28 days of construction drawings, 3D rendering & real client projects. Portfolio ready! #AIDesign #AISprint";
+const CERT_SHARE_URL_HOME  = "https://ai-vibe-coding-production.up.railway.app";
 
 // ── Copy-caption button for share panel ──────────────────────────────────────
 function HomeCopyButton({ text, accent }: { text: string; accent: string }) {
@@ -362,7 +362,7 @@ export default function HomePage() {
       const nw=ctx.measureText(studentName).width;
       ctx.strokeStyle=`${accent}99`; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(700-nw/2,348); ctx.lineTo(700+nw/2,348); ctx.stroke();
       ctx.fillStyle="rgba(255,255,255,0.55)"; ctx.font="italic 22px \'Georgia\', serif"; ctx.fillText("has successfully completed",700,400);
-      ctx.fillStyle=accentLt; ctx.font="bold 38px \'Georgia\', serif"; ctx.fillText(`AI Architecture & Interior Design — ${trackLbl}`,700,468);
+      ctx.fillStyle=accentLt; ctx.font="bold 38px \'Georgia\', serif"; ctx.fillText(`AI Vibe Coding & IOP — ${trackLbl}`,700,468);
       ctx.fillStyle="rgba(255,255,255,0.4)"; ctx.font="16px \'Georgia\', serif"; ctx.fillText("28-Day AI Design Sprint · AISprint.app",700,506);
       ctx.strokeStyle=`${accent}4d`; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(250,548); ctx.lineTo(1150,548); ctx.stroke();
       ctx.fillStyle="rgba(255,255,255,0.65)"; ctx.font="italic 18px \'Georgia\', serif";
@@ -379,7 +379,7 @@ export default function HomePage() {
       ctx.fillStyle=`${accent}99`; ctx.font="12px \'Georgia\', serif";
       ctx.fillText("www.aisprint.app  ·  Empowering the next generation of AI practitioners",700,890);
       const link=document.createElement("a");
-      link.download=`AISprint-Architecture-${isL1Home?"Foundation":"Professional"}-Certificate-${studentName.replace(/\s+/g,"-")}.png`;
+      link.download=`AISprint-VibeCoding-${isL1Home?"Foundation":"Professional"}-Certificate-${studentName.replace(/\s+/g,"-")}.png`;
       link.href=canvas.toDataURL("image/png"); link.click();
     } finally { setCertGenerating(false); }
   };
@@ -575,12 +575,12 @@ export default function HomePage() {
           style={{ color: THEME, borderColor: `${THEME}44`, background: THEME_ALPHA }}
         >
           {activeLevel === "1"
-            ? "Architecture & Interior · Level 1 Foundation"
-            : "Architecture & Interior · Level 2 Professional"}
+            ? "Vibe Coding & IOP · Level 1 Foundation"
+            : "Vibe Coding & IOP · Level 2 Professional"}
         </div>
 
         <h1 className="hero-title">
-          {t("home.heroTitle") || "Mastering AI in Architecture & Interior Design"}
+          {t("home.heroTitle") || "Mastering AI in Vibe Coding & IOP"}
         </h1>
         <p className="hero-sub">
           {t("home.heroDesc") ||
@@ -1191,11 +1191,11 @@ export default function HomePage() {
             <div className="footer-brand-row">
               <img
                 src={logoImg}
-                alt="Architecture & Interior logo"
+                alt="Vibe Coding & IOP logo"
                 className="footer-logo-img"
               />
               <div className="footer-brand-text">
-                <p className="footer-title">Architecture & Interior Design Mastery</p>
+                <p className="footer-title">Vibe Coding & IOP Mastery</p>
                 <p className="footer-sub">Design spaces that inspire</p>
               </div>
             </div>

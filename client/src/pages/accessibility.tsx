@@ -1,5 +1,5 @@
-// ── AI Sprint · Architecture & Interior Design ──────────────────────────────
-// File: accessibility.tsx | Repo: ai-archi
+// ── AI Sprint · Vibe Coding & IOP ──────────────────────────────
+// File: accessibility.tsx | Repo: ai-vibe-coding
 // Last updated: May 2026
 //
 // Uses inline styles throughout — no dependency on external CSS classes

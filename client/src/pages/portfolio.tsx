@@ -1,5 +1,5 @@
-// ── AI Sprint · Architecture & Interior Design ──────────────────────────────
-// File: portfolio.tsx | Repo: ai-archi
+// ── AI Sprint · Vibe Coding & IOP ──────────────────────────────
+// File: portfolio.tsx | Repo: ai-vibe-coding
 // Last updated: May 2026
 //
 // The end section (CTA + "What's Next?") is context-aware:
@@ -54,7 +54,7 @@ export default function PortfolioPage() {
       <main className="inner-page">
         <div className="inner-page-header">
           <div className="inner-page-badge">Portfolio & Certifications</div>
-          <h1 className="inner-page-title">Your Architecture & Interior Design Portfolio</h1>
+          <h1 className="inner-page-title">Your Vibe Coding & IOP Portfolio</h1>
           <p className="inner-page-sub">Track your progress and earn certifications as you complete each level</p>
 
           {/* Level switcher - 2 levels */}
@@ -263,7 +263,7 @@ export default function PortfolioPage() {
               </div>
               <div>
                 <div style={{ fontWeight: 800, fontSize: "1.05rem", color: "var(--color-text)" }}>
-                  Advanced track — {pct}% through Level 2
+                  Composer track — {pct}% through Level 2
                 </div>
                 <div style={{ fontSize: "0.82rem", color: "var(--color-text-muted)", marginTop: 2 }}>
                   {28 - completedCount} day{28 - completedCount !== 1 ? "s" : ""} remaining · Professional track
@@ -300,14 +300,14 @@ export default function PortfolioPage() {
                   Both Levels Complete — Full Course Mastery
                 </div>
                 <div style={{ fontSize: "0.82rem", color: "var(--color-text-muted)", marginTop: 2 }}>
-                  Foundation + Professional · 56 days · 2 certificates earned
+                  Crafter + Composer · 56 days · 2 certificates earned
                 </div>
               </div>
             </div>
 
             <div style={{ padding: "20px 24px" }}>
               <div style={{ fontSize: "0.88rem", color: "var(--color-text-muted)", lineHeight: 1.7, marginBottom: 20 }}>
-                You've completed the full Architecture & Interior Design AI course.
+                You've completed the full Vibe Coding & IOP AI course.
                 You have the prompt skills, visual systems, and studio workflow to use AI
                 as a real professional tool — not just a novelty. Share your work, use your
                 certificates, and keep building.

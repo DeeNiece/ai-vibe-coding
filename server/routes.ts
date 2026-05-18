@@ -1,5 +1,5 @@
-// ── AI Sprint · Architecture & Interior Design ──────────────────────────────
-// File: routes.ts  |  Repo: architecture-interior
+// ── AI Sprint · Vibe Coding & IOP ──────────────────────────────
+// File: routes.ts  |  Repo: ai-vibe-coding
 // Last updated: May 2026
 //
 // PRICING UPDATE: Single $69 "bundle" — grants both levels (56 days)
@@ -23,7 +23,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", { apiVersion: "20
 // USD via Stripe (amounts in cents)
 // Single $69 price grants access to both levels (56 days total)
 const PRICES: Record<string, { amount: number; label: string }> = {
-  "bundle": { amount: 6900, label: "Architecture & Interior Design — Complete Course (Foundation + Professional)" },
+  "bundle": { amount: 6900, label: "Vibe Coding & IOP — Complete Course (Crafter + Composer)" },
 };
 
 // No hardcoded PAYMONGO_PRICES – now using live rate dynamically
@@ -600,18 +600,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         method: "POST",
         headers: { "Authorization": `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          from:     "AI Sprint Architecture <noreply@aisprint.app>",
+          from:     "AI Sprint Vibe Coding <noreply@aisprint.app>",
           to:       ["support@aisprint.app"],
           reply_to: b.data.email,
-          subject:  `[Architecture Course] Message from ${b.data.name}`,
-          html: `<h2>New Contact Form — Architecture Course</h2>
+          subject:  `[Vibe Coding & IOP Course] Message from ${b.data.name}`,
+          html: `<h2>New Contact Form — Vibe Coding & IOP</h2>
             <p><strong>Name:</strong> ${b.data.name}</p>
             <p><strong>Email:</strong> <a href="mailto:${b.data.email}">${b.data.email}</a></p>
             <hr/>
             <p><strong>Message:</strong></p>
             <p style="white-space:pre-wrap">${b.data.message}</p>
             <hr/>
-            <p style="color:#888;font-size:12px">Sent via Architecture & Interior course contact form · aisprint.app</p>`,
+            <p style="color:#888;font-size:12px">Sent via Vibe Coding & IOP course contact form · aisprint.app</p>`,
         }),
       });
       const data = await response.json();

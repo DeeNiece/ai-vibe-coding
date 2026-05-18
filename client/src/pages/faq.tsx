@@ -1,5 +1,5 @@
-// ── AI Sprint · Architecture & Interior Design ────────────────────────────────────────────────
-// File: faq.tsx | Repo: ai-archi
+// ── AI Sprint · Vibe Coding & IOP ────────────────────────────────────────────────
+// File: faq.tsx | Repo: ai-vibe-coding
 // Last updated: May 2026
 //
 // ── THEME SYSTEM ──────────────────────────────────────────────────────────────────────────────
@@ -34,13 +34,13 @@ const ACCENT = "#0d7c8a";
 // ── Curated static testimonials ───────────────────────────────────────────────
 const TESTIMONIALS = [
   {
-    name: "Marcus L.", role: "Interior Designer, London",
+    name: "Marcus L.", role: "Product Manager, London",
     level: "Level 1 · Foundation", levelColor: ACCENT, initials: "ML",
     photo: "/assets/testimonials/face-g.png", rating: 5,
     text: "I used to spend hours trying to explain a concept before I even had something strong to show. After Level 1, I could generate room directions faster and walk into client conversations with much more confidence.",
   },
   {
-    name: "James W.", role: "Architect, Singapore",
+    name: "James W.", role: "Software Builder, Singapore",
     level: "Level 2 · Professional", levelColor: "#8b5cf6", initials: "JW",
     photo: null, rating: 5,
     text: "The workflow I built in Level 2 helped me keep style and materials consistent across multiple views. That alone changed how I prepare presentation visuals for clients.",
@@ -52,13 +52,13 @@ const TESTIMONIALS = [
     text: "15 minutes a day felt small at first, but by Week 4 I had concept images, a cleaner prompt system, and a mini portfolio piece I could actually use in my process.",
   },
   {
-    name: "Sofia R.", role: "Architecture Student, Madrid",
+    name: "Sofia R.", role: "Marketing Manager, Madrid",
     level: "Level 1 · Foundation", levelColor: ACCENT, initials: "SR",
     photo: null, rating: 5,
     text: "As a student this gave me a real edge. I submitted AI-assisted concept visuals for my final review and my tutors were genuinely impressed by the clarity of my design direction.",
   },
   {
-    name: "David K.", role: "Freelance Interior Designer, Sydney",
+    name: "David K.", role: "Entrepreneur, Sydney",
     level: "Level 2 · Professional", levelColor: "#8b5cf6", initials: "DK",
     photo: null, rating: 5,
     text: "Level 2 pushed me to think about AI as a systematic tool, not just a one-off trick. My whole presentation pipeline is faster and more consistent now.",
@@ -172,7 +172,7 @@ function ContactSupportForm({ isDark }: { isDark: boolean }) {
     <form onSubmit={handleSubmit} style={{ background: cardBg, border: `1px solid ${cardBorder}`, borderRadius: 16, padding: "36px 32px", display: "flex", flexDirection: "column", gap: 18, boxShadow: cardShadow }}>
       <input type="hidden" name="access_key" value="9354c53d-f37d-4c31-845b-88286c03d1d4" />
       <input type="hidden" name="to"         value="support@aisprint.app" />
-      <input type="hidden" name="subject"    value="AI Sprint Architecture Course Support Request" />
+      <input type="hidden" name="subject"    value="AI Sprint Vibe Coding & IOP Support Request" />
       <input type="hidden" name="from_name"  value="AI Sprint FAQ Page" />
 
       {error && (
@@ -336,7 +336,7 @@ export default function FAQPage() {
               Real results from designers
             </h2>
             <p style={{ color: mutedClr, fontSize: ".95rem" }}>
-              Architects, interior designers, and creatives sharing their experience.
+              Professionals and creators sharing their experience.
             </p>
           </div>
 

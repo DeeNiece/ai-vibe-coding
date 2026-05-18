@@ -1,5 +1,5 @@
-// ── AI Sprint · Architecture & Interior Design ──────────────────────────────
-// File: nav.tsx | Repo: ai-archi
+// ── AI Sprint · Vibe Coding & IOP ──────────────────────────────
+// File: nav.tsx | Repo: ai-vibe-coding
 // Last updated: May 2026
 //
 // PRICING UPDATE: "Pricing & Upgrades" → "Pricing" · hasL1/L2 → hasAccess
@@ -43,11 +43,11 @@ import { useLanguage } from "@/i18n";
 import { useQuery } from "@tanstack/react-query";
 import type { DayProgress } from "@shared/schema";
 
-// ── Level theme config (Architecture) ─────────────────────────────
+// ── Level theme config (Vibe Coding & IOP) ─────────────────────────────
 // Level 1 = Teal (Foundation), Level 2 = Orange (Advanced Studio)
 const LEVEL_THEMES = {
   "1": { color: "#0d7c8a", label: "Level 1 · Foundation", pulse: "rgba(13,124,138,0.4)" },
-  "2": { color: "#d97706", label: "Level 2 · Advanced Studio", pulse: "rgba(217,119,6,0.4)" },
+  "2": { color: "#d97706", label: "Level 2 · Composer Studio", pulse: "rgba(217,119,6,0.4)" },
 } as const;
 
 // Determine active level — localStorage persists choice, URL path overrides on day routes
@@ -56,7 +56,7 @@ function useActiveLevel(): "1" | "2" {
   if (loc.startsWith("/day/L2")) return "2";
   if (loc.startsWith("/day/L1")) return "1";
   try {
-    return localStorage.getItem("archi_level") === "2" ? "2" : "1";
+    return localStorage.getItem("vibe_level") === "2" ? "2" : "1";
   } catch {
     return "1";
   }
@@ -68,14 +68,14 @@ function getDaysPassed() {
   return Math.max(0, Math.floor((Date.now() - LAUNCH_DATE) / (1000 * 60 * 60 * 24)));
 }
 
-// Architecture-specific ticker copy
+// Vibe Coding & IOP ticker copy
 function getDynamicTicker(level: "1" | "2") {
   const days = getDaysPassed();
   const streak = Math.min(56, 3 + Math.floor(days / 5));
   if (level === "2") {
     return [
       `🚀 Sarah just finalised her advanced concept board!`,
-      `🏆 Alex unlocked 'Studio Lead Architect'!`,
+      `🏆 Alex unlocked 'Vibe Coding Composer'!`,
       `💬 David left a 5-star review on Day 56!`,
       `🔥 Emily completed her client-ready presentation set!`,
       `📐 Dee_Niece is on a ${streak}-day studio streak!`,
@@ -83,7 +83,7 @@ function getDynamicTicker(level: "1" | "2") {
   }
   return [
     `🔥 Sarah just finished her first space-planning exercise!`,
-    `🏆 Alex unlocked 'Architecture Explorer'!`,
+    `🏆 Alex unlocked 'Vibe Coding Crafter'!`,
     `💬 David left a 5-star review on Day 28!`,
     `🚀 Emily completed her first project storyboard!`,
     `📐 Dee_Niece is on a ${streak}-day studio streak!`,
@@ -118,12 +118,12 @@ export default function Nav() {
 
   function switchLevel(lvl: "1" | "2") {
     try {
-      localStorage.setItem("archi_level", lvl);
+      localStorage.setItem("vibe_level", lvl);
     } catch {}
     setLevelOpen(false);
     // Dispatch so home.tsx hears it immediately
     window.dispatchEvent(
-      new StorageEvent("storage", { key: "archi_level", newValue: lvl })
+      new StorageEvent("storage", { key: "vibe_level", newValue: lvl })
     );
   }
 
@@ -140,11 +140,11 @@ export default function Nav() {
 
   const completedCount = progressData.filter((p) => p.completed).length;
 
-  // Rank logic adapted to 56-day architecture program
-  let rankTitle = "Architecture Explorer";
+  // Rank logic adapted to 56-day Vibe Coding & IOP program
+  let rankTitle = "Crafter Explorer";
   let rankColor = "#a1a1aa";
   if (completedCount >= 56) {
-    rankTitle = "Studio Lead Architect";
+    rankTitle = "Composer Elite";
     rankColor = THEME_COLOR;
   } else if (completedCount >= 28) {
     rankTitle = "Design Builder";
@@ -319,7 +319,7 @@ export default function Nav() {
                 fontWeight: 700,
               }}
             >
-              Architecture Course
+              Vibe Coding & IOP
             </div>
           </Link>
 
@@ -331,7 +331,7 @@ export default function Nav() {
               {t("nav.journey")}
             </Link>
 
-            {/* The Blueprint dropdown (Architecture) */}
+            {/* Code Blueprint dropdown (Vibe Coding) */}
             <div style={{ position: "relative" }}>
               <button
                 onClick={() => {
@@ -357,7 +357,7 @@ export default function Nav() {
                   className="pulse-icon-theme"
                   style={{ color: THEME_COLOR }}
                 />
-                Studio Blueprint
+                Code Blueprint
                 <ChevronDown
                   size={14}
                   style={{
@@ -753,7 +753,7 @@ export default function Nav() {
                 fontWeight: 700,
               }}
             >
-              Architecture Course
+              Vibe Coding & IOP
             </div>
           </Link>
           <button
@@ -857,12 +857,12 @@ export default function Nav() {
                     flexShrink: 0,
                   }}
                 />
-                Level 2 · Advanced Studio {!hasL2 && "🔒"}
+                Level 2 · Composer Studio {!hasL2 && "🔒"}
               </a>
             </>
           )}
 
-          <div className="mobile-section-label">Studio Blueprint</div>
+          <div className="mobile-section-label">Code Blueprint</div>
           <Link
             href="/systems"
             className={`mobile-nav-item ${
@@ -870,7 +870,7 @@ export default function Nav() {
             }`}
             onClick={() => setMobileOpen(false)}
           >
-            <Terminal size={16} style={{ color: THEME_COLOR }} /> Studio Systems
+            <Terminal size={16} style={{ color: THEME_COLOR }} /> Build Systems
           </Link>
           <Link
             href="/portfolio"
@@ -889,7 +889,7 @@ export default function Nav() {
             }`}
             onClick={() => setMobileOpen(false)}
           >
-            <Wrench size={16} style={{ color: THEME_COLOR }} /> Design Toolkit
+            <Wrench size={16} style={{ color: THEME_COLOR }} /> Vibe Toolkit
           </Link>
           <Link
             href="/services"

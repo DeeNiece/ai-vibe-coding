@@ -15,7 +15,7 @@ const en: Record<string, string> = {
 
   // ── Auth page ───────────────────────────────────────────────────────────────
   "auth.title":                  "AI Sprint",
-  "auth.subtitle":               "Level 1 · Basic",
+  "auth.subtitle":               "Level 1 · Crafter",
   "auth.welcomeBack":            "Welcome back",
   "auth.createAccount":          "Create your account",
   "auth.loginSubtext":           "Log in to continue your AI learning journey",
@@ -39,7 +39,7 @@ const en: Record<string, string> = {
   "auth.networkError":           "Network error",
 
   // ── Home page ───────────────────────────────────────────────────────────────
-  "home.heroTag":         "Level 1 · Basic · 28 Days",
+  "home.heroTag":         "Level 1 · Crafter · 28 Days",
   "home.heroTitle":       "Your AI Skills Journey Starts Here",
   "home.heroDesc":        "15 minutes a day. Practical skills. Real portfolio pieces. Everything you need to future-proof your career and work smarter, not harder — one day at a time.",
   "home.overallProgress": "Overall Progress",
