@@ -1,4 +1,4 @@
-// ── AI Sprint · Vibe Coding & IOP ──────────────────────────────
+// ── AI Sprint · Vibe Coding & IOP ────
 // File: portfolio.tsx | Repo: ai-vibe-coding
 // Last updated: May 2026
 //
@@ -31,8 +31,9 @@ export default function PortfolioPage() {
   const weekOverviews = activeLevel === "1" ? weekOverviewsL1 : weekOverviewsL2;
 
   const licensed = user?.licensedLevels || [];
-  const hasL1 = licensed.includes("1") || licensed.includes("bundle");
-  const hasL2 = licensed.includes("2") || licensed.includes("bundle");
+  // ✅ FIX: use correct vibe level names
+  const hasL1 = licensed.includes("vibe-crafter") || licensed.includes("vibe-bundle");
+  const hasL2 = licensed.includes("vibe-composer") || licensed.includes("vibe-bundle");
   const hasCurrentLevel = activeLevel === "1" ? hasL1 : hasL2;
 
   const { data: progressData = [] } = useQuery<DayProgress[]>({
