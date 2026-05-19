@@ -1,4 +1,9 @@
-// services.tsx
+// ── AI Sprint · Vibe Coding & IOP ────
+// File: services.tsx | Repo: ai-vibe-coding
+// Last updated: May 2026
+//
+// Dark/light mode supported via useIsDarkMode() hook.
+
 import { useState, useEffect } from "react";
 import Nav from "@/components/nav";
 import { serviceLadder } from "@/data/curriculum";
@@ -36,8 +41,9 @@ export default function ServicesPage() {
   const isDark = useIsDarkMode();
 
   const licensed = user?.licensedLevels || [];
-  const hasBasic = licensed.includes("accounting-basic") || licensed.includes("accounting-bundle");
-  const hasAdvanced = licensed.includes("accounting-advanced") || licensed.includes("accounting-bundle");
+  // ✅ FIX: use correct vibe level names
+  const hasBasic    = licensed.includes("vibe-crafter")  || licensed.includes("vibe-bundle") || !!user?.isAdmin;
+  const hasAdvanced = licensed.includes("vibe-composer") || licensed.includes("vibe-bundle") || !!user?.isAdmin;
 
   const THEME = activeLevel === "2" ? L2_COLOR : L1_COLOR;
   const THEME_ALPHA = activeLevel === "2" ? "rgba(232,130,12,0.08)" : "rgba(13,124,138,0.08)";
@@ -80,7 +86,7 @@ export default function ServicesPage() {
             Service Ladder
           </h1>
           <p className="inner-page-desc" style={{ maxWidth: "600px", margin: "1rem auto 0", color: mutedColor }}>
-            The services you can offer after completing the accounting course — priced, packaged, and ready to deploy with your AI skills.
+            The services you can offer after completing the Vibe Coding & IOP course — priced, packaged, and ready to deploy with your AI skills.
           </p>
 
           <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "1.5rem", flexWrap: "wrap" }}>

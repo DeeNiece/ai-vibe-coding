@@ -1,4 +1,4 @@
-// ── AI Sprint · Vibe Coding & IOP ──────────────────────────────
+// ── AI Sprint · Vibe Coding & IOP ────
 // File: nav.tsx | Repo: ai-vibe-coding
 // Last updated: May 2026
 //
@@ -184,7 +184,8 @@ export default function Nav() {
 
   const licensedLevels = user?.licensedLevels || [];
   // Single $69 price unlocks both levels
-  const hasAccess = licensedLevels.includes("bundle") || licensedLevels.includes("1") || licensedLevels.includes("2");
+  // ✅ FIX: use correct vibe level names
+  const hasAccess = licensedLevels.includes("vibe-bundle") || licensedLevels.includes("vibe-crafter") || licensedLevels.includes("vibe-composer") || !!user?.isAdmin;
   const hasL1 = hasAccess;
   const hasL2 = hasAccess;
 

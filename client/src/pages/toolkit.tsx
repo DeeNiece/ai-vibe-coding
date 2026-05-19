@@ -1,3 +1,7 @@
+// ── AI Sprint · Vibe Coding & IOP ────
+// File: toolkit.tsx | Repo: ai-vibe-coding
+// Last updated: May 2026
+
 import Nav from "@/components/nav";
 import { starterToolkit } from "@/data/curriculum";
 import { ExternalLink } from "lucide-react";
