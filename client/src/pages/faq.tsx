@@ -1,6 +1,10 @@
-// ── AI Sprint · Vibe Coding & IOP ────────────────────────────────────────────────
+// ── AI Sprint · Vibe Coding & IOP ────
 // File: faq.tsx | Repo: ai-vibe-coding
 // Last updated: May 2026
+//
+// Dark/light mode fully supported – uses useTheme() hook for conditional styling.
+// Color tokens follow AI Skills settings.tsx pattern:
+//   textColor / textMuted / bgCard / borderColor / inputBg / inputBorder
 //
 // ── THEME SYSTEM ──────────────────────────────────────────────────────────────────────────────
 // isDark is sourced from useTheme() — the same React context Nav uses — so the
