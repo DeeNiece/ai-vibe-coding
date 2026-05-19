@@ -1,3 +1,7 @@
+// ── AI Sprint · Vibe Coding & IOP ────
+// File: day.tsx | Repo: ai-vibe-coding
+// Last updated: May 2026
+
 import { useEffect, useState } from "react";
 import { Link, useRoute } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -23,6 +27,8 @@ import {
   AlertTriangle,
   BellRing,
   X,
+  Trophy,
+  Award,
 } from "lucide-react";
 import DayChat from "@/components/day-chat";
 import { useLanguage } from "@/i18n";
@@ -197,6 +203,7 @@ export default function DayPage({ params: propParams }: DayPageProps) {
 
   const [quizPassed, setQuizPassed] = useState(false);
   const [showLevelUp, setShowLevelUp] = useState(false);
+  const [showCertificate, setShowCertificate] = useState(false);
   const [celebrationMsg, setCelebrationMsg] = useState<{
     main: string;
     sub: string;
@@ -214,13 +221,14 @@ export default function DayPage({ params: propParams }: DayPageProps) {
   });
 
   // Progress is currently not level-aware; you may extend later.
-  const progressMap = new Map(progressData.map((p) => [p.dayNumber, p.completed]));
-  const done = !!progressMap.get(dayNum);
+  const progressMap = new Map(progressData.map((p) => [String(p.dayNumber), p.completed]));
+  const dayKey = `L${level}-${dayNum}`;
+  const done = !!progressMap.get(dayKey);
   const completedCount = progressData.filter((p) => p.completed).length;
 
   const toggleMutation = useMutation({
     mutationFn: ({ completed }: { completed: boolean }) =>
-      apiRequest("POST", `/api/progress/${dayNum}`, { completed }),
+      apiRequest("POST", `/api/progress/L${level}-${dayNum}`, { completed }),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["/api/progress"] });
 
@@ -229,9 +237,10 @@ export default function DayPage({ params: propParams }: DayPageProps) {
 
         // Celebrations (customizable per level)
         if (level === 1 && dayNum === 28) {
+          setShowCertificate(true);
           setCelebrationMsg({
-            main: "BASIC COMPLETE!",
-            sub: "Congratulations! You have completed the Basic track. Ready for Advanced?",
+            main: "LEVEL 1 COMPLETE!",
+            sub: "Congratulations! You've earned your Vibe Crafter Foundation Certificate. Ready for Level 2?",
           });
           (window as any).confetti({
             particleCount: 400,
@@ -240,9 +249,10 @@ export default function DayPage({ params: propParams }: DayPageProps) {
             colors: ["#0d7c8a", "#14b8a6", "#ffffff"],
           });
         } else if (level === 2 && dayNum === 28) {
+          setShowCertificate(true);
           setCelebrationMsg({
-            main: "ADVANCED MASTER!",
-            sub: "You've mastered Advanced Accounting with AI. Exceptional work!",
+            main: "LEVEL 2 COMPLETE!",
+            sub: "You've earned your Vibe Composer Professional Certificate. Exceptional work!",
           });
           (window as any).confetti({
             particleCount: 500,
@@ -253,7 +263,7 @@ export default function DayPage({ params: propParams }: DayPageProps) {
         } else if (dayNum === 1 && level === 1) {
           setCelebrationMsg({
             main: "CHALLENGE UNLOCKED!",
-            sub: "Welcome to Mastering Accounting in 28 Days. Let's go.",
+            sub: "Welcome to Vibe Coding & IOP. Let's build.",
           });
           (window as any).confetti({
             particleCount: 150,
@@ -338,7 +348,7 @@ export default function DayPage({ params: propParams }: DayPageProps) {
   }
 
   const catColor = categoryColors[day.category] || "#0d7c8a";
-  const trackName = level === 1 ? "Basic" : "Advanced";
+  const trackName = level === 1 ? "Foundation" : "Professional";
 
   return (
     <div className="page-wrap">
@@ -419,7 +429,7 @@ export default function DayPage({ params: propParams }: DayPageProps) {
                   key={day.day}
                   dayTitle={day.title}
                   badExample={`I need to finish the task for Day ${day.day}. Help me.`}
-                  goodExample={`I am working on Day ${day.day} of the Mastering Accounting in 28 Days — ${trackName} challenge: "${day.title}". The task is: ${day.task}. Give me a structured step-by-step framework to execute this successfully as an accountant.`}
+                  goodExample={`I am working on Day ${day.day} of the Vibe Coding & IOP — Level ${level} ${trackName} track: "${day.title}". The task is: ${day.task}. Give me a structured step-by-step framework to execute this successfully as a vibe coder and IOP practitioner.`}
                 />
               </section>
 
@@ -680,7 +690,7 @@ export default function DayPage({ params: propParams }: DayPageProps) {
 
         <aside className="day-lesson-list-col">
           <div className="lesson-list-header">
-            Accounting · {trackName} Curriculum
+            Vibe Coding & IOP · {trackName} Curriculum
           </div>
           {weekGroups.map(({ week, days, overview }) => (
             <div key={week}>
@@ -688,7 +698,7 @@ export default function DayPage({ params: propParams }: DayPageProps) {
                 Week {week} · {overview?.title}
               </div>
               {days.map((d) => {
-                const isDone = !!progressMap.get(d.day);
+                const isDone = !!progressMap.get(`L${level}-${d.day}`);
                 const isActive = d.day === dayNum;
                 return (
                   <Link
@@ -773,6 +783,113 @@ export default function DayPage({ params: propParams }: DayPageProps) {
             >
               Continue Journey
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Certificate Modal ──────────────────────────────────────────────── */}
+      {showCertificate && (
+        <div
+          style={{
+            position: "fixed", inset: 0,
+            background: "rgba(0,0,0,0.85)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            zIndex: 10000, backdropFilter: "blur(8px)",
+            padding: "20px",
+          }}
+          onClick={() => setShowCertificate(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "linear-gradient(135deg, #0a0a0c 0%, #0d1a1c 100%)",
+              border: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`,
+              borderRadius: "20px",
+              padding: "48px 40px",
+              maxWidth: "560px",
+              width: "100%",
+              textAlign: "center",
+              boxShadow: `0 20px 60px ${level === 1 ? "rgba(13,124,138,0.4)" : "rgba(139,92,246,0.4)"}`,
+              position: "relative",
+            }}
+          >
+            {/* Corner decorations */}
+            <div style={{ position: "absolute", top: 16, left: 16, width: 24, height: 24, borderTop: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderLeft: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRadius: "4px 0 0 0" }} />
+            <div style={{ position: "absolute", top: 16, right: 16, width: 24, height: 24, borderTop: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRight: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRadius: "0 4px 0 0" }} />
+            <div style={{ position: "absolute", bottom: 16, left: 16, width: 24, height: 24, borderBottom: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderLeft: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRadius: "0 0 0 4px" }} />
+            <div style={{ position: "absolute", bottom: 16, right: 16, width: 24, height: 24, borderBottom: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRight: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRadius: "0 0 4px 0" }} />
+
+            {/* Badge */}
+            <div style={{
+              width: 80, height: 80, borderRadius: "50%",
+              background: `${level === 1 ? "#0d7c8a" : "#8b5cf6"}22`,
+              border: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              margin: "0 auto 20px",
+            }}>
+              <Trophy size={36} style={{ color: level === 1 ? "#0d7c8a" : "#8b5cf6" }} />
+            </div>
+
+            {/* Issuer */}
+            <div style={{ fontSize: "0.7rem", fontWeight: 800, letterSpacing: "3px", textTransform: "uppercase", color: level === 1 ? "#0d7c8a" : "#8b5cf6", marginBottom: "8px" }}>
+              AI Sprint · Certificate of Completion
+            </div>
+
+            {/* Title */}
+            <h2 style={{ fontSize: "1.6rem", fontWeight: 900, color: "white", marginBottom: "6px", lineHeight: 1.2 }}>
+              {level === 1 ? "Vibe Crafter" : "Vibe Composer"}
+            </h2>
+            <div style={{ fontSize: "0.9rem", fontWeight: 600, color: level === 1 ? "#0d7c8a" : "#8b5cf6", marginBottom: "24px" }}>
+              {level === 1 ? "Foundation Certificate · Level 1" : "Professional Certificate · Level 2"}
+            </div>
+
+            {/* Divider */}
+            <div style={{ height: "1px", background: `${level === 1 ? "#0d7c8a" : "#8b5cf6"}33`, margin: "0 0 20px" }} />
+
+            {/* Body */}
+            <p style={{ fontSize: "0.88rem", color: "#aaa", lineHeight: 1.7, marginBottom: "24px" }}>
+              This certifies the successful completion of the{" "}
+              <strong style={{ color: "white" }}>
+                {level === 1 ? "28-Day Foundation Track" : "28-Day Professional Track"}
+              </strong>{" "}
+              of the <strong style={{ color: "white" }}>Vibe Coding & IOP</strong> program by AI Sprint.
+            </p>
+
+            {/* Seal row */}
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginBottom: "28px" }}>
+              <Award size={14} style={{ color: level === 1 ? "#0d7c8a" : "#8b5cf6" }} />
+              <span style={{ fontSize: "0.75rem", color: "#666", letterSpacing: "1px" }}>
+                {level === 1 ? "28 DAYS · FOUNDATION TRACK · AI SPRINT" : "28 DAYS · PROFESSIONAL TRACK · AI SPRINT"}
+              </span>
+              <Award size={14} style={{ color: level === 1 ? "#0d7c8a" : "#8b5cf6" }} />
+            </div>
+
+            {/* Actions */}
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              <button
+                onClick={() => setShowCertificate(false)}
+                style={{
+                  padding: "11px 28px", borderRadius: 100,
+                  background: level === 1 ? "#0d7c8a" : "#8b5cf6",
+                  color: "white", fontWeight: 700, fontSize: "0.9rem",
+                  border: "none", cursor: "pointer",
+                  boxShadow: `0 4px 14px ${level === 1 ? "rgba(13,124,138,0.4)" : "rgba(139,92,246,0.4)"}`,
+                }}
+              >
+                {level === 1 ? "Continue to Level 2 →" : "View Full Portfolio →"}
+              </button>
+              <button
+                onClick={() => { setShowCertificate(false); window.print(); }}
+                style={{
+                  padding: "11px 28px", borderRadius: 100,
+                  background: "transparent",
+                  color: "#aaa", fontWeight: 600, fontSize: "0.9rem",
+                  border: "1px solid rgba(255,255,255,0.15)", cursor: "pointer",
+                }}
+              >
+                Save / Print
+              </button>
+            </div>
           </div>
         </div>
       )}

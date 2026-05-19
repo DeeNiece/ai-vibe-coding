@@ -1,9 +1,10 @@
-/**
- * AI Sprint — Vibe Coding & IOP Course — English translations
- * Course: Crafter (Level 1) + Composer (Level 2)
- * Level 1: Crafter (28 days) — Vibe coding foundations, automations, shipping real software
- * Level 2: Composer (28 days) — Production AI systems, agents, full-stack apps
- */
+// ── AI Sprint · Vibe Coding & IOP ────
+// File: en.ts | Repo: ai-vibe-coding
+// Last updated: May 2026
+//
+// English translations — Crafter (Level 1) + Composer (Level 2)
+// Level 1: 28 days — Vibe coding foundations, automations, shipping real software
+// Level 2: 28 days — Production AI systems, agents, full-stack apps
 const en: Record<string, string> = {
 
   // ── Navigation ─────────────────────────────────────────────────────────────
@@ -17,7 +18,7 @@ const en: Record<string, string> = {
 
   // ── Auth page ───────────────────────────────────────────────────────────────
   "auth.title":                  "AI Sprint · Vibe Coding & IOP",
-  "auth.subtitle":               "Level 1 · Crafter",
+  "auth.subtitle":               "Crafter · Composer · 56 Days",
   "auth.welcomeBack":            "Welcome back",
   "auth.createAccount":          "Create your account",
   "auth.loginSubtext":           "Log in to continue your vibe coding journey",
@@ -41,7 +42,7 @@ const en: Record<string, string> = {
   "auth.networkError":           "Network error",
 
   // ── Home page ───────────────────────────────────────────────────────────────
-  "home.heroTag":         "Level 1 · Crafter · 28 Days",
+  "home.heroTag":         "Crafter + Composer · 56-Day Journey",
   "home.heroTitle":       "Master Vibe Coding & Intent-Oriented Programming",
   "home.heroDesc":        "15 minutes a day. Learn prompting, building automations, and shipping real software. From your first working script to production-ready tools — everything you need to build with AI. (Level 2 continues to production AI systems and agents.)",
   "home.overallProgress": "Overall Progress",
@@ -227,8 +228,8 @@ const en: Record<string, string> = {
 
   // ── Portfolio page ──────────────────────────────────────────────────────────
   "portfolio.title":         "Your Goal",
-  "portfolio.subtitle":      "Portfolio Targets – Level 1 · Crafter",
-  "portfolio.desc":          "By the end of Day 28, you'll have these four real, showable artifacts. They prove you can build real software with AI — no engineering degree required.",
+  "portfolio.subtitle":      "Portfolio Targets",
+  "portfolio.desc":          "By the end of each level you'll have real, showable artifacts. They prove you can build real software with AI — no engineering degree required.",
   "portfolio.progress":      "Level 1 progress",
   "portfolio.weekLabel":     "Week {week}",
   "portfolio.earnedTitle":   "You'll earn every one of these",
@@ -239,7 +240,7 @@ const en: Record<string, string> = {
   // ── Toolkit page ────────────────────────────────────────────────────────────
   "toolkit.title":    "Reference",
   "toolkit.subtitle": "Starter Toolkit",
-  "toolkit.desc":     "These are the tools you'll learn throughout Level 1. Most have free tiers – you don't need to pay anything to complete this challenge.",
+  "toolkit.desc":     "These are the tools you'll use throughout Vibe Coding & IOP. Most have free tiers – you don't need to pay anything to start.",
   "toolkit.tip":      "Tip: Sign up for free accounts when you first encounter each tool. Having accounts ready saves precious time during your 15‑minute sessions.",
 
   // ── Common / global ─────────────────────────────────────────────────────────
