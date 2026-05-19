@@ -1,3 +1,7 @@
+// ── AI Sprint · Vibe Coding & IOP ────
+// File: App.tsx | Repo: ai-vibe-coding
+// Last updated: May 2026
+
 import { useEffect } from "react";
 import { Router, Switch, Route, Redirect } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
@@ -7,7 +11,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider, useAuth } from "@/components/auth-provider";
 import { LanguageProvider } from "@/i18n";
-import { ScrollToTop } from "@/components/ScrollToTop"; // ✨ ADDED - Import the scroll component
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 import AuthPage from "@/pages/auth";
 import HomePage from "@/pages/home";
@@ -34,12 +38,16 @@ function hasAdvanced(user: any) {
 }
 
 function hasAnyLevel(user: any) {
+  // ✅ FIX: Admins always bypass license checks
+  if (user?.isAdmin) return true;
   return hasBasic(user) || hasAdvanced(user);
 }
 
 function ProtectedRoute({ children, requiresLevel }: { children: React.ReactNode; requiresLevel?: "basic" | "advanced" | "any" }) {
   const { user } = useAuth();
   if (!user) return <Redirect to="/auth" />;
+  // ✅ FIX: Admins bypass all license level checks
+  if (user.isAdmin) return <>{children}</>;
   if (requiresLevel === "basic"    && !hasBasic(user))    return <Redirect to="/pricing" />;
   if (requiresLevel === "advanced" && !hasAdvanced(user)) return <Redirect to="/pricing" />;
   if (requiresLevel === "any"      && !hasAnyLevel(user)) return <Redirect to="/pricing" />;
@@ -60,7 +68,7 @@ function AppRoutes() {
   return (
     <LanguageProvider isLoggedIn={!!user}>
       <Router hook={useHashLocation}>
-        <ScrollToTop /> {/* ✨ ADDED - This ensures scroll to top on every route change */}
+        <ScrollToTop />
         <Switch>
           <Route path="/auth" component={AuthPage} />
           <Route path="/faq" component={FAQPage} />
