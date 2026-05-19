@@ -27,10 +27,12 @@ import {
   AlertTriangle,
   BellRing,
   X,
-  Trophy,
   Award,
+  Download,
+  Lock,
 } from "lucide-react";
 import DayChat from "@/components/day-chat";
+import { useAuth } from "@/components/auth-provider";
 import { useLanguage } from "@/i18n";
 import { useRegion, isToolBlocked, getAlternatives } from "@/hooks/useRegion";
 import PromptLab from "@/components/PromptLab";
@@ -127,6 +129,41 @@ function FloatingCelebration({
   );
 }
 
+
+// ── Certificate share captions ───────────────────────────────────────────────
+const VIBE_CERT_CAP_L1 = "🎓 I just completed Vibe Coding & IOP Level 1 (Crafter) on AISprint.app — 28 days of hands-on AI coding fundamentals. Ready for Level 2! #VibeCoding #AISprint #IOP";
+const VIBE_CERT_CAP_L2 = "🎓 I just completed Vibe Coding & IOP Level 2 (Composer) on AISprint.app — 28 days of production AI systems, agents, and full-stack apps. #VibeCoding #AISprint #IOP";
+const VIBE_CERT_URL    = "https://ai-vibe-coding-production.up.railway.app";
+
+// ── Copy-caption button ───────────────────────────────────────────────────────
+function DayCopyButton({ caption }: { caption: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      onClick={() => {
+        navigator.clipboard.writeText(caption).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        });
+      }}
+      style={{
+        position: "absolute", top: "50%", right: "8px",
+        transform: "translateY(-50%)",
+        padding: "4px 10px",
+        background: copied ? "rgba(20,184,166,0.2)" : "rgba(255,255,255,0.07)",
+        border: `1px solid ${copied ? "#14b8a6" : "rgba(255,255,255,0.15)"}`,
+        borderRadius: "5px",
+        color: copied ? "#14b8a6" : "var(--text-muted)",
+        fontSize: "0.72rem", fontWeight: 700,
+        cursor: "pointer", whiteSpace: "nowrap",
+        transition: "all 0.2s",
+      }}
+    >
+      {copied ? "Copied! ✓" : "Copy"}
+    </button>
+  );
+}
+
 type DayPageProps = {
   params?: {
     dayNum?: string;
@@ -165,6 +202,7 @@ function getWhatYouLearned(day: {
 
 export default function DayPage({ params: propParams }: DayPageProps) {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const { blockedTools, countryCode } = useRegion();
 
   // --- Parse level and day number from URL like "/day/L1-1" or "/day/L2-5" ---
@@ -203,7 +241,7 @@ export default function DayPage({ params: propParams }: DayPageProps) {
 
   const [quizPassed, setQuizPassed] = useState(false);
   const [showLevelUp, setShowLevelUp] = useState(false);
-  const [showCertificate, setShowCertificate] = useState(false);
+  const [certGenerating, setCertGenerating] = useState(false);
   const [celebrationMsg, setCelebrationMsg] = useState<{
     main: string;
     sub: string;
@@ -225,6 +263,9 @@ export default function DayPage({ params: propParams }: DayPageProps) {
   const dayKey = `L${level}-${dayNum}`;
   const done = !!progressMap.get(dayKey);
   const completedCount = progressData.filter((p) => p.completed).length;
+  const levelCompletedCount = progressData.filter((p) => String(p.dayNumber).startsWith(`L${level}-`) && p.completed).length;
+  const TOTAL_DAYS = 28;
+  const allDaysComplete = levelCompletedCount >= TOTAL_DAYS;
 
   const toggleMutation = useMutation({
     mutationFn: ({ completed }: { completed: boolean }) =>
@@ -237,7 +278,6 @@ export default function DayPage({ params: propParams }: DayPageProps) {
 
         // Celebrations (customizable per level)
         if (level === 1 && dayNum === 28) {
-          setShowCertificate(true);
           setCelebrationMsg({
             main: "LEVEL 1 COMPLETE!",
             sub: "Congratulations! You've earned your Vibe Crafter Foundation Certificate. Ready for Level 2?",
@@ -249,7 +289,6 @@ export default function DayPage({ params: propParams }: DayPageProps) {
             colors: ["#0d7c8a", "#14b8a6", "#ffffff"],
           });
         } else if (level === 2 && dayNum === 28) {
-          setShowCertificate(true);
           setCelebrationMsg({
             main: "LEVEL 2 COMPLETE!",
             sub: "You've earned your Vibe Composer Professional Certificate. Exceptional work!",
@@ -315,6 +354,147 @@ export default function DayPage({ params: propParams }: DayPageProps) {
       ?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
+
+  // ── Canvas certificate generator ─────────────────────────────────────────
+  const generateCertificate = async () => {
+    setCertGenerating(true);
+    let bgFrom, bgMid, bgTo, accentColor, accentLight, courseName, trackLabel, congratsText;
+    if (level === 1) {
+      bgFrom = "#0a1628"; bgMid = "#0d1f3c"; bgTo = "#071220";
+      accentColor = "#0d7c8a"; accentLight = "#14b8a6";
+      courseName = "Vibe Coding & IOP Level 1";
+      trackLabel = "Crafter — Foundation";
+      congratsText = "In recognition of dedication and commitment to mastering vibe coding and intent-oriented programming.";
+    } else {
+      bgFrom = "#0f0a1e"; bgMid = "#1a0f2e"; bgTo = "#0a0614";
+      accentColor = "#8b5cf6"; accentLight = "#a78bfa";
+      courseName = "Vibe Coding & IOP Level 2";
+      trackLabel = "Composer — Professional";
+      congratsText = "In recognition of mastering production AI systems, autonomous agents, and full-stack AI applications.";
+    }
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1400; canvas.height = 990;
+      const ctx = canvas.getContext("2d")!;
+
+      const bgGrad = ctx.createLinearGradient(0, 0, 1400, 990);
+      bgGrad.addColorStop(0, bgFrom); bgGrad.addColorStop(0.5, bgMid); bgGrad.addColorStop(1, bgTo);
+      ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, 1400, 990);
+
+      const glow1 = ctx.createRadialGradient(200, 200, 0, 200, 200, 350);
+      glow1.addColorStop(0, `${accentColor}33`); glow1.addColorStop(1, "transparent");
+      ctx.fillStyle = glow1; ctx.fillRect(0, 0, 1400, 990);
+      const glow2 = ctx.createRadialGradient(1200, 800, 0, 1200, 800, 300);
+      glow2.addColorStop(0, `${accentColor}22`); glow2.addColorStop(1, "transparent");
+      ctx.fillStyle = glow2; ctx.fillRect(0, 0, 1400, 990);
+
+      ctx.strokeStyle = accentColor; ctx.lineWidth = 3; ctx.strokeRect(28, 28, 1344, 934);
+      ctx.strokeStyle = `${accentColor}59`; ctx.lineWidth = 1; ctx.strokeRect(44, 44, 1312, 902);
+
+      const corners = [[56,56],[1344,56],[56,934],[1344,934]] as [number,number][];
+      corners.forEach(([cx, cy]) => {
+        ctx.strokeStyle = accentColor; ctx.lineWidth = 2;
+        const size = 28;
+        const dx = cx < 700 ? 1 : -1;
+        const dy = cy < 495 ? 1 : -1;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy + dy * size); ctx.lineTo(cx, cy); ctx.lineTo(cx + dx * size, cy);
+        ctx.stroke();
+      });
+
+      await new Promise<void>((resolve) => {
+        const headerLogo = new Image();
+        headerLogo.onload = () => {
+          const maxH = 80, maxW = 400;
+          const ratio = Math.min(maxW / headerLogo.naturalWidth, maxH / headerLogo.naturalHeight);
+          ctx.drawImage(headerLogo, (1400 - headerLogo.naturalWidth * ratio) / 2, 52, headerLogo.naturalWidth * ratio, headerLogo.naturalHeight * ratio);
+          resolve();
+        };
+        headerLogo.onerror = () => resolve();
+        headerLogo.src = "/assets/AISprint.app Logo_small_certificate.jpg";
+      });
+
+      ctx.textAlign = "center";
+      ctx.fillStyle = accentColor;
+      ctx.font = "bold 13px 'Georgia', serif";
+      ctx.fillText("C E R T I F I C A T E   O F   C O M P L E T I O N", 700, 165);
+      ctx.strokeStyle = accentColor; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(480, 178); ctx.lineTo(920, 178); ctx.stroke();
+
+      ctx.fillStyle = "rgba(255,255,255,0.55)";
+      ctx.font = "italic 22px 'Georgia', serif";
+      ctx.fillText("This certifies that", 700, 240);
+
+      const studentName = user?.displayName || user?.email || "Student";
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 64px 'Georgia', serif";
+      ctx.fillText(studentName, 700, 350);
+      const nameWidth = ctx.measureText(studentName).width;
+      ctx.strokeStyle = `${accentColor}99`; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(700 - nameWidth / 2, 368); ctx.lineTo(700 + nameWidth / 2, 368); ctx.stroke();
+
+      ctx.fillStyle = "rgba(255,255,255,0.55)";
+      ctx.font = "italic 22px 'Georgia', serif";
+      ctx.fillText("has successfully completed", 700, 420);
+
+      ctx.fillStyle = accentLight;
+      ctx.font = "bold 42px 'Georgia', serif";
+      ctx.fillText(`${courseName} — ${trackLabel}`, 700, 490);
+
+      ctx.fillStyle = "rgba(255,255,255,0.4)";
+      ctx.font = "16px 'Georgia', serif";
+      ctx.fillText("28-Day Vibe Coding & IOP Sprint · AISprint.app", 700, 530);
+
+      ctx.strokeStyle = `${accentColor}4d`; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(250, 575); ctx.lineTo(1150, 575); ctx.stroke();
+
+      ctx.fillStyle = "rgba(255,255,255,0.65)";
+      ctx.font = "italic 18px 'Georgia', serif";
+      ctx.fillText(congratsText, 700, 618);
+
+      const dateStr = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+      ctx.fillStyle = "rgba(255,255,255,0.35)";
+      ctx.font = "12px 'Georgia', serif";
+      ctx.fillText("DATE OF COMPLETION", 380, 710);
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 20px 'Georgia', serif";
+      ctx.fillText(dateStr, 380, 738);
+
+      await new Promise<void>((resolve) => {
+        const sealLogo = new Image();
+        sealLogo.onload = () => {
+          const boxSize = 100;
+          const ratio = Math.min(boxSize / sealLogo.naturalWidth, boxSize / sealLogo.naturalHeight);
+          ctx.drawImage(sealLogo, 700 - (sealLogo.naturalWidth * ratio) / 2, 697 - (sealLogo.naturalHeight * ratio) / 2, sealLogo.naturalWidth * ratio, sealLogo.naturalHeight * ratio);
+          resolve();
+        };
+        sealLogo.onerror = () => resolve();
+        sealLogo.src = "/assets/AISprint Logo Only_no Background_Certificate.png";
+      });
+
+      ctx.fillStyle = "rgba(255,255,255,0.35)";
+      ctx.font = "12px 'Georgia', serif";
+      ctx.fillText("ISSUED BY", 1020, 710);
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 20px 'Georgia', serif";
+      ctx.fillText("AISprint.app", 1020, 738);
+      ctx.fillStyle = "rgba(255,255,255,0.4)";
+      ctx.font = "13px 'Georgia', serif";
+      ctx.fillText("AI Education Platform", 1020, 758);
+
+      ctx.fillStyle = `${accentColor}99`;
+      ctx.font = "12px 'Georgia', serif";
+      ctx.fillText("www.aisprint.app  ·  Empowering the next generation of AI practitioners", 700, 890);
+
+      const link = document.createElement("a");
+      link.download = `AISprint-Vibe-L${level}-Certificate-${studentName.replace(/\s+/g, "-")}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } finally {
+      setCertGenerating(false);
+    }
+  };
+
   // Error: no curriculum (should not happen)
   if (!curriculum || curriculum.length === 0) {
     return (
@@ -349,6 +529,8 @@ export default function DayPage({ params: propParams }: DayPageProps) {
 
   const catColor = categoryColors[day.category] || "#0d7c8a";
   const trackName = level === 1 ? "Foundation" : "Professional";
+  const accentLight = level === 1 ? "#14b8a6" : "#a78bfa";
+  const currentCaption = level === 1 ? VIBE_CERT_CAP_L1 : VIBE_CERT_CAP_L2;
 
   return (
     <div className="page-wrap">
@@ -643,6 +825,101 @@ export default function DayPage({ params: propParams }: DayPageProps) {
                   </ul>
                 </div>
               )}
+
+              {/* ── Certificate Card ──────────────────────────────────── */}
+              <div className="sidebar-card" style={{
+                borderTop: `4px solid ${allDaysComplete ? accentLight : "rgba(255,255,255,0.1)"}`,
+                opacity: allDaysComplete ? 1 : 0.85,
+                transition: "all 0.3s ease",
+              }}>
+                <h3 className="sidebar-heading" style={{ color: allDaysComplete ? accentLight : "var(--text-muted)", display: "flex", alignItems: "center", gap: "8px" }}>
+                  {allDaysComplete ? <Award size={16} /> : <Lock size={16} />}
+                  Your Certificate
+                </h3>
+
+                <div style={{ position: "relative", marginBottom: "14px", borderRadius: "6px", overflow: "hidden", border: `1px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}40` }}>
+                  <img
+                    src="/assets/sample-certificate.png"
+                    alt="Sample AISprint certificate"
+                    style={{ width: "100%", display: "block", filter: allDaysComplete ? "none" : "blur(2px) brightness(0.6)", transition: "filter 0.4s ease" }}
+                  />
+                  {!allDaysComplete && (
+                    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+                      <Lock size={22} color={accentLight} />
+                      <span style={{ fontSize: "0.75rem", color: accentLight, fontWeight: 700, letterSpacing: "0.5px" }}>
+                        {levelCompletedCount}/{TOTAL_DAYS} LESSONS COMPLETE
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {allDaysComplete ? (
+                  <>
+                    <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", marginBottom: "12px", lineHeight: 1.5 }}>
+                      🎉 All 28 lessons complete! Download your personalised certificate and share your achievement.
+                    </p>
+                    <button
+                      onClick={generateCertificate}
+                      disabled={certGenerating}
+                      style={{ width: "100%", padding: "10px 14px", background: `linear-gradient(135deg, ${level === 1 ? "#0d7c8a" : "#8b5cf6"}, ${accentLight})`, color: "white", border: "none", borderRadius: "8px", cursor: certGenerating ? "wait" : "pointer", fontWeight: 700, fontSize: "0.88rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginBottom: "14px" }}
+                    >
+                      <Download size={15} />
+                      {certGenerating ? "Generating..." : "Download Certificate"}
+                    </button>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+                      <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
+                      <span style={{ fontSize: "0.72rem", color: "var(--text-muted)", fontWeight: 600, letterSpacing: "0.5px" }}>SHARE YOUR WIN</span>
+                      <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
+                    </div>
+
+                    <div style={{ position: "relative", marginBottom: "10px" }}>
+                      <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", lineHeight: 1.5, fontStyle: "italic", margin: 0, padding: "8px 80px 8px 10px", background: "rgba(255,255,255,0.04)", borderRadius: "6px", border: "1px solid rgba(255,255,255,0.08)" }}>
+                        {currentCaption}
+                      </p>
+                      <DayCopyButton caption={currentCaption} />
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "7px", background: "rgba(255,193,7,0.08)", border: "1px solid rgba(255,193,7,0.25)", borderRadius: "6px", padding: "7px 9px", marginBottom: "10px" }}>
+                      <span style={{ fontSize: "0.85rem", flexShrink: 0 }}>📋</span>
+                      <p style={{ fontSize: "0.72rem", color: "var(--text-muted)", margin: 0, lineHeight: 1.5 }}>
+                        <strong style={{ color: "rgba(255,193,7,0.9)" }}>Facebook &amp; LinkedIn:</strong> Copy caption above first, then paste it into the post dialog that opens.
+                      </p>
+                    </div>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                      <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(VIBE_CERT_URL)}`} target="_blank" rel="noopener noreferrer"
+                        style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:"6px", padding:"8px 10px", background:"#1877F2", color:"white", borderRadius:"6px", fontSize:"0.78rem", fontWeight:700, textDecoration:"none" }}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        Facebook
+                      </a>
+                      <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(VIBE_CERT_URL)}`} target="_blank" rel="noopener noreferrer"
+                        style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:"6px", padding:"8px 10px", background:"#0A66C2", color:"white", borderRadius:"6px", fontSize:"0.78rem", fontWeight:700, textDecoration:"none" }}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        LinkedIn
+                      </a>
+                      <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(currentCaption)}&url=${encodeURIComponent(VIBE_CERT_URL)}`} target="_blank" rel="noopener noreferrer"
+                        style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:"6px", padding:"8px 10px", background:"#000", color:"white", borderRadius:"6px", fontSize:"0.78rem", fontWeight:700, textDecoration:"none" }}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        X / Twitter
+                      </a>
+                      <a href={`https://www.threads.net/intent/post?text=${encodeURIComponent(currentCaption + " " + VIBE_CERT_URL)}`} target="_blank" rel="noopener noreferrer"
+                        style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:"6px", padding:"8px 10px", background:"#000", color:"white", borderRadius:"6px", fontSize:"0.78rem", fontWeight:700, textDecoration:"none" }}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 7.5c-1.333-3-3.667-4.5-7-4.5-5 0-8 3.5-8 8.5 0 3.038 1.667 5.5 5 7 1 .5 2.333.5 4 0"/><path d="M12 12c2 0 3.5.667 4 2 .333 1-.167 2.5-2 3-1 .5-2 .5-3 0"/><path d="M12 12V7"/></svg>
+                        Threads
+                      </a>
+                    </div>
+                    <p style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginTop: "10px", lineHeight: 1.4 }}>
+                      💡 Download your certificate first, then attach the image when posting.
+                    </p>
+                  </>
+                ) : (
+                  <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", lineHeight: 1.5 }}>
+                    Complete all 28 lessons to unlock your personalised certificate.{" "}
+                    <span style={{ color: accentLight, fontWeight: 600 }}>{levelCompletedCount}/{TOTAL_DAYS} done.</span>
+                  </p>
+                )}
+              </div>
             </aside>
           </div>
 
@@ -787,112 +1064,6 @@ export default function DayPage({ params: propParams }: DayPageProps) {
         </div>
       )}
 
-      {/* ── Certificate Modal ──────────────────────────────────────────────── */}
-      {showCertificate && (
-        <div
-          style={{
-            position: "fixed", inset: 0,
-            background: "rgba(0,0,0,0.85)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            zIndex: 10000, backdropFilter: "blur(8px)",
-            padding: "20px",
-          }}
-          onClick={() => setShowCertificate(false)}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              background: "linear-gradient(135deg, #0a0a0c 0%, #0d1a1c 100%)",
-              border: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`,
-              borderRadius: "20px",
-              padding: "48px 40px",
-              maxWidth: "560px",
-              width: "100%",
-              textAlign: "center",
-              boxShadow: `0 20px 60px ${level === 1 ? "rgba(13,124,138,0.4)" : "rgba(139,92,246,0.4)"}`,
-              position: "relative",
-            }}
-          >
-            {/* Corner decorations */}
-            <div style={{ position: "absolute", top: 16, left: 16, width: 24, height: 24, borderTop: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderLeft: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRadius: "4px 0 0 0" }} />
-            <div style={{ position: "absolute", top: 16, right: 16, width: 24, height: 24, borderTop: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRight: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRadius: "0 4px 0 0" }} />
-            <div style={{ position: "absolute", bottom: 16, left: 16, width: 24, height: 24, borderBottom: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderLeft: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRadius: "0 0 0 4px" }} />
-            <div style={{ position: "absolute", bottom: 16, right: 16, width: 24, height: 24, borderBottom: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRight: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`, borderRadius: "0 0 4px 0" }} />
-
-            {/* Badge */}
-            <div style={{
-              width: 80, height: 80, borderRadius: "50%",
-              background: `${level === 1 ? "#0d7c8a" : "#8b5cf6"}22`,
-              border: `2px solid ${level === 1 ? "#0d7c8a" : "#8b5cf6"}`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              margin: "0 auto 20px",
-            }}>
-              <Trophy size={36} style={{ color: level === 1 ? "#0d7c8a" : "#8b5cf6" }} />
-            </div>
-
-            {/* Issuer */}
-            <div style={{ fontSize: "0.7rem", fontWeight: 800, letterSpacing: "3px", textTransform: "uppercase", color: level === 1 ? "#0d7c8a" : "#8b5cf6", marginBottom: "8px" }}>
-              AI Sprint · Certificate of Completion
-            </div>
-
-            {/* Title */}
-            <h2 style={{ fontSize: "1.6rem", fontWeight: 900, color: "white", marginBottom: "6px", lineHeight: 1.2 }}>
-              {level === 1 ? "Vibe Crafter" : "Vibe Composer"}
-            </h2>
-            <div style={{ fontSize: "0.9rem", fontWeight: 600, color: level === 1 ? "#0d7c8a" : "#8b5cf6", marginBottom: "24px" }}>
-              {level === 1 ? "Foundation Certificate · Level 1" : "Professional Certificate · Level 2"}
-            </div>
-
-            {/* Divider */}
-            <div style={{ height: "1px", background: `${level === 1 ? "#0d7c8a" : "#8b5cf6"}33`, margin: "0 0 20px" }} />
-
-            {/* Body */}
-            <p style={{ fontSize: "0.88rem", color: "#aaa", lineHeight: 1.7, marginBottom: "24px" }}>
-              This certifies the successful completion of the{" "}
-              <strong style={{ color: "white" }}>
-                {level === 1 ? "28-Day Foundation Track" : "28-Day Professional Track"}
-              </strong>{" "}
-              of the <strong style={{ color: "white" }}>Vibe Coding & IOP</strong> program by AI Sprint.
-            </p>
-
-            {/* Seal row */}
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginBottom: "28px" }}>
-              <Award size={14} style={{ color: level === 1 ? "#0d7c8a" : "#8b5cf6" }} />
-              <span style={{ fontSize: "0.75rem", color: "#666", letterSpacing: "1px" }}>
-                {level === 1 ? "28 DAYS · FOUNDATION TRACK · AI SPRINT" : "28 DAYS · PROFESSIONAL TRACK · AI SPRINT"}
-              </span>
-              <Award size={14} style={{ color: level === 1 ? "#0d7c8a" : "#8b5cf6" }} />
-            </div>
-
-            {/* Actions */}
-            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <button
-                onClick={() => setShowCertificate(false)}
-                style={{
-                  padding: "11px 28px", borderRadius: 100,
-                  background: level === 1 ? "#0d7c8a" : "#8b5cf6",
-                  color: "white", fontWeight: 700, fontSize: "0.9rem",
-                  border: "none", cursor: "pointer",
-                  boxShadow: `0 4px 14px ${level === 1 ? "rgba(13,124,138,0.4)" : "rgba(139,92,246,0.4)"}`,
-                }}
-              >
-                {level === 1 ? "Continue to Level 2 →" : "View Full Portfolio →"}
-              </button>
-              <button
-                onClick={() => { setShowCertificate(false); window.print(); }}
-                style={{
-                  padding: "11px 28px", borderRadius: 100,
-                  background: "transparent",
-                  color: "#aaa", fontWeight: 600, fontSize: "0.9rem",
-                  border: "1px solid rgba(255,255,255,0.15)", cursor: "pointer",
-                }}
-              >
-                Save / Print
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {!done && !dismissReminder && (
         <div
