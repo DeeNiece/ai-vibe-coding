@@ -1,4 +1,4 @@
-// ── AI Sprint · Vibe Coding & IOP ──────────────────────────────
+// ── AI Sprint · Vibe Coding & IOP ────
 // File: routes.ts  |  Repo: ai-vibe-coding
 // Last updated: May 2026
 //
@@ -188,9 +188,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!s || !s.apiKey) return res.json(null);
       
       res.json({
-        provider: s.baseUrl?.includes("deepseek") ? "deepseek" 
-                  : s.baseUrl?.includes("groq") ? "groq" 
-                  : s.baseUrl?.includes("mistral") ? "mistral" 
+        provider: s.baseUrl?.includes("deepseek") ? "deepseek"
+                  : s.baseUrl?.includes("groq") ? "groq"
+                  : s.baseUrl?.includes("mistral") ? "mistral"
+                  : s.baseUrl?.includes("openai") ? "openai"
                   : "custom",
         apiKeyPreview: s.apiKey.substring(0, 8) + "...",
         baseUrl: s.baseUrl,
@@ -211,7 +212,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         provider: req.body.provider || "custom"
       };
 
-      await Promise.resolve(storage.saveApiSettings(user.id, safeData));
+      await Promise.resolve(storage.saveApiSettings(user.id, safeData.provider, safeData.apiKey, safeData.baseUrl, safeData.model));
       
       res.json({ 
         ok: true, 
@@ -237,7 +238,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let testBaseUrl = finalUrlFromReq;
       let testModel = model;
 
-      if (!testApiKey) {
+      // useSaved: true = Check Health button; always load from DB in that case
+      const useSaved = req.body.useSaved === true;
+      if (useSaved || !testApiKey) {
         const savedSettings = storage.getApiSettings(user.id);
         if (!savedSettings || !savedSettings.apiKey) {
           throw new Error("No API key provided or saved. Please add one in Settings.");
