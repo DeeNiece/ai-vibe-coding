@@ -1040,8 +1040,8 @@ export default function LandingPage() {
           <div style={{ display:"flex", flexDirection:"row", overflow:"hidden", scrollbarWidth:"none" as any }}
             ref={(el) => { (testimonialsRef as any).current = el; (testiScrollRef as any).current = el; }}>
             {[
-              { text:"I used to spend hours on repetitive data tasks. After the Crafter track I had 3 working automations that saved my team 4 hours a week — built in 15 minutes a day.", name:"Marcus L.", role:"Operations Manager, London", initials:"ML", color:L1_COLOR, course:"Level 1 · Crafter", photo:"/assets/testimonials/Name_Daniel_K_Work_AI_Agentic_Architect.png" },
-              { text:"The Composer track changed how I build products. I shipped a full-stack AI app with auth and streaming in Week 1. That used to take me a month.", name:"James W.", role:"Software Builder, Singapore", initials:"JW", color:L2_COLOR, course:"Level 2 · Composer", photo: null },
+              { text:"I used to spend hours on repetitive data tasks. After the Crafter track I had 3 working automations that saved my team 4 hours a week — built in 15 minutes a day.", name:"Marcus L.", role:"Operations Manager, London", initials:"ML", color:L1_COLOR, course:"Level 1 · Crafter", photo: null },
+              { text:"The Composer track changed how I build products. I shipped a full-stack AI app with auth and streaming in Week 1. That used to take me a month.", name:"James W.", role:"Software Builder, Singapore", initials:"JW", color:L2_COLOR, course:"Level 2 · Composer", photo:"/assets/testimonials/Name_James_W_Work_AI_Agentic_Architect.png" },
               { text:"15 minutes a day felt small at first, but by Week 4 I had 3 deployed automations and a portfolio I could actually show clients. This course changed what I think I'm capable of.", name:"Priya M.", role:"Entrepreneur, Toronto", initials:"PM", color:L1_COLOR, course:"Level 1 · Crafter", photo: null },
             ].map((t, i) => (
               <div key={i} className={`lp-testi-card lp-reveal ${revealTestimonials ? "visible" : ""}`} style={{
@@ -1074,7 +1074,7 @@ export default function LandingPage() {
       <section className="lp-human-section" style={{ padding:"60px 20px", position:"relative", zIndex:1 }}>
         <div style={{ maxWidth:"820px", margin:"0 auto", display:"flex", flexDirection:"row", alignItems:"center", gap:"3rem", flexWrap:"wrap" }}>
           <div style={{ flex:"0 0 260px", maxWidth:"100%" }}>
-            <img src="/assets/testimonials/Name_Daniel_K_Work_AI_Agentic_Architect.png" alt="Professional learning vibe coding and IOP"
+            <img src="/assets/testimonials/Name_James_W_Work_AI_Agentic_Architect.png" alt="Professional learning vibe coding and IOP"
               style={{ width:"100%", borderRadius:20, objectFit:"cover", objectPosition:"center top",
                 boxShadow:"0 20px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(13,124,138,.15)",
                 border:`1px solid ${L1_COLOR}33` }} />
