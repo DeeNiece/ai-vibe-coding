@@ -182,8 +182,8 @@ export default function HomePage() {
   const matchFilter = activeLevel === "1" ? matchesFilterL1 : matchesFilterL2;
 
   const licensed = user?.licensedLevels || [];
-  // Single $69 price unlocks both levels via "bundle"
-  const hasAccess      = licensed.includes("bundle") || licensed.includes("1") || licensed.includes("2");
+  // ✅ FIX: use correct vibe level names; admins always get full access
+  const hasAccess      = !!user?.isAdmin || licensed.includes("vibe-bundle") || licensed.includes("vibe-crafter") || licensed.includes("vibe-composer");
   const hasLevel1      = hasAccess;
   const hasLevel2      = hasAccess;
   const hasAny         = hasAccess;
