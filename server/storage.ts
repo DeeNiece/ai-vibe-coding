@@ -1,3 +1,7 @@
+// ── AI Sprint · Vibe Coding & IOP ────
+// File: storage.ts | Repo: ai-vibe-coding
+// Last updated: May 2026
+
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import Database from "better-sqlite3";
 import * as schema from "@shared/schema";
@@ -129,16 +133,16 @@ export class Storage {
 
   getLicensedLevels(email: string): string[] {
     if (this.isFreePass(email)) {
-      return ["accounting-basic", "accounting-advanced", "accounting-bundle"];
+      return ["vibe-crafter", "vibe-composer", "vibe-bundle"];
     }
     const rows = db.select().from(schema.purchases)
       .where(eq(schema.purchases.email, email.toLowerCase().trim())).all();
     const levels = new Set<string>();
     rows.forEach(p => {
-      if (p.level === "accounting-bundle") {
-        levels.add("accounting-basic");
-        levels.add("accounting-advanced");
-        levels.add("accounting-bundle");
+      if (p.level === "vibe-bundle") {
+        levels.add("vibe-crafter");
+        levels.add("vibe-composer");
+        levels.add("vibe-bundle");
       } else {
         levels.add(p.level);
       }
