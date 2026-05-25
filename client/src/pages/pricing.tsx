@@ -159,12 +159,13 @@ function LevelComparison() {
   ];
 
   return (
-    <div style={{ 
-      display: "grid", 
-      gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", 
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
       gap: 24,
       maxWidth: 900,
       margin: "40px auto 0",
+      padding: "0 20px",
     }}>
       {levels.map((level, idx) => (
         <div
@@ -186,8 +187,8 @@ function LevelComparison() {
               <div style={{ color: level.color }}>{level.icon}</div>
               <span style={{ fontWeight: 800, fontSize: "1.2rem", color: level.color }}>{level.name}</span>
             </div>
-            <div style={{ fontSize: "0.8rem", opacity: 0.8, marginBottom: 4 }}>{level.duration}</div>
-            <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>{level.tagline}</div>
+            <div style={{ fontSize: "0.8rem", opacity: 0.7, marginBottom: 4, color: isDark ? "#ccc" : "#374151" }}>{level.duration}</div>
+            <div style={{ fontWeight: 600, fontSize: "0.9rem", color: isDark ? "#e8e6f4" : "#111827" }}>{level.tagline}</div>
           </div>
 
           {/* Outcomes */}
@@ -197,7 +198,7 @@ function LevelComparison() {
             </div>
             <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px" }}>
               {level.outcomes.map((outcome, i) => (
-                <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: 10, fontSize: "0.85rem" }}>
+                <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: 10, fontSize: "0.85rem", color: isDark ? "#ccc" : "#374151" }}>
                   <CheckCircle2 size={14} style={{ color: level.color, flexShrink: 0, marginTop: 2 }} />
                   <span>{outcome}</span>
                 </li>
@@ -209,7 +210,7 @@ function LevelComparison() {
             </div>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
               {level.whatYouBuild.map((item, i) => (
-                <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: 10, fontSize: "0.85rem" }}>
+                <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: 10, fontSize: "0.85rem", color: isDark ? "#ccc" : "#374151" }}>
                   <div style={{ width: 4, height: 4, borderRadius: "50%", background: level.color, flexShrink: 0, marginTop: 6 }} />
                   <span>{item}</span>
                 </li>
