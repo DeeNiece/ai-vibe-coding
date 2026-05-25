@@ -350,6 +350,14 @@ export default function PricingPage() {
     return () => window.removeEventListener("pageshow", onPageShow);
   }, []);
 
+  // ── Hide Nav when rendered inside iframe (e.g. pricing popout) ──────────
+  useEffect(() => {
+    if (window.self !== window.top) {
+      document.documentElement.classList.add("in-iframe");
+    }
+  }, []);
+
+
   const licensed = user?.licensedLevels || [];
   const ownsAll  = licensed.some(l => ["bundle", "1", "2"].includes(l));
 
@@ -394,6 +402,13 @@ export default function PricingPage() {
       style={{ background: pageBg, color: headingClr, minHeight: "100vh", transition: "background 0.3s, color 0.3s" }}
     >
       <Nav />
+      {/* Hide Nav inside iframe popout */}
+      <style>{`
+        html.in-iframe nav,
+        html.in-iframe [class*="nav"],
+        html.in-iframe header { display: none !important; }
+        html.in-iframe main { padding-top: 0 !important; }
+      `}</style>
 
       <main style={{ padding: "0 0 40px" }}>
 
