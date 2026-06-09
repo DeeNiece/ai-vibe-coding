@@ -1,6 +1,6 @@
 // ── AI Sprint · Vibe Coding & IOP ────
 // File: en.ts | Repo: ai-vibe-coding
-// Last updated: May 2026
+// Last updated: June 2026
 //
 // English translations — Crafter (Level 1) + Composer (Level 2)
 // Level 1: 28 days — Vibe coding foundations, automations, shipping real software
@@ -187,10 +187,16 @@ const en: Record<string, string> = {
   "faq.a4": "Every lesson day has a built‑in AI chat panel. It knows exactly which day's lesson you're on — including the summary, task, and tools — and can give you examples, help you debug code, and guide you through complex concepts.",
   "faq.q_promptlab": "What is PromptLab?",
   "faq.a_promptlab": "PromptLab is an interactive tool inside each day's lesson that lets you compare a basic 'lazy' prompt with a well‑structured prompt side‑by‑side. If you have an API key configured in Settings, you can run the comparison live. No API key? No problem – you can still copy each prompt and test them manually in Claude, ChatGPT, or any other AI chat tool to see the difference.",
-  "faq.q5": "Why do I need my own API key for the chat?",
-  "faq.a5": "The Vibe Coach connects to external AI providers (DeepSeek, Mistral, Groq, etc.). Each user brings their own key so there is no cost to the app owner. Usage is tiny – fractions of a cent per conversation.",
-  "faq.q6": "Can I use the app without an API key?",
-  "faq.a6": "Yes! All 56 days of lessons, tasks, progress tracking, and tools work perfectly without a key. Only the live Vibe Coach chat and PromptLab live comparisons require a key – you can add one later anytime.",
+  "faq.q_builtin_ai": "Do I need my own API key to use the Vibe Coach and PromptLab?",
+  "faq.a_builtin_ai": "No — both features include a built-in AI so you can start immediately without any setup.\n\nThe built-in AI is free to use with a daily limit: 5 Vibe Coach messages and 3 PromptLab runs per course per day. Limits reset at midnight UTC.\n\nIf you add your own API key in Settings (DeepSeek, Mistral, Groq, or any OpenAI-compatible provider), your usage becomes unlimited with no daily cap. Your own key costs fractions of a cent per conversation.",
+  "faq.q_daily_limit": "How many times can I use the built-in Vibe Coach and PromptLab each day?",
+  "faq.a_daily_limit": "With the built-in AI (no API key needed):\n• Vibe Coach chat — 5 messages per day\n• PromptLab runs — 3 per day\n\nBoth limits reset at midnight UTC. If you enroll in multiple AI Sprint courses, each course gets its own separate daily allocation.\n\nWant unlimited use? Add your own API key in Settings. DeepSeek costs about $0.001 per conversation — $2 lasts the entire 56-day course with heavy usage.",
+  "faq.q_topic_limit": "Can I ask the Vibe Coach anything, or is it limited to today's lesson?",
+  "faq.a_topic_limit": "When using the built-in AI, the Vibe Coach is focused on today's vibe coding lesson only. It will answer questions about the day's topic, task, and tools — and gently redirect you if you stray off-topic. This keeps your daily session focused and productive.\n\nIf you add your own API key in Settings, the Vibe Coach becomes fully open — you can ask about anything across the entire course without restriction.",
+  "faq.q5": "Why would I add my own API key if there is a built-in AI?",
+  "faq.a5": "The built-in AI is great for getting started — no setup needed. But it has a daily limit (5 Vibe Coach messages and 3 PromptLab runs per day).\n\nWith your own API key you get: unlimited daily usage, no topic restrictions, and the ability to choose your preferred AI provider. DeepSeek costs about $0.001 per conversation — $2 of credit covers the entire 56-day course with heavy use.",
+  "faq.q6": "Can I use the app without any API key at all?",
+  "faq.a6": "Yes — all 56 days of lessons, tasks, progress tracking, and tools work without any setup. The built-in AI gives you 5 free Vibe Coach messages and 3 PromptLab runs per day with no configuration required. You can add your own API key in Settings anytime to unlock unlimited usage.",
 
   // API Setup
   "faq.q7": "Which AI provider should I use?",

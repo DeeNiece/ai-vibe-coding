@@ -1,6 +1,6 @@
 // ── AI Sprint · Vibe Coding & IOP ────
 // File: faq.tsx | Repo: ai-vibe-coding
-// Last updated: May 2026
+// Last updated: June 2026
 //
 // Dark/light mode fully supported – uses useTheme() hook for conditional styling.
 // Color tokens follow AI Skills settings.tsx pattern:
@@ -139,11 +139,15 @@ function ContactSupportForm({ isDark }: { isDark: boolean }) {
     setSubmitting(true);
     setError(null);
     const form = e.currentTarget;
-    const data = new FormData(form);
+    const data = {
+      name:    (form.elements.namedItem("name")    as HTMLInputElement).value.trim(),
+      email:   (form.elements.namedItem("email")   as HTMLInputElement).value.trim(),
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value.trim(),
+    };
     try {
-      const res  = await fetch("https://api.web3forms.com/submit", { method: "POST", body: data });
+      const res  = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       const json = await res.json();
-      if (json.success) { setSubmitted(true); form.reset(); }
+      if (res.ok && json.ok) { setSubmitted(true); form.reset(); }
       else setError("Something went wrong. Please email us directly at support@aisprint.app");
     } catch { setError("Network error. Please email us directly at support@aisprint.app"); }
     finally   { setSubmitting(false); }
@@ -174,11 +178,6 @@ function ContactSupportForm({ isDark }: { isDark: boolean }) {
 
   return (
     <form onSubmit={handleSubmit} style={{ background: cardBg, border: `1px solid ${cardBorder}`, borderRadius: 16, padding: "36px 32px", display: "flex", flexDirection: "column", gap: 18, boxShadow: cardShadow }}>
-      <input type="hidden" name="access_key" value="9354c53d-f37d-4c31-845b-88286c03d1d4" />
-      <input type="hidden" name="to"         value="support@aisprint.app" />
-      <input type="hidden" name="subject"    value="AI Sprint Vibe Coding & IOP Support Request" />
-      <input type="hidden" name="from_name"  value="AI Sprint FAQ Page" />
-
       {error && (
         <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#ef4444", padding: "10px 14px", borderRadius: 8, fontSize: "0.875rem", display: "flex", alignItems: "center", gap: 8 }}>
           <AlertCircle size={14} /> {error}
@@ -263,7 +262,7 @@ export default function FAQPage() {
     { title: t("faq.gettingStarted"), icon: <HelpCircle size={18} color={ACCENT} />,
       items: [ { q: t("faq.q1"), a: t("faq.a1") }, { q: t("faq.q2"), a: t("faq.a2") }, { q: t("faq.q3"), a: t("faq.a3") } ] },
     { title: t("faq.aiCoach"),        icon: <MessageSquare size={18} color={ACCENT} />,
-      items: [ { q: t("faq.q4"), a: t("faq.a4") }, { q: t("faq.q_promptlab"), a: t("faq.a_promptlab") }, { q: t("faq.q5"), a: t("faq.a5") }, { q: t("faq.q6"), a: t("faq.a6") } ] },
+      items: [ { q: t("faq.q4"), a: t("faq.a4") }, { q: t("faq.q_promptlab"), a: t("faq.a_promptlab") }, { q: t("faq.q_builtin_ai"), a: t("faq.a_builtin_ai") }, { q: t("faq.q_daily_limit"), a: t("faq.a_daily_limit") }, { q: t("faq.q_topic_limit"), a: t("faq.a_topic_limit") }, { q: t("faq.q5"), a: t("faq.a5") }, { q: t("faq.q6"), a: t("faq.a6") } ] },
     { title: t("faq.apiSetup"),       icon: <Key size={18} color={ACCENT} />,
       items: [ { q: t("faq.q7"), a: t("faq.a7") }, { q: t("faq.q8"), a: t("faq.a8") }, { q: t("faq.q9"), a: t("faq.a9") }, { q: t("faq.q10"), a: t("faq.a10") }, { q: t("faq.q11"), a: t("faq.a11") } ] },
     { title: t("faq.costs"),          icon: <CreditCard size={18} color={ACCENT} />,

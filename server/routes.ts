@@ -1,6 +1,6 @@
 // ── AI Sprint · Vibe Coding & IOP ────
 // File: routes.ts  |  Repo: ai-vibe-coding
-// Last updated: May 2026
+// Last updated: June 2026
 //
 // PRICING UPDATE: Single $69 "bundle" — grants both levels (56 days total)
 // Course: Crafter (Level 1) + Composer (Level 2)
@@ -20,6 +20,23 @@ import Stripe from "stripe";
 const SessionStore = MemoryStore(session);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", { apiVersion: "2023-10-16" });
+
+// ── Built-in AI daily usage counter ──────────────────────────────────────────
+const DAILY_LIMITS = { chat: 5, promptlab: 3 };
+const COURSE_ID = "vibe-coding";
+const dailyUsage = new Map<string, number>();
+
+function todayUTC(): string { return new Date().toISOString().slice(0, 10); }
+function usageKey(userId: number, type: "chat" | "promptlab"): string {
+  return `${userId}:${COURSE_ID}:${todayUTC()}:${type}`;
+}
+function getUsage(userId: number, type: "chat" | "promptlab"): number {
+  return dailyUsage.get(usageKey(userId, type)) || 0;
+}
+function incrementUsage(userId: number, type: "chat" | "promptlab"): void {
+  const key = usageKey(userId, type);
+  dailyUsage.set(key, (dailyUsage.get(key) || 0) + 1);
+}
 
 // USD via Stripe (amounts in cents)
 // Single $69 price grants access to both levels (Crafter + Composer, 56 days total)
@@ -270,12 +287,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ── GET /api/chat/usage ───────────────────────────────────────
+  app.get("/api/chat/usage", requireAuth, (req, res) => {
+    const user = req.user as any;
+    const settings = storage.getApiSettings(user.id);
+    res.json({
+      byok:      !!(settings?.apiKey),
+      chat:      { used: getUsage(user.id, "chat"),      limit: DAILY_LIMITS.chat },
+      promptlab: { used: getUsage(user.id, "promptlab"), limit: DAILY_LIMITS.promptlab },
+    });
+  });
+
+  // ── POST /api/chat ────────────────────────────────────────────
   app.post("/api/chat", requireAuth, async (req, res) => {
     try {
       const user = req.user as any;
       const settings = await Promise.resolve(storage.getApiSettings(user.id));
-      if (!settings?.apiKey) {
-        return res.status(400).json({ error: "Missing API settings" });
+      const hasByok = !!(settings?.apiKey);
+      const type: "chat" | "promptlab" = req.body.type === "promptlab" ? "promptlab" : "chat";
+
+      // Daily limit check (built-in only)
+      if (!hasByok) {
+        const used = getUsage(user.id, type);
+        const limit = DAILY_LIMITS[type];
+        if (used >= limit) {
+          return res.status(429).json({
+            error: "daily_limit_reached",
+            type,
+            used,
+            limit,
+            message: `You've used all ${limit} free ${type === "promptlab" ? "PromptLab runs" : "AI Coach messages"} for today. Add your own API key in Settings for unlimited use, or come back tomorrow.`,
+          });
+        }
       }
 
       res.setHeader("Content-Type", "text/plain; charset=utf-8");
@@ -286,19 +329,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
         messages = [{ role: "user", content: req.body.prompt }];
       }
 
-      let finalModel = settings.model || "gpt-3.5-turbo";
-      if (!settings.model && (settings.baseUrl || "").includes("deepseek")) {
-        finalModel = "deepseek-chat";
+      // Topic lock for built-in AI
+      const topicLock = hasByok ? "" :
+        "\n\nIMPORTANT: You are a focused lesson coach. Only answer questions directly related to today's vibe coding and IOP lesson topic and tasks. Politely redirect off-topic questions back to the lesson.";
+      const finalSystemPrompt = dayContext + topicLock;
+
+      // Resolve credentials
+      let apiKey: string, baseURL: string | undefined, model: string;
+      if (hasByok) {
+        apiKey  = settings!.apiKey;
+        baseURL = settings!.baseUrl || undefined;
+        model   = settings!.model || (settings!.baseUrl?.includes("deepseek") ? "deepseek-chat" : "gpt-3.5-turbo");
+      } else {
+        const builtInKey = process.env.DEEPSEEK_API_KEY;
+        if (!builtInKey) {
+          return res.status(503).json({ error: "Built-in AI is not configured. Please add your own API key in Settings." });
+        }
+        apiKey  = builtInKey;
+        baseURL = "https://api.deepseek.com";
+        model   = "deepseek-chat";
       }
 
-      const client = new OpenAI({
-        apiKey: settings.apiKey,
-        baseURL: settings.baseUrl || undefined,
-      });
-
+      const client = new OpenAI({ apiKey, baseURL });
       const stream = await client.chat.completions.create({
-        model: finalModel,
-        messages: [{ role: "system", content: dayContext }, ...messages],
+        model,
+        messages: [{ role: "system", content: finalSystemPrompt }, ...messages],
         stream: true,
       });
 
@@ -307,6 +362,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (text) res.write(text);
       }
       res.end();
+
+      // Increment after successful stream (built-in only)
+      if (!hasByok) incrementUsage(user.id, type);
+
     } catch (err: any) {
       res.write(`\n\n[API Connection Error: ${err.message}]`);
       res.end();
