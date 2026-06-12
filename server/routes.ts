@@ -1,9 +1,6 @@
-// ── AI Sprint · Vibe Coding & IOP ────
-// File: routes.ts  |  Repo: ai-vibe-coding
+// ── AI Sprint · Agentic AI ───────────────────────────────────────────────────
+// File: routes.ts  |  Repo: agentic-ai
 // Last updated: June 2026
-//
-// PRICING UPDATE: Single $69 "bundle" — grants both levels (56 days total)
-// Course: Crafter (Level 1) + Composer (Level 2)
 
 import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
@@ -23,7 +20,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", { apiVersion: "20
 
 // ── Built-in AI daily usage counter ──────────────────────────────────────────
 const DAILY_LIMITS = { chat: 5, promptlab: 3 };
-const COURSE_ID = "vibe-coding";
+const COURSE_ID = "agentic";
 const dailyUsage = new Map<string, number>();
 
 function todayUTC(): string { return new Date().toISOString().slice(0, 10); }
@@ -39,13 +36,12 @@ function incrementUsage(userId: number, type: "chat" | "promptlab"): void {
 }
 
 // USD via Stripe (amounts in cents)
-// Single $69 price grants access to both levels (Crafter + Composer, 56 days total)
 const PRICES: Record<string, { amount: number; label: string }> = {
-  "bundle": { amount: 6900, label: "Vibe Coding & IOP — Complete Course (Crafter + Composer)" },
+  "bundle": { amount: 9900, label: "Agentic AI — Complete Course (All 3 Levels)" },
 };
 
 
-const APP_URL = process.env.APP_URL || "https://ai-vibe-coding-production.up.railway.app";
+const APP_URL = process.env.APP_URL || "https://ai-sprint-agentic-course-production.up.railway.app";
 
 if (!process.env.SESSION_SECRET) {
   console.warn("WARNING: SESSION_SECRET is not set. Using a default secret for development.");
@@ -204,10 +200,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!s || !s.apiKey) return res.json(null);
       
       res.json({
-        provider: s.baseUrl?.includes("deepseek") ? "deepseek"
-                  : s.baseUrl?.includes("groq") ? "groq"
-                  : s.baseUrl?.includes("mistral") ? "mistral"
-                  : s.baseUrl?.includes("openai") ? "openai"
+        provider: s.baseUrl?.includes("deepseek") ? "deepseek" 
+                  : s.baseUrl?.includes("groq") ? "groq" 
+                  : s.baseUrl?.includes("mistral") ? "mistral" 
                   : "custom",
         apiKeyPreview: s.apiKey.substring(0, 8) + "...",
         baseUrl: s.baseUrl,
@@ -228,7 +223,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         provider: req.body.provider || "custom"
       };
 
-      await Promise.resolve(storage.saveApiSettings(user.id, safeData.provider, safeData.apiKey, safeData.baseUrl, safeData.model));
+      await Promise.resolve(storage.saveApiSettings(user.id, safeData));
       
       res.json({ 
         ok: true, 
@@ -254,9 +249,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let testBaseUrl = finalUrlFromReq;
       let testModel = model;
 
-      // useSaved: true = Check Health button; always load from DB in that case
-      const useSaved = req.body.useSaved === true;
-      if (useSaved || !testApiKey) {
+      if (!testApiKey) {
         const savedSettings = storage.getApiSettings(user.id);
         if (!savedSettings || !savedSettings.apiKey) {
           throw new Error("No API key provided or saved. Please add one in Settings.");
@@ -323,14 +316,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.setHeader("Content-Type", "text/plain; charset=utf-8");
 
       let messages = req.body.messages || [];
-      const dayContext = req.body.dayContext || "You are an AI assistant for the Vibe Coding & IOP course, helping students master prompting, building automations, and production AI systems.";
+      const dayContext = req.body.dayContext || "You are a helpful AI assistant focused on agentic AI and multi-agent systems.";
       if (messages.length === 0 && req.body.prompt) {
         messages = [{ role: "user", content: req.body.prompt }];
       }
 
       // Topic lock for built-in AI
       const topicLock = hasByok ? "" :
-        "\n\nIMPORTANT: You are a focused lesson coach. Only answer questions directly related to today's vibe coding and IOP lesson topic and tasks. Politely redirect off-topic questions back to the lesson.";
+        "\n\nIMPORTANT: You are a focused lesson coach. Only answer questions directly related to today's agentic AI and multi-agent systems lesson topic and tasks. Politely redirect off-topic questions back to the lesson.";
       const finalSystemPrompt = dayContext + topicLock;
 
       // Resolve credentials
@@ -476,6 +469,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ ok: true });
   });
 
+  // ── STRIPE CHECKOUT ────────────────────────────────────────────
+  app.post("/api/stripe/checkout", requireAuth, async (req, res) => {
+    const b = z.object({ plan: z.string() }).safeParse(req.body);
+    const user = req.user as any;
+    if (!user?.email) return res.status(401).json({ error: "Not logged in. Please log in and try again." });
+    try {
+      const planKey = b.data?.plan || "bundle";
+      const priceInfo = PRICES[planKey] || PRICES["bundle"];
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        customer_email: user.email,
+        line_items: [{ price_data: { currency: "usd", product_data: { name: priceInfo.label }, unit_amount: priceInfo.amount }, quantity: 1 }],
+        mode: "payment",
+        success_url: `${APP_URL}/#/purchase-success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${APP_URL}/#/pricing`,
+        metadata: { level: planKey, email: user.email },
+      });
+      res.json({ url: session.url });
+    } catch (err: any) {
+      console.error("[stripe] checkout error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   // ── STRIPE WEBHOOK ─────────────────────────────────────────────
   app.post("/api/webhook", async (req: any, res) => {
     const sig = req.headers["stripe-signature"];
@@ -533,18 +550,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         method: "POST",
         headers: { "Authorization": `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          from:     "AI Sprint Vibe Coding <noreply@aisprint.app>",
+          from:     "AI Sprint Agentic <noreply@aisprint.app>",
           to:       ["support@aisprint.app"],
           reply_to: b.data.email,
-          subject:  `[Vibe Coding & IOP Course] Message from ${b.data.name}`,
-          html: `<h2>New Contact Form — Vibe Coding & IOP Course</h2>
+          subject:  `[Agentic Course] Message from ${b.data.name}`,
+          html: `<h2>New Contact Form — Agentic AI Course</h2>
             <p><strong>Name:</strong> ${b.data.name}</p>
             <p><strong>Email:</strong> <a href="mailto:${b.data.email}">${b.data.email}</a></p>
             <hr/>
             <p><strong>Message:</strong></p>
             <p style="white-space:pre-wrap">${b.data.message}</p>
             <hr/>
-            <p style="color:#888;font-size:12px">Sent via Vibe Coding & IOP course contact form · aisprint.app</p>`,
+            <p style="color:#888;font-size:12px">Sent via Agentic AI course contact form · aisprint.app</p>`,
         }),
       });
       const data = await response.json();
