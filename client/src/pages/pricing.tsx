@@ -36,6 +36,103 @@ const COURSE_ORIG_USD  = 80; // crossed-out original (L1 $35 + L2 $45)
 const L1_COLOR = "#0d7c8a";  // Crafter track
 const L2_COLOR = "#8b5cf6";  // Composer track
 
+// ── Contact Section ───────────────────────────────────────────────────────────
+function ContactSection() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted,  setSubmitted]  = useState(false);
+  const [error,      setError]      = useState<string | null>(null);
+  const bgColor     = isDark ? "rgba(255,255,255,0.03)" : "#f9fafb";
+  const borderColor = isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)";
+  const labelClr    = isDark ? "#9896b0" : "#6b7280";
+  const inputBg     = isDark ? "rgba(255,255,255,0.05)" : "#ffffff";
+  const inputBorder = isDark ? "rgba(255,255,255,0.1)"  : "rgba(0,0,0,0.15)";
+  const textClr     = isDark ? "#e8e6f4" : "#111827";
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault(); setSubmitting(true); setError(null);
+    const form = e.currentTarget;
+    const data = {
+      name:    (form.elements.namedItem("name")    as HTMLInputElement).value.trim(),
+      email:   (form.elements.namedItem("email")   as HTMLInputElement).value.trim(),
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value.trim(),
+    };
+    try {
+      const res  = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      const json = await res.json();
+      if (res.ok && json.ok) { setSubmitted(true); form.reset(); }
+      else setError("Something went wrong. Please try emailing us directly.");
+    } catch { setError("Network error. Please try emailing us directly."); }
+    finally   { setSubmitting(false); }
+  }
+  return (
+    <section style={{ maxWidth: 680, margin: "0 auto 60px", padding: "0 20px" }}>
+      <h2 style={{ fontSize: "1.4rem", fontWeight: 700, textAlign: "center", marginBottom: 24, color: isDark ? "#e8e6f4" : "#111827" }}>Questions? We're here to help</h2>
+      {submitted ? (
+        <div style={{ background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.2)", borderRadius: 12, padding: "24px", textAlign: "center", color: "#22c55e" }}>
+          <CheckCircle2 size={24} style={{ marginBottom: 8 }} />
+          <div style={{ fontWeight: 600 }}>Message sent!</div>
+          <div style={{ fontSize: "0.85rem", marginTop: 4, color: isDark ? "#9896b0" : "#6b7280" }}>We'll get back to you within 24 hours.</div>
+          <button onClick={() => setSubmitted(false)} style={{ marginTop: 20, background: "none", border: `1px solid ${isDark ? "#333" : "rgba(0,0,0,0.15)"}`, color: isDark ? "#888" : "#6b7280", padding: "8px 20px", borderRadius: 8, cursor: "pointer", fontSize: "0.85rem" }}>Send another message</button>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} style={{ background: bgColor, border: `1px solid ${borderColor}`, borderRadius: 16, padding: "36px 32px", display: "flex", flexDirection: "column", gap: 18 }}>
+          {error && <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.2)", color: "#ef4444", padding: "10px 14px", borderRadius: 8, fontSize: "0.875rem", display: "flex", alignItems: "center", gap: 8 }}><AlertCircle size={14} /> {error}</div>}
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            <div style={{ flex: "1 1 200px" }}>
+              <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: labelClr, marginBottom: 6 }}>Name</label>
+              <input name="name" required placeholder="Your name" style={{ width: "100%", padding: "10px 14px", background: inputBg, border: `1px solid ${inputBorder}`, borderRadius: 8, color: textClr, fontSize: "0.9rem", boxSizing: "border-box" as const }} />
+            </div>
+            <div style={{ flex: "1 1 200px" }}>
+              <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: labelClr, marginBottom: 6 }}>Email</label>
+              <input name="email" type="email" required placeholder="you@email.com" style={{ width: "100%", padding: "10px 14px", background: inputBg, border: `1px solid ${inputBorder}`, borderRadius: 8, color: textClr, fontSize: "0.9rem", boxSizing: "border-box" as const }} />
+            </div>
+          </div>
+          <div>
+            <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: labelClr, marginBottom: 6 }}>Message</label>
+            <textarea name="message" required rows={4} placeholder="Ask us anything about the course..." style={{ width: "100%", padding: "10px 14px", background: inputBg, border: `1px solid ${inputBorder}`, borderRadius: 8, color: textClr, fontSize: "0.9rem", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box" as const }} />
+          </div>
+          <button type="submit" disabled={submitting} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "13px 28px", background: "#0d7c8a", color: "white", border: "none", borderRadius: 10, fontWeight: 700, fontSize: "0.95rem", cursor: submitting ? "not-allowed" : "pointer", opacity: submitting ? 0.7 : 1 }}>
+            <Send size={15} />{submitting ? "Sending…" : "Send Message"}
+          </button>
+        </form>
+      )}
+    </section>
+  );
+}
+
+// ── Level Comparison ──────────────────────────────────────────────────────────
+function LevelComparison() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  const cardBg     = isDark ? "rgba(255,255,255,0.04)" : "#ffffff";
+  const cardBorder = isDark ? "rgba(255,255,255,0.09)" : "rgba(0,0,0,0.09)";
+  const headingClr = isDark ? "#e8e6f4" : "#111827";
+  const featureClr = isDark ? "#ccc"    : "#374151";
+  return (
+    <div style={{ maxWidth: 720, margin: "0 auto 40px", padding: "0 20px" }}>
+      <h2 style={{ textAlign: "center", fontSize: "1.3rem", fontWeight: 700, color: headingClr, marginBottom: 24 }}>What's included in each level</h2>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+        {[
+          { color: "#0d7c8a", icon: <Brain size={18}/>, title: "L1 · Crafter (28 days)", items: ["Vibe coding & intent-oriented programming","Build automations from a single prompt","Cursor, Claude Code, Bolt.new, Firecrawl","Debug AI code without being a developer","4 portfolio scripts + tools shipped","Completion certificate"] },
+          { color: "#8b5cf6", icon: <Layers size={18}/>, title: "L2 · Composer (28 days)", items: ["Production AI-powered full-stack apps","Autonomous agent design & deployment","Vercel + Railway CI/CD pipelines","RAG backends & streaming UI","3 live deployed projects with real users","Completion certificate"] },
+        ].map((level, i) => (
+          <div key={i} style={{ background: cardBg, border: `1px solid ${cardBorder}`, borderRadius: 16, padding: "24px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, color: level.color, fontWeight: 700, marginBottom: 16 }}>{level.icon} {level.title}</div>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {level.items.map((item, j) => (
+                <li key={j} style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: 10, fontSize: "0.875rem", color: featureClr }}>
+                  <CheckCircle2 size={14} style={{ color: level.color, flexShrink: 0, marginTop: 2 }}/>{item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ── Pricing Page ──────────────────────────────────────────────────────────────
 export default function PricingPage() {
   const { user } = useAuth();
@@ -86,11 +183,8 @@ export default function PricingPage() {
   const cardSubClr   = isDark ? "#888"    : "#6b7280";
   const priceClr     = isDark ? "#e8e6f4" : "#111827";
   const strikeClr    = isDark ? "#555"    : "#9ca3af";
-  const phpMuted     = isDark ? "#aaa"    : "#6b7280";
-  const phpSub       = isDark ? "#666"    : "#9ca3af";
-  const featureClr   = isDark ? "#ccc"    : "#374151";
-  const liveRateClr  = isDark ? "#555"    : "#9ca3af";
-  const footerClr    = isDark ? "#555"    : "#9ca3af";
+  const featureClr = isDark ? "#ccc" : "#374151";
+  const footerClr  = isDark ? "#555" : "#9ca3af";
 
   return (
     <div
@@ -163,9 +257,6 @@ export default function PricingPage() {
                 <span style={{ fontSize: "1.2rem", color: strikeClr, textDecoration: "line-through", marginLeft: 14 }}>
                   ${COURSE_ORIG_USD}
                 </span>
-              </div>
-              <div style={{ fontSize: "0.85rem", color: phpMuted, marginBottom: 6 }}>
-                <span style={{ color: phpSub, fontSize: "0.75rem" }}>(live PHP rate)</span>
               </div>
               <div style={{ fontSize: "0.85rem", color: L1_COLOR, fontWeight: 700 }}>
                 Save ${COURSE_ORIG_USD - COURSE_PRICE_USD} · {Math.round((1 - COURSE_PRICE_USD / COURSE_ORIG_USD) * 100)}% off · one-time · lifetime access
