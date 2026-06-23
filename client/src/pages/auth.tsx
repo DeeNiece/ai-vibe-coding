@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/components/auth-provider";
 import { useLanguage } from "@/i18n";
 import {
@@ -26,15 +26,9 @@ export default function AuthPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ NEW: Track if the user just registered so we can redirect them
-  // to /pricing instead of / (home). Returning users go to /.
-  const justRegistered = useRef(false);
-
   useEffect(() => {
     if (user) {
-      // New registrations → pricing page to purchase a plan
-      // Returning logins → home page
-      setLocation(justRegistered.current ? "/pricing" : "/");
+      setLocation("/");
     }
   }, [user, setLocation]);
 
@@ -45,7 +39,6 @@ export default function AuthPage() {
     let err: string | null;
 
     if (mode === "login") {
-      justRegistered.current = false; // ✅ Ensure flag is false for logins
       err = await login(email, password);
     } else {
       if (!displayName.trim()) {
@@ -53,12 +46,10 @@ export default function AuthPage() {
         setLoading(false);
         return;
       }
-      justRegistered.current = true; // ✅ Flag this as a new registration
       err = await register(email, password, displayName);
     }
 
     if (err) {
-      justRegistered.current = false; // ✅ Reset flag if registration failed
       setError(err);
     }
     setLoading(false);

@@ -720,7 +720,7 @@ export default function LandingPage() {
         <div className="lp-nav-actions">
           <button className="lp-btn-ghost" onClick={() => openAuth(activeTab, "login")}>Log In</button>
           <button className="lp-btn-primary" style={{ background: THEME }} onClick={() => openAuth(activeTab, "register")}>
-            {activeTab === "2" ? "Start Composer Journey →" : "Start Crafter Journey →"}
+            {activeTab === "2" ? "Start Composer Journey →" : "Try Day 1 Free →"}
           </button>
         </div>
       </nav>
@@ -738,6 +738,14 @@ export default function LandingPage() {
         <div style={{ position:"absolute", inset:0, zIndex:1, background:"linear-gradient(105deg, rgba(13,13,20,.95) 0%, rgba(13,13,20,.85) 30%, rgba(13,13,20,.52) 56%, rgba(13,13,20,.15) 76%, transparent 100%)" }} />
         <div style={{ position:"absolute", bottom:0, left:0, right:0, height:200, zIndex:1, background:"linear-gradient(to bottom, transparent, rgba(13,13,20,.97) 85%, #0d0d14 100%)" }} />
         <div className="lp-vibe-cin-content" style={{ position:"relative", zIndex:2, maxWidth:620, padding:"10rem 2.5rem 7rem", display:"flex", flexDirection:"column" }}>
+
+          {/* Day 1 Free Banner */}
+          <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(13,124,138,.12)", border:"1px solid rgba(13,124,138,.35)", borderRadius:10, padding:"8px 14px", marginBottom:"1.2rem", width:"fit-content", animation:"lpRise .65s ease both" }}>
+            <span style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", width:22, height:22, borderRadius:"50%", background:L1_COLOR, color:"#fff", fontWeight:900, fontSize:".7rem", flexShrink:0 }}>1</span>
+            <span style={{ color:L1_COLOR, fontWeight:700, fontSize:".85rem" }}>Day 1 is free — no credit card needed</span>
+            <span style={{ color:"rgba(200,200,220,.55)", fontSize:".78rem" }}>Try before you buy.</span>
+          </div>
+
           <div style={{ display:"flex", gap:8, marginBottom:"1.4rem", animation:"lpRise .7s ease both", flexWrap:"wrap" }}>
             {(["1","2"] as const).map(lvl => {
               const color = lvl === "1" ? L1_COLOR : L2_COLOR;
@@ -775,7 +783,7 @@ export default function LandingPage() {
             <button style={{ background:THEME, color:"#fff", border:"none", padding:".9rem 2.2rem", borderRadius:100, fontWeight:800, fontSize:".9rem", cursor:"pointer", boxShadow:`0 8px 28px ${THEME}55`, transition:"transform .2s, box-shadow .2s", letterSpacing:".5px", whiteSpace:"nowrap" }}
               onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.transform="translateY(-2px)"; (e.currentTarget as HTMLButtonElement).style.boxShadow=`0 14px 36px ${THEME}66`; }}
               onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform=""; (e.currentTarget as HTMLButtonElement).style.boxShadow=`0 8px 28px ${THEME}55`; }}
-              onClick={() => openAuth(activeTab, "register")}>{activeTab === "2" ? "Start Composer Journey →" : "Start Crafter Journey →"}</button>
+              onClick={() => openAuth(activeTab, "register")}>{activeTab === "2" ? "Start Composer Journey →" : "Try Day 1 Free →"}</button>
             {activeTab === "2" && (
               <button onClick={() => setActiveTab("1")} style={{ color:"rgba(200,200,220,.8)", background:"transparent", border:"1px solid rgba(255,255,255,.18)", borderRadius:100, padding:".75rem 1.6rem", fontSize:".82rem", fontWeight:600, cursor:"pointer", transition:"border-color .2s, color .2s", whiteSpace:"nowrap" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor=THEME; (e.currentTarget as HTMLButtonElement).style.color=THEME; }}
@@ -1103,7 +1111,7 @@ export default function LandingPage() {
               style={{ background:THEME, color:"white", border:"none", padding:".75rem 1.8rem",
                 borderRadius:100, fontWeight:700, fontSize:".9rem", cursor:"pointer",
                 boxShadow:`0 8px 24px ${THEME}44` }}>
-              {activeTab === "2" ? "Start Composer Journey →" : "Start Crafter Journey →"}
+              {activeTab === "2" ? "Start Composer Journey →" : "Try Day 1 Free →"}
             </button>
           </div>
         </div>
@@ -1134,7 +1142,7 @@ export default function LandingPage() {
           </p>
           <button className="lp-cta-btn" style={{ background: "#ffffff", color: THEME, fontWeight: "bold" }}
             onClick={() => openAuth(activeTab, "register")}>
-            {activeTab === "2" ? "Start Composer Journey →" : "Start Crafter Journey →"}
+            {activeTab === "2" ? "Start Composer Journey →" : "Try Day 1 Free →"}
           </button>
         </div>
       </section>

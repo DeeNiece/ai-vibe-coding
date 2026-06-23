@@ -54,6 +54,16 @@ function ProtectedRoute({ children, requiresLevel }: { children: React.ReactNode
   return <>{children}</>;
 }
 
+// ── DayGuard — reads location via hook, bypasses ProtectedRoute for Day 1 ───
+function DayGuard() {
+  const { user } = useAuth();
+  const [location] = useHashLocation();
+  const isDay1 = location === "/day/L1-1" || location === "/day/1";
+  if (!user) return <Redirect to="/auth" />;
+  if (!isDay1 && !hasAnyLevel(user)) return <Redirect to="/pricing" />;
+  return <DayPage />;
+}
+
 function AppRoutes() {
   const { user, loading } = useAuth();
 
@@ -74,13 +84,13 @@ function AppRoutes() {
           <Route path="/faq" component={FAQPage} />
           <Route path="/pricing" component={Pricing} />
           <Route path="/">
-            {!user ? <LandingPage /> : hasAnyLevel(user) ? <HomePage /> : <Redirect to="/pricing" />}
+            {!user ? <LandingPage /> : hasAnyLevel(user) ? <HomePage /> : <Redirect to="/day/L1-1" />}
           </Route>
           <Route path="/systems"><ProtectedRoute requiresLevel="any"><SystemsPage /></ProtectedRoute></Route>
           <Route path="/portfolio"><ProtectedRoute requiresLevel="any"><PortfolioPage /></ProtectedRoute></Route>
           <Route path="/toolkit"><ProtectedRoute requiresLevel="any"><ToolkitPage /></ProtectedRoute></Route>
           <Route path="/services"><ProtectedRoute requiresLevel="any"><ServicesPage /></ProtectedRoute></Route>
-          <Route path="/day/:dayParam"><ProtectedRoute requiresLevel="any"><DayPage /></ProtectedRoute></Route>
+          <Route path="/day/:dayParam" component={DayGuard} />
           <Route path="/settings"><ProtectedRoute><SettingsPage /></ProtectedRoute></Route>
           <Route path="/settings/password"><ProtectedRoute><PasswordPage /></ProtectedRoute></Route>
           <Route path="/admin">

@@ -45,7 +45,7 @@ const PRICES: Record<string, { amount: number; label: string }> = {
 };
 
 
-const APP_URL = process.env.APP_URL || "https://ai-vibe-coding-production.up.railway.app";
+const APP_URL = process.env.APP_URL || "https://vibe.aisprint.app";
 
 if (!process.env.SESSION_SECRET) {
   console.warn("WARNING: SESSION_SECRET is not set. Using a default secret for development.");
@@ -54,13 +54,13 @@ if (!process.env.SESSION_SECRET) {
 export async function registerRoutes(app: Express): Promise<Server> {
   // ── 1. SESSIONS & PASSPORT ─────────────
   app.use(session({
-    secret: process.env.SESSION_SECRET || "ai-sprint-strategy-super-secret-key-2026",
+    secret: process.env.SESSION_SECRET || "ai-sprint-vibe-coding-secret-key-2026",
     resave: false,
     saveUninitialized: false,
     store: new SessionStore({ checkPeriod: 86400000 }),
     cookie: {
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: true,
+      sameSite: "none",
       maxAge: 30 * 24 * 60 * 60 * 1000
     }
   }));
@@ -169,6 +169,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/auth/me", (req, res) => {
+    res.set("Cache-Control", "no-store, no-cache, must-revalidate");
+    res.set("Pragma", "no-cache");
     if (!req.isAuthenticated()) return res.json(null);
     const user = req.user as any;
     const licensedLevels = storage.getLicensedLevels(user.email);

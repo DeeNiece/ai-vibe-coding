@@ -206,9 +206,14 @@ export default function PricingPage() {
           <h1 style={{ fontSize: "clamp(1.8rem, 5vw, 2.8rem)", fontWeight: 800, color: headingClr, lineHeight: 1.2, margin: "0 0 16px" }}>
             Master Vibe Coding &amp; IOP — Complete 56-Day Course
           </h1>
-          <p style={{ color: bodyClr, fontSize: "1.05rem", lineHeight: 1.7, margin: "0 auto 20px", maxWidth: 650 }}>
+          <p style={{ color: bodyClr, fontSize: "1.05rem", lineHeight: 1.7, margin: "0 auto 12px", maxWidth: 650 }}>
             Two levels, one price. Start as a Crafter building real automations, graduate as a Composer 
             shipping production AI systems. 56 days of curriculum, 8 weeks, 2 completion certificates.
+          </p>
+          <p style={{ margin: "0 auto 20px" }}>
+            <button onClick={() => { window.location.hash = "/day/L1-1"; }} style={{ background: "none", border: "none", padding: 0, color: L1_COLOR, fontWeight: 600, fontSize: "0.9rem", cursor: "pointer", textDecoration: "underline" }}>
+              ✓ Day 1 is always free — try the course before you buy →
+            </button>
           </p>
 
           {ownsAll && (
@@ -295,6 +300,15 @@ export default function PricingPage() {
                   <CreditCard size={18} />
                   {loading === "bundle" ? "Redirecting…" : `Pay with Card · $${COURSE_PRICE_USD} USD`}
                 </button>
+                <div style={{ textAlign: "center", fontSize: "0.85rem", color: isDark ? "#888" : "#6b7280" }}>
+                  Not ready to commit?{" "}
+                  <button onClick={() => { window.location.hash = "/day/L1-1"; }} style={{ background: "none", border: "none", padding: 0, color: L1_COLOR, fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", textDecoration: "underline" }}>
+                    Try Day 1 for free →
+                  </button>
+                </div>
+                <div style={{ textAlign: "center", fontSize: "0.8rem", color: isDark ? "#666" : "#9ca3af" }}>
+                  Day 1 is free. If you purchase and it's not right for you, contact us within 48 hours for a full refund.
+                </div>
               </div>
             )}
           </div>

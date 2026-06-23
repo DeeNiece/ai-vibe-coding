@@ -24,7 +24,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Always start null — never trust cached sessionStorage for licensedLevels.
   // Fetch fresh from server on every mount so routing decisions are always
   // based on server-verified license state, not stale cache.
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(() => {
+    const saved = sessionStorage.getItem("auth_user");
+    return saved ? JSON.parse(saved) : null;
+  });
   const [loading, setLoading] = useState(true);
 
   const updateAuth = (userData: AuthUser | null) => {
@@ -38,7 +41,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function fetchMe() {
     try {
-      const r = await fetch("/api/auth/me");
+      const r = await fetch("/api/auth/me", {
+        headers: { "Cache-Control": "no-cache", "Pragma": "no-cache" },
+      });
       if (r.ok) {
         const data = await r.json();
         if (data) {
@@ -73,7 +78,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await res.json();
       updateAuth({ ...data, licensedLevels: data.licensedLevels || [] });
       queryClient.clear();
-      // App.tsx routing handles redirect — no manual hash needed
+      // Paid/admin → home, free user → Day 1
+      const levels = data.licensedLevels || [];
+      const isAdmin = data.isAdmin || false;
+      if (typeof window !== "undefined") {
+        window.location.hash = (levels.length > 0 || isAdmin) ? "/" : "/day/L1-1";
+      }
       return null;
     } catch {
       return "Network error";
@@ -94,6 +104,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await res.json();
       updateAuth({ ...data, licensedLevels: data.licensedLevels || [] });
       queryClient.clear();
+      // Paid/admin → home, new free user → Day 1
+      const levels = data.licensedLevels || [];
+      const isAdmin = data.isAdmin || false;
+      if (typeof window !== "undefined") {
+        window.location.hash = (levels.length > 0 || isAdmin) ? "/" : "/day/L1-1";
+      }
       return null;
     } catch {
       return "Network error";

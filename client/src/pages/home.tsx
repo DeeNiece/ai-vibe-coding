@@ -190,7 +190,7 @@ export default function HomePage() {
   const hasCurrentLevel = hasAccess;
 
   useEffect(() => {
-    if (user && !hasAny) window.location.hash = "/pricing";
+    // Day 1 is free — unlicensed users not redirected
   }, [user, hasAny]);
 
   useEffect(() => {
@@ -314,7 +314,7 @@ export default function HomePage() {
     return completed.length > 0 ? Math.max(...completed) : null;
   }, [progressData, levelPrefix]);
 
-  if (user && !hasAny) return null;
+  // Day 1 is free — no license gate here
 
   // 🏆 CERTIFICATE
   const TOTAL_DAYS_CERT_HOME = 28;
