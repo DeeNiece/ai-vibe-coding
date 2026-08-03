@@ -1,6 +1,6 @@
 // ── AI Sprint · Vibe Coding ────────────────────────────────────────────────────
 // File: curriculum.ts | Repo: ai-vibe-coding
-// Last updated: May 2026
+// Last updated: August 2026 (Removed stale GPT-4o/Claude Sonnet 4 version pins — both retired/superseded; fixed inaccurate HK toolkit note recommending Claude as a ChatGPT alternative, since Claude is also geo-blocked there)
 // =============================================================================
 // AI Sprint — Vibe Coding Course Curriculum
 // VIBE CODING & IOP — BUILD SOFTWARE WITH AI — Crafter & Composer
@@ -854,15 +854,15 @@ export const systemsSummary = systemsSummaryL1;
 // ─────────────────────────────────────────────
 
 export const starterToolkit: ToolkitItem[] = [
-  { name:"Claude", url:"https://claude.ai", category:"AI Assistant", desc:"Primary AI partner for code generation, debugging, architecture design, and prompt engineering. Claude Sonnet 4 is the recommended model for vibe coding in 2026 — best balance of speed, quality, and cost." },
+  { name:"Claude", url:"https://claude.ai", category:"AI Assistant", desc:"Primary AI partner for code generation, debugging, architecture design, and prompt engineering. Best balance of speed, quality, and cost for vibe coding — check claude.ai for the current recommended model, as this updates every few months." },
   { name:"Claude Code", url:"https://docs.anthropic.com/claude-code", category:"Agentic IDE", desc:"Anthropic's agentic coding CLI and VS Code/JetBrains extension. Claude Code reads your entire codebase, makes multi-file changes, runs tests, and fixes its own errors. The most powerful vibe coding environment for Composer track students." },
-  { name:"Cursor", url:"https://cursor.sh", category:"IDE", desc:"The leading AI-native code editor in 2026. Vibe coding's default home base for Level 1. Autocomplete, inline chat, Cursor Rules, and multi-file edit powered by Claude and GPT-4o. Highly recommended." },
+  { name:"Cursor", url:"https://cursor.sh", category:"IDE", desc:"The leading AI-native code editor in 2026. Vibe coding's default home base for Level 1. Autocomplete, inline chat, Cursor Rules, and multi-file edit powered by Claude and OpenAI's models. Highly recommended." },
   { name:"Bolt.new", url:"https://bolt.new", category:"App Builder", desc:"Build full-stack apps from a single sentence prompt — React, Node, databases, all wired up and running in the browser instantly. No install, zero config. The fastest way to go from idea to working app in 2026." },
   { name:"v0", url:"https://v0.dev", category:"UI Generation", desc:"Vercel's AI UI generator. Describe a component or page in plain English and get production-quality React/Tailwind code instantly. The standard for rapid UI generation in 2026." },
   { name:"Lovable", url:"https://lovable.dev", category:"App Builder", desc:"Full-app AI builder with native Supabase and Stripe integration. Best for quickly prototyping product ideas with a database backend, without touching any infrastructure config." },
   { name:"Firecrawl", url:"https://firecrawl.dev", category:"Data", desc:"Scrape any public website in plain English — no selectors, no XPath, no browser inspection. Describe what you want, get structured data back. The 2026 standard for web data extraction." },
   { name:"Vercel AI SDK", url:"https://sdk.vercel.ai", category:"AI Framework", desc:"The standard for streaming AI responses in Next.js apps. Handles streaming, tool calls, multi-step generation, and provider switching with a single unified API. Essential for Level 2 web product builders." },
-  { name:"ChatGPT / GPT-4o", url:"https://chat.openai.com", category:"AI Assistant", desc:"Strong alternative for code generation. Useful for comparing approaches and second opinions. Note: geo-blocked in some regions — use Claude or Gemini instead." },
+  { name:"ChatGPT", url:"https://chat.openai.com", category:"AI Assistant", desc:"Strong alternative for code generation. Useful for comparing approaches and second opinions. Note: geo-blocked in some regions (e.g. Hong Kong, mainland China) — use Gemini there instead, since Claude is also blocked in the same regions." },
   { name:"Perplexity AI", url:"https://perplexity.ai", category:"AI Research", desc:"AI research with real-time source citations. Best for looking up libraries, APIs, and finding documentation fast. Saves hours of search time." },
   { name:"GitHub Actions", url:"https://github.com/features/actions", category:"Automation", desc:"Free CI/CD and cron scheduling. Run scripts on a schedule, auto-test on every push, auto-deploy to production. The backbone of every automated pipeline in this course." },
   { name:"Railway", url:"https://railway.app", category:"Deployment", desc:"The easiest way to deploy Python backends, FastAPI apps, and scheduled jobs. Connects directly to GitHub for auto-deploy. Recommended backend deployment platform." },
